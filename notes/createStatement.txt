@@ -1,0 +1,135 @@
+CREATE TABLE `location` (
+  `locationId` int NOT NULL AUTO_INCREMENT,
+  `locationName` varchar(255) NOT NULL,
+  PRIMARY KEY (`locationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `user` (
+  `userId` int NOT NULL AUTO_INCREMENT,
+  `nik` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nama` varchar(20) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `organizationName` varchar(50) NOT NULL,
+  `locationId` int NOT NULL,
+  `lastVisit` datetime NOT NULL,
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`userId`),
+  KEY `userLocation_idx` (`locationId`),
+  CONSTRAINT `userLocation` FOREIGN KEY (`locationId`) REFERENCES `location` (`locationId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `elearningKategori` (
+  `elearningKategoriId` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(50) NOT NULL,
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`elearningKategoriId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `elearningCourse` (
+  `elearningCourseId` int NOT NULL AUTO_INCREMENT,
+  `elearningKategoriId` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `sertifikat` int DEFAULT '0',
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`elearningCourseId`),
+  KEY `courseKategori_idx` (`elearningKategoriId`),
+  CONSTRAINT `courseKategori` FOREIGN KEY (`elearningKategoriId`) REFERENCES `elearningKategori` (`elearningKategoriId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `elearningModule` (
+  `elearningModuleId` int NOT NULL AUTO_INCREMENT,
+  `elearningCourseId` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`elearningModuleId`),
+  KEY `moduleCourse_idx` (`elearningCourseId`),
+  CONSTRAINT `moduleCourse` FOREIGN KEY (`elearningCourseId`) REFERENCES `elearningCourse` (`elearningCourseId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `elearningLesson` (
+  `elearningLessonId` int NOT NULL AUTO_INCREMENT,
+  `elearningModuleId` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `konten` varchar(255) NOT NULL,
+  `uploadDate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`elearningLessonId`),
+  KEY `lessonModule_idx` (`elearningModuleId`),
+  CONSTRAINT `lessonModule` FOREIGN KEY (`elearningModuleId`) REFERENCES `elearningModule` (`elearningModuleId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `userLessonRecord` (
+  `elearningLessonRecordId` int NOT NULL AUTO_INCREMENT,
+  `elearningLessonId` int NOT NULL,
+  `userId` int NOT NULL,
+  `attempt` int NOT NULL DEFAULT '1',
+  `finished` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`elearningLessonRecordId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `elearningTest` (
+  `elearningTestId` int NOT NULL AUTO_INCREMENT,
+  `elearningModuleId` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `passingScore` int NOT NULL,
+  `maxAttempt` int NOT NULL,
+  `timeLimit` int DEFAULT NULL,
+  `startDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `endDate` datetime DEFAULT NULL,
+  `state` int DEFAULT '1',
+  PRIMARY KEY (`elearningTestId`),
+  KEY `testModule_idx` (`elearningModuleId`),
+  CONSTRAINT `testModule` FOREIGN KEY (`elearningModuleId`) REFERENCES `elearningModule` (`elearningModuleId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `question` (
+  `questionId` int NOT NULL AUTO_INCREMENT,
+  `elearningTestId` int NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `score` int NOT NULL,
+  PRIMARY KEY (`questionId`),
+  KEY `testQuestion_idx` (`elearningTestId`),
+  CONSTRAINT `testQuestion` FOREIGN KEY (`elearningTestId`) REFERENCES `elearningTest` (`elearningTestId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `answer` (
+  `answerId` int NOT NULL AUTO_INCREMENT,
+  `questionId` int NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  PRIMARY KEY (`answerId`),
+  KEY `questionAnswer_idx` (`questionId`),
+  CONSTRAINT `questionAnswer` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `choice` (
+  `choiceId` int NOT NULL AUTO_INCREMENT,
+  `questionId` int NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  `answerId` int DEFAULT NULL,
+  PRIMARY KEY (`choiceId`),
+  KEY `questionChoice_idx` (`questionId`),
+  KEY `choiceAnswer_idx` (`answerId`),
+  CONSTRAINT `choiceAnswer` FOREIGN KEY (`answerId`) REFERENCES `answer` (`answerId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `questionChoice` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
