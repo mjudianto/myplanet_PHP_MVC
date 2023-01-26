@@ -58,6 +58,12 @@ class Podtret extends Controller {
     $this->model('PodtretComment_model')->createComment($podtretId, $_SESSION['user']['userId'], $comment);
   }
 
+  public function addReply() {
+    $commentId = $_REQUEST["commentId"];
+    $comment = $_REQUEST['comment'];
+    $this->model('PodtretCommentReply_model')->createComment($commentId, $comment);
+  }
+
   public function loadComment() {
     $podtretId = $_REQUEST["podtretId"];
     $comments = $this->model('PodtretComment_model')->getAllComment('podtretId', $podtretId);
@@ -81,7 +87,7 @@ class Podtret extends Controller {
                       <h5 class="ms-3">
                         Nanda Raditya
                       </h5>
-                      <p class="ms-2 mt-2">1 hari lalu</p>
+                      <p class="ms-2 mt-2">' . date('d M Y', strtotime($reply['uploadDate'])) . '</p>
                     </div>
                     <p class="mt-1">' . $reply['comment'] . '</p>
                   </div>
@@ -97,8 +103,8 @@ class Podtret extends Controller {
               <div class="collapse" id="' . $comment['podtretCommentId'] . '">
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="Comments" aria-label="Comments"
-                    aria-describedby="button-addon2">
-                  <button class="btn-post-comments me-2" type="button" id="btnAddon">Reply</button>
+                    aria-describedby="button-addon2" id=reply-' . $comment['podtretCommentId'] . '>
+                  <button onclick="addReply(' . $comment['podtretCommentId'] . ')" class="btn-post-comments me-2" type="button" id="btnAddon">Reply</button>
                 </div>
               </div>
             </div>';

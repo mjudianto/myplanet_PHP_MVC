@@ -123,6 +123,16 @@
         });
       }
 
+      function addReply(commentId) {
+        var comment = $('#reply-'+commentId).val();
+        $.ajax({
+          url: "<?php echo BASEURL ?>podtret/addReply?commentId=" + commentId + "&comment=" + comment,
+          success: function(html) {
+            loadComment();
+          }
+        });
+      }
+
       function loadComment() {
         var id = $('#podtretId').val();
         $.ajax({

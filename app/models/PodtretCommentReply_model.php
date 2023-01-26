@@ -10,10 +10,9 @@ class PodtretCommentReply_model {
     $this->db = new Database;
   }
   
-  public function createComment($podtretId, $userId, $comment) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :podtretId, :userId, :comment, DEFAULT)');
-    $this->db->bind('podtretId', $podtretId);
-    $this->db->bind('userId', $userId);
+  public function createComment($podtreCommentId, $comment) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :podtreCommentId, :comment, DEFAULT)');
+    $this->db->bind('podtreCommentId', $podtreCommentId);
     $this->db->bind('comment', $comment);
     $this->db->execute();
   }
