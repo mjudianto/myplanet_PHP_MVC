@@ -1,91 +1,84 @@
 use myplanet;
 
--- insert into location values(null, 'EPM - Pusat');
--- insert into location values(null, 'EPM - Denpasar');
--- insert into location values(null, 'EPM - Malang');
--- insert into location values(null, 'EPM - Surabaya');
--- insert into location values(null, 'EPM - Kudus');
--- insert into location values(null, 'EPM - Samarinda');
--- insert into location values(null, 'EPM - Bandung 2');
--- insert into location values(null, 'EPM - Pontianak');
--- insert into location values(null, 'EPM - Semarang');
--- insert into location values(null, 'EPM - Jakarta 3');
--- insert into location values(null, 'EPM - Depok');
--- insert into location values(null, 'EPM - Surabaya');
--- insert into location values(null, 'EPM - Banjarmasin');
--- insert into location values(null, 'EPM - Semarang');
--- insert into location values(null, 'EPM - Aceh');
--- select * from location;
--- alter table location auto_increment=1;
+insert into location values(null, 'EPM - Pusat');
+insert into location values(null, 'EPM - Denpasar');
+insert into location values(null, 'EPM - Malang');
+insert into location values(null, 'EPM - Surabaya');
+insert into location values(null, 'EPM - Kudus');
+insert into location values(null, 'EPM - Samarinda');
+insert into location values(null, 'EPM - Bandung 2');
+insert into location values(null, 'EPM - Pontianak');
+insert into location values(null, 'EPM - Semarang');
+insert into location values(null, 'EPM - Jakarta 3');
+insert into location values(null, 'EPM - Depok');
+insert into location values(null, 'EPM - Surabaya');
+insert into location values(null, 'EPM - Banjarmasin');
+insert into location values(null, 'EPM - Semarang');
+insert into location values(null, 'EPM - Aceh');
+select * from location;
 
 
--- insert into user values (null, "123", "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8", "Mathew Judianto", null, "mathew@gmail.com", "LDP", 1, CURRENT_TIMESTAMP());
--- select * from user;
+insert into user values (null, "123", "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8", "Mathew Judianto", null, "mathew@gmail.com", "LDP", 1, CURRENT_TIMESTAMP());
+select * from user;
 
 
--- insert into elearningKategori values(null, 'General');
--- insert into elearningKategori values(null, 'QA & Security');
--- insert into elearningKategori values(null, 'Technical');
--- insert into elearningKategori values(null, 'Soft Skill');
--- select * from elearningKategori;
--- alter table elearningKategori auto_increment=1;
+insert into elearningKategori values(null, 'General');
+insert into elearningKategori values(null, 'QA & Security');
+insert into elearningKategori values(null, 'Technical');
+insert into elearningKategori values(null, 'Soft Skill');
+select * from elearningKategori;
 
 
--- insert into elearningCourse values(null, 1, 'NEOP GENERAL', '/public/images/Cover-Neop-General_min.png', default,default);
--- insert into elearningCourse values(null, 1, 'Neop Warehouse', '/public/images/Card Image Warehouse.png',  default,default);
--- insert into elearningCourse values(null, 2, 'CDOB', '/public/images/CDOB.png', default,default);
--- insert into elearningCourse values(null, 3, 'E-Warehouse', '/public/images/E-Warehouse.png',  default,default);
--- insert into elearningCourse values(null, 4, 'Operational Excellence', '/public/images/Operational Excellence.png',  default,default);
--- select * from elearningCourse; 
+insert into elearningCourse values(null, 1, 'NEOP GENERAL', '/public/images/Cover-Neop-General_min.png', default,default);
+insert into elearningCourse values(null, 1, 'Neop Warehouse', '/public/images/Card Image Warehouse.png',  default,default);
+insert into elearningCourse values(null, 2, 'CDOB', '/public/images/CDOB.png', default,default);
+insert into elearningCourse values(null, 3, 'E-Warehouse', '/public/images/E-Warehouse.png',  default,default);
+insert into elearningCourse values(null, 4, 'Operational Excellence', '/public/images/Operational Excellence.png',  default,default);
+select * from elearningCourse; 
 
 
--- insert into elearningModule values(null, 1, 'NEOP GENERAL', default);
--- insert into elearningModule values(null, 1, 'NEOP PERATURAN PERUSAHAAN DAN GROOMING',default);
--- insert into elearningModule values(null, 1, 'DIGITAL AWARENESS NEOP GENERAL', default);
--- insert into elearningModule values(null, 1, 'DIGITAL AWARENESS SERIES 2 NEOP GENERAL',default);
--- insert into elearningModule values(null, 1, 'SAFETY SECURITY 2018', default);
--- insert into elearningModule values(null, 1, 'KALBE PANCA SRADHA', default);
--- insert into elearningModule values(null, 1, 'ETIKA BISNIS', default);
+insert into elearningModule values(null, 1, 'NEOP GENERAL', default);
+insert into elearningModule values(null, 1, 'NEOP PERATURAN PERUSAHAAN DAN GROOMING',default);
+insert into elearningModule values(null, 1, 'DIGITAL AWARENESS NEOP GENERAL', default);
+insert into elearningModule values(null, 1, 'DIGITAL AWARENESS SERIES 2 NEOP GENERAL',default);
+insert into elearningModule values(null, 1, 'SAFETY SECURITY 2018', default);
+insert into elearningModule values(null, 1, 'KALBE PANCA SRADHA', default);
+insert into elearningModule values(null, 1, 'ETIKA BISNIS', default);
 
--- insert into elearningModule values(null, 2, 'NEOP WAREHOUSE', default);
--- insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 1', default);
--- insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 2', default);
--- insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 3', default);
--- insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 4', default);
--- insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 5', default);
--- select * from elearningModule;
--- alter table elearningModule auto_increment=1;
+insert into elearningModule values(null, 2, 'NEOP WAREHOUSE', default);
+insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 1', default);
+insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 2', default);
+insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 3', default);
+insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 4', default);
+insert into elearningModule values(null, 2, 'MSBW REFRESHMENT COURSE 5', default);
+select * from elearningModule;
 
--- insert into elearningLesson values(null, 1, 'NEOP VIDEO NEW', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
--- insert into elearningLesson values(null, 1, 'PEMBELAJARAN 5R', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
--- insert into elearningLesson values(null, 3, 'GROOMING', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
--- select * from elearningLesson;
--- alter table elearningLesson auto_increment=1;
+insert into elearningLesson values(null, 1, 'NEOP VIDEO NEW', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
+insert into elearningLesson values(null, 1, 'PEMBELAJARAN 5R', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
+insert into elearningLesson values(null, 3, 'GROOMING', '/public/videos/E-Learning Penanganan Produk Sitostatika.mp4', default, default);
+select * from elearningLesson;
 
 
--- insert into elearningTest values(null, 1, 'NEOP POST TEST', 75, 3, 3600000, default, null, default);
--- SELECT * from elearningTest;
--- alter table elearningTest auto_increment=1;
+insert into elearningTest values(null, 1, 'NEOP POST TEST', 75, 3, 3600000, default, null, default);
+SELECT * from elearningTest;
 
--- insert into question values(null, 1, 'Setiap karyawan yang sudah bekerja selama 12 bulan secara terus menerus berhak mendapatkan cuti tahunan sebanyak (Pasal 11 Ayat 1)', 95);
--- insert into question values(null, 1, 'question 2', 5);
--- select * from question;
--- truncate question;
--- alter table question auto_increment=1;
+insert into question values(null, 1, 'Setiap karyawan yang sudah bekerja selama 12 bulan secara terus menerus berhak mendapatkan cuti tahunan sebanyak (Pasal 11 Ayat 1)', 95);
+insert into question values(null, 1, 'question 2', 5);
+select * from question;
+truncate question;
 
--- insert into answer values(null, 1, '12 hari');
--- insert into answer values(null, 2, 'choice 4');
--- select * from answer;
--- alter table answer auto_increment=1;
 
--- insert into choice values(null, 1, '15 hari', null);
--- insert into choice values(null, 1, '13 hari', null);
--- insert into choice values(null, 1, '12 hari', 1);
--- insert into choice values(null, 1, '14 hari', null);
+insert into answer values(null, 1, '12 hari');
+insert into answer values(null, 2, 'choice 4');
+select * from answer;
 
--- insert into choice values(null, 2, 'choice 1', null);
--- insert into choice values(null, 2, 'choice 2', null);
--- insert into choice values(null, 2, 'choice 3', 2);
--- insert into choice values(null, 2, 'choice 4', null);
--- select * from choice;
--- alter table choice auto_increment=1;
+insert into choice values(null, 1, '15 hari', null);
+insert into choice values(null, 1, '13 hari', null);
+insert into choice values(null, 1, '12 hari', 1);
+insert into choice values(null, 1, '14 hari', null);
+
+insert into choice values(null, 2, 'choice 1', null);
+insert into choice values(null, 2, 'choice 2', null);
+insert into choice values(null, 2, 'choice 3', 2);
+insert into choice values(null, 2, 'choice 4', null);
+select * from choice;

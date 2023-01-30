@@ -26,7 +26,7 @@ class PodtretCommentReply_model {
         LEFT JOIN user 
         ON podtretComment.userId = user.userId
         WHERE ' . $this->table . '.' . $column . '=:value 
-        ORDER BY ' . $this->table . '.uploadDate DESC');
+        ORDER BY ' . $this->table . '.uploadDate ASC');
 
     $this->db->bind('value', $value);
     return $this->db->resultSet();

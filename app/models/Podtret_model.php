@@ -21,6 +21,12 @@ class Podtret_model {
     return $this->db->single();
   }
 
+  public function filterPodtret($column, $value) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
+    $this->db->bind('value', $value);
+    return $this->db->resultSet();
+  }
+
   public function updatePodtretViews($column, $value, $newViews) {
     $this->db->query('UPDATE ' . $this->table . ' SET views=:newViews WHERE ' . $column . '=:value');
     $this->db->bind('value', $value);

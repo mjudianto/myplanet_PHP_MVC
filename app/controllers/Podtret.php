@@ -3,24 +3,72 @@
 class Podtret extends Controller {
 
   public function index() {
-    $data['podtretKategori'] = $this->model('PodtretKategori_model')->getAllKategori();
-    $data['podtret'] = $this->model('Podtret_model')->getAll();
-    if (!isset($_SESSION['selectedPodtretKategori'])) {
-      $_SESSION['selectedPodtretKategori'] = 'all';
-    } else {
-      if (isset($_SESSION['selectedPodtretKategoriId'])) $data['podtret'] = $this->model('Podtret_model')->getPodtretBy('podtretKategoriId', $_SESSION['selectedPodtretKategoriId']);
-    }
-
     $this->view('layouts/navbar');
-    $this->view('podtret/podtret', $data);
+    $this->view('podtret/podtret');
     $this->view('layouts/page_footer');
   }
 
   public function filterKategori() {
-    $_SESSION['selectedPodtretKategori'] = $_GET['kategori'];
-    $_SESSION['selectedPodtretKategoriId'] = $_GET['kategoriId'];
-    header("Location: " . BASEURL . "podtret");
-    exit;
+    $_SESSION['selectedPodtretKategori'] = $_REQUEST['kategoriId'];
+  }
+
+  public function loadKategori() {
+    $podtretKategori = $this->model('PodtretKategori_model')->getAllKategori();
+
+    // echo $_SESSION['selectedPodtretKategori'];
+    $curr = '';
+    isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == 0 ? $curr = 'active' : $curr = '';
+    echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class=' . $curr . '>All</button></a>';
+    foreach ($podtretKategori as $kategori) {
+      isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == $kategori['podtretKategoriId'] ? $curr = 'active' : $curr = '';
+      echo '<a onclick="filterKategori(' . $kategori['podtretKategoriId'] .')" class="ms-4 d-inline-block"><button class= "' . $curr . '">' . $kategori['nama'] . '</button></a>';
+    } 
+  }
+
+  public function loadPodtret() {
+    $podtrets = $this->model('Podtret_model')->getAll();
+
+    if (isset($_SESSION['selectedPodtretKategori'])) {
+      $kategoriId = $_SESSION['selectedPodtretKategori'];
+      if ($kategoriId != 0){
+        $podtrets = $this->model('Podtret_model')->filterPodtret('podtretKategoriId', $kategoriId);
+      }
+    }
+    
+    echo '<!-- Floating Button -->
+          <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
+            <img src="assets/ic-arrow-up.png" alt="" width="24" />
+          </button>
+          <!-- Floating Button -->';
+    foreach ($podtrets as $podtret) {
+      echo '<div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="card card-page-podtret">
+                <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
+                    alt="..." /></a>
+                <div class="card-body">
+                  <h5 class="card-title-page-podtret">
+                    <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
+                  </h5>
+                  <div class="row mt-3">
+                    <div class="col-10">
+                      <p class="card-text-page-podtret">
+                        47x ditonton • 2 bulan lalu
+                      </p>
+                    </div>
+                    <div class="col d-none d-lg-block">
+                      <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
+                        <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="d-flex mt-2">
+                    <a href=""><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
+                    <a href=""><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
+                  </div>
+                </div>
+              </div>
+            </div>';
+      } 
   }
 
   public function podtretKonten() {

@@ -2,7 +2,8 @@ CREATE TABLE `location` (
   `locationId` int NOT NULL AUTO_INCREMENT,
   `locationName` varchar(255) NOT NULL,
   PRIMARY KEY (`locationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `user` (
   `userId` int NOT NULL AUTO_INCREMENT,
@@ -18,14 +19,16 @@ CREATE TABLE `user` (
   PRIMARY KEY (`userId`),
   KEY `userLocation_idx` (`locationId`),
   CONSTRAINT `userLocation` FOREIGN KEY (`locationId`) REFERENCES `location` (`locationId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `elearningKategori` (
   `elearningKategoriId` int NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `state` int DEFAULT '1',
   PRIMARY KEY (`elearningKategoriId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `elearningCourse` (
   `elearningCourseId` int NOT NULL AUTO_INCREMENT,
@@ -37,7 +40,8 @@ CREATE TABLE `elearningCourse` (
   PRIMARY KEY (`elearningCourseId`),
   KEY `courseKategori_idx` (`elearningKategoriId`),
   CONSTRAINT `courseKategori` FOREIGN KEY (`elearningKategoriId`) REFERENCES `elearningKategori` (`elearningKategoriId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `elearningModule` (
   `elearningModuleId` int NOT NULL AUTO_INCREMENT,
@@ -47,7 +51,8 @@ CREATE TABLE `elearningModule` (
   PRIMARY KEY (`elearningModuleId`),
   KEY `moduleCourse_idx` (`elearningCourseId`),
   CONSTRAINT `moduleCourse` FOREIGN KEY (`elearningCourseId`) REFERENCES `elearningCourse` (`elearningCourseId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `elearningLesson` (
   `elearningLessonId` int NOT NULL AUTO_INCREMENT,
@@ -59,7 +64,8 @@ CREATE TABLE `elearningLesson` (
   PRIMARY KEY (`elearningLessonId`),
   KEY `lessonModule_idx` (`elearningModuleId`),
   CONSTRAINT `lessonModule` FOREIGN KEY (`elearningModuleId`) REFERENCES `elearningModule` (`elearningModuleId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `userLessonRecord` (
   `elearningLessonRecordId` int NOT NULL AUTO_INCREMENT,
@@ -68,14 +74,14 @@ CREATE TABLE `userLessonRecord` (
   `attempt` int NOT NULL DEFAULT '1',
   `finished` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`elearningLessonRecordId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `elearningTest` (
   `elearningTestId` int NOT NULL AUTO_INCREMENT,
   `elearningModuleId` int NOT NULL,
   `judul` varchar(255) NOT NULL,
   `passingScore` int NOT NULL,
-  `maxAttempt` int NOT NULL,
   `timeLimit` int DEFAULT NULL,
   `startDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `endDate` datetime DEFAULT NULL,
@@ -83,7 +89,8 @@ CREATE TABLE `elearningTest` (
   PRIMARY KEY (`elearningTestId`),
   KEY `testModule_idx` (`elearningModuleId`),
   CONSTRAINT `testModule` FOREIGN KEY (`elearningModuleId`) REFERENCES `elearningModule` (`elearningModuleId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `question` (
   `questionId` int NOT NULL AUTO_INCREMENT,
@@ -93,7 +100,8 @@ CREATE TABLE `question` (
   PRIMARY KEY (`questionId`),
   KEY `testQuestion_idx` (`elearningTestId`),
   CONSTRAINT `testQuestion` FOREIGN KEY (`elearningTestId`) REFERENCES `elearningTest` (`elearningTestId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `answer` (
   `answerId` int NOT NULL AUTO_INCREMENT,
@@ -102,7 +110,8 @@ CREATE TABLE `answer` (
   PRIMARY KEY (`answerId`),
   KEY `questionAnswer_idx` (`questionId`),
   CONSTRAINT `questionAnswer` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `choice` (
   `choiceId` int NOT NULL AUTO_INCREMENT,
@@ -114,7 +123,117 @@ CREATE TABLE `choice` (
   KEY `choiceAnswer_idx` (`answerId`),
   CONSTRAINT `choiceAnswer` FOREIGN KEY (`answerId`) REFERENCES `answer` (`answerId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `questionChoice` FOREIGN KEY (`questionId`) REFERENCES `question` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `userTestMaxAttempt` (
+  `userTestMaxAttemptId` int NOT NULL AUTO_INCREMENT,
+  `userTestRecordId` int NOT NULL,
+  `maxAttempt` int NOT NULL DEFAULT '3',
+  PRIMARY KEY (`userTestMaxAttemptId`),
+  KEY `userTestMaxAttemp_idx` (`userTestRecordId`),
+  CONSTRAINT `userTestMaxAttemp` FOREIGN KEY (`userTestRecordId`) REFERENCES `userTestRecord` (`userTestRecordId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `userTestRecord` (
+  `userTestRecordId` int NOT NULL AUTO_INCREMENT,
+  `elearningTestId` int NOT NULL,
+  `userId` int NOT NULL,
+  `attempt` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userTestRecordId`),
+  KEY `testRecord_idx` (`elearningTestId`),
+  KEY `userRecord_idx` (`userId`),
+  CONSTRAINT `testRecord` FOREIGN KEY (`elearningTestId`) REFERENCES `elearningTest` (`elearningTestId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userRecord` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `userTestRecordDetail` (
+  `userTestRecordDetailId` int NOT NULL AUTO_INCREMENT,
+  `userTestRecordId` int NOT NULL,
+  `attemptNumber` int NOT NULL DEFAULT '1',
+  `score` int NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `finished` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`userTestRecordDetailId`),
+  KEY `testRecordDetail_idx` (`userTestRecordId`),
+  CONSTRAINT `testRecordDetail` FOREIGN KEY (`userTestRecordId`) REFERENCES `userTestRecord` (`userTestRecordId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+
+CREATE TABLE `podtretKategori` (
+  `podtretKategoriId` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) NOT NULL,
+  PRIMARY KEY (`podtretKategoriId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `podtret` (
+  `podtretId` int NOT NULL AUTO_INCREMENT,
+  `podtretKategoriId` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) NOT NULL,
+  `video` varchar(255) NOT NULL,
+  `voice` varchar(255) DEFAULT NULL,
+  `views` int NOT NULL DEFAULT '0',
+  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`podtretId`),
+  KEY `podtretKategori_idx` (`podtretKategoriId`),
+  CONSTRAINT `podtretKategori` FOREIGN KEY (`podtretKategoriId`) REFERENCES `podtretKategori` (`podtretKategoriId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `podtretLike` (
+  `podtretLikeId` int NOT NULL AUTO_INCREMENT,
+  `podtretId` int NOT NULL,
+  `userId` int NOT NULL,
+  `likeState` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`podtretLikeId`),
+  KEY `podtretLike_idx` (`podtretId`),
+  KEY `userLike_idx` (`userId`),
+  CONSTRAINT `podtretLike` FOREIGN KEY (`podtretId`) REFERENCES `podtret` (`podtretId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userLike` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `podtretComment` (
+  `podtretCommentId` int NOT NULL AUTO_INCREMENT,
+  `podtretId` int NOT NULL,
+  `userId` int NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`podtretCommentId`),
+  KEY `podtretComment_idx` (`podtretId`),
+  KEY `userComment_idx` (`userId`),
+  CONSTRAINT `podtretComment` FOREIGN KEY (`podtretId`) REFERENCES `podtret` (`podtretId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userComment` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `commentReply` (
+  `commentReplyId` int NOT NULL AUTO_INCREMENT,
+  `podtretCommentId` int NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`commentReplyId`),
+  KEY `commentReply_idx` (`podtretCommentId`),
+  CONSTRAINT `commentReply` FOREIGN KEY (`podtretCommentId`) REFERENCES `podtretComment` (`podtretCommentId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
