@@ -15,7 +15,8 @@
     />
   </head>
   <?php 
-  // echo sha1('password');
+  // echo $_SESSION['page'];
+  // echo "Location: " . BASEURL . $_SESSION['page'];
   ?>
   <body class="body-login">
 
@@ -85,35 +86,6 @@
               </button>
             </div>
           </form>
-
-          <!-- <form action="">
-            <div class="form-group">
-              <label for="exampleInputEmail">NIK</label>
-              <input
-                type="email"
-                class="form-control"
-                id="exampleInputEmail"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="exampleInputPassword"
-              />
-              <label class="form-check-label" for="exampleCheck"
-                >Remember Me</label
-              >
-            </div>
-            <button type="sumbit" class="btn btn-login btn-block">
-              Sign In
-            </button>
-            <p class="text-center mt-4">
-              <a href="">Saya lupa password</a>
-            </p>
-          </form> -->
         </div>
       </div>
       <div

@@ -1,7 +1,7 @@
 <body class="body-video-learning">
     <div class="container mt-3">
       <div class="container text-center video-learning">
-        <h3><?= $data['elearningLesson']['konten'] ?></h3>
+        <h3><?= $data['elearningLesson']['judul'] ?></h3>
         <h5>NIK : <?= $_SESSION['user']['nik'] ?></h5>
 
         <video controls autoplay>

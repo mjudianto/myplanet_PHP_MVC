@@ -11,9 +11,14 @@ class App {
 
     // memanggil file controllers sesuai input
     if ( file_exists('../app/controllers/' . $url[1] . '.php') ) {
-      $_SESSION['page'] = $url[1];
+      
+      if($url[1] != 'login') $_SESSION['page'] = $url[1];
       $this->controller = $url[1];
       unset($url[1]);
+    }
+
+    if (!isset($_SESSION['user']) && $this->controller != 'Home' && $this->controller != 'home') {
+      $this->controller = 'Login';
     }
 
     require_once '../app/controllers/' . $this->controller . '.php';
@@ -31,6 +36,8 @@ class App {
     if ( !empty($url) ) {
       $this->params = array_values($url);
     }
+
+    
 
     // jalankan controller, method, dan kirimkan params 
     // jika ada

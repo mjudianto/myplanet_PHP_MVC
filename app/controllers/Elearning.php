@@ -3,11 +3,8 @@
 class Elearning extends Controller {
 
   public function index() {
-    $data['elearningKategori'] = $this->model('ElearningKategori_model')->getAllKategori();
-    $data['elearningCourse'] = $this->model('ElearningCourse_model')->getAllCourse();
-
     $this->view('layouts/navbar');
-    $this->view('elearning/elearning', $data);
+    $this->view('elearning/elearning');
     $this->view('layouts/page_footer');
   }
 
@@ -19,7 +16,7 @@ class Elearning extends Controller {
     $elearningKategori = $this->model('ElearningKategori_model')->getAllKategori();
 
     $curr = '';
-    isset($_SESSION['selectedKategoriId']) && $_SESSION['selectedKategoriId'] == 0 ? $curr = 'active' : $curr = '';
+    isset($_SESSION['selectedKategoriId']) && $_SESSION['selectedKategoriId'] == 0 || !isset($_SESSION['selectedKategoriId'])? $curr = 'active' : $curr = '';
     echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class=' . $curr . '>All</button></a>';
     foreach ($elearningKategori as $kategori) {
       isset($_SESSION['selectedKategoriId']) && $_SESSION['selectedKategoriId'] == $kategori['elearningKategoriId'] ? $curr = 'active' : $curr = '';
@@ -45,7 +42,7 @@ class Elearning extends Controller {
     foreach ($elearningCourse as $course) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $course['elearningCourseId'] . '"><img src="' . $course['thumbnail'] .
+                <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '"><img src="' . $course['thumbnail'] .
                     '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-learning">
@@ -72,7 +69,7 @@ class Elearning extends Controller {
   }
 
   public function elearningModule() {
-    $data['elearningModule'] = $this->model('ElearningModule_model')->getModuleBy('elearningCourseId', $_GET['elearningCourseId']);
+    $data['elearningModule'] = $this->model('ElearningModule_model')->getModuleBy('elearningCourseId',  $this->decrypt($_GET['elearningCourseId']));
     $data['elearningLesson'] = [];
     $data['elearningTest'] = [];
     foreach($data['elearningModule'] as $module){

@@ -34,7 +34,7 @@
           <!--ms itu margin kiri-->
           <li class="nav-item">
             <a 
-            <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'home'): ?>
+            <?php if (!isset($_SESSION['page']) || isset($_SESSION['page']) && $_SESSION['page'] == 'home' || $_SESSION['page'] == ''): ?>
             class="nav-link active" 
             <?php else:  ?>
             class="nav-link"
@@ -46,26 +46,20 @@
             <a 
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'elearning'): ?>
             class="nav-link active" 
-            <?php else:  ?>
-            class="nav-link"
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
+              class="nav-link"
             href="<?= BASEURL ?>elearning">E-Learning</a>
-            <?php else:  ?>
-            href="<?= BASEURL ?>login">E-Learning</a>
             <?php endif; ?>
           </li>
           <li class="nav-item">
             <a 
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'leadershipfestival'): ?>
             class="nav-link active" 
-            <?php else:  ?>
-            class="nav-link"
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
+              class="nav-link"
             href="<?= BASEURL ?>">Leadership-Festival</a>
-            <?php else:  ?>
-            href="<?= BASEURL ?>login">Leadership-Festival</a>
             <?php endif; ?>
           </li>
           <li class="nav-item">
@@ -75,36 +69,26 @@
             <?php else:  ?>
             class="nav-link"
             <?php endif; ?>
-            <?php if (isset($_SESSION['user'])): ?>
             href="<?= BASEURL ?>podtret">Podtret</a>
-            <?php else:  ?>
-            href="<?= BASEURL ?>login">Podtret</a>
-            <?php endif; ?>
           </li>
           <li class="nav-item">
             <a 
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'ensight'): ?>
             class="nav-link active" 
-            <?php else:  ?>
-            class="nav-link"
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
+            class="nav-link"
             href="<?= BASEURL ?>ensight">Ensight</a>
-            <?php else:  ?>
-            href="<?= BASEURL ?>login">Podtret</a>
             <?php endif; ?>
           </li>
           <li class="nav-item">
             <a 
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'community'): ?>
             class="nav-link active" 
-            <?php else:  ?>
-            class="nav-link"
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
+            class="nav-link"
             href="<?= BASEURL ?>community">Community</a>
-            <?php else:  ?>
-            href="<?= BASEURL ?>login">Community</a>
             <?php endif; ?>
           </li>
           <li class="nav-item dropdown">

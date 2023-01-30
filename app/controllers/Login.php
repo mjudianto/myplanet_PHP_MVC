@@ -3,14 +3,11 @@
 class Login extends Controller{
 
   public function index() {
-    // $data['users'] =  $this->model('User_model')->getAllUsers();
     $this->view('auth/login');
   }
 
   public function createUserSession($user) {
     $_SESSION['user'] = $user;
-    header("Location: " . BASEURL);
-    exit;
   }
 
 
@@ -25,6 +22,8 @@ class Login extends Controller{
       $_SESSION['falseLoginInfo'] = false;
       $this->model('User_model')->updateLastVisit($user);
       $this->createUserSession($user);
+      isset($_SESSION['page']) ? header("Location: " . BASEURL . $_SESSION['page']) : header("Location: " . BASEURL);
+      exit;
     }
   }
 

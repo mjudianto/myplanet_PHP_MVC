@@ -42,7 +42,7 @@ class Podtret extends Controller {
           <!-- Floating Button -->';
     foreach ($podtrets as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
-              <div class="card card-page-podtret">
+              <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
                 <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
                     alt="..." /></a>
                 <div class="card-body">

@@ -58,7 +58,7 @@
         }
         if(isset($data['elearningTest'][$i]) && !is_bool($data['elearningTest'][$i])) {
           // echo $data['elearningTest'][$i]['judul'];
-          echo '<div class="card card-neop-general mt-4">
+          echo '<div class="card card-neop-general mt-5">
                   <div class="row">
                     <div class="col-lg-4 text-center align-self-center">
                       <img src="/public/images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
