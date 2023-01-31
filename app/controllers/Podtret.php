@@ -13,11 +13,12 @@ class Podtret extends Controller {
   }
 
   public function loadKategori() {
-    $podtretKategori = $this->model('PodtretKategori_model')->getAllKategori();
+    $model = $this->loadPodtretModel();
 
-    // echo $_SESSION['selectedPodtretKategori'];
+    $podtretKategori = $model['podtretKategori']->getAllKategori();
+
     $curr = '';
-    isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == 0 ? $curr = 'active' : $curr = '';
+    !isset($_SESSION['selectedPodtretKategori']) || isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == 0 ? $curr = 'active' : $curr = '';
     echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class=' . $curr . '>All</button></a>';
     foreach ($podtretKategori as $kategori) {
       isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == $kategori['podtretKategoriId'] ? $curr = 'active' : $curr = '';
@@ -26,12 +27,14 @@ class Podtret extends Controller {
   }
 
   public function loadPodtret() {
-    $podtrets = $this->model('Podtret_model')->getAll();
+    $model = $this->loadPodtretModel();
+
+    $podtrets = $model['podtret']->getAll();
 
     if (isset($_SESSION['selectedPodtretKategori'])) {
       $kategoriId = $_SESSION['selectedPodtretKategori'];
       if ($kategoriId != 0){
-        $podtrets = $this->model('Podtret_model')->filterPodtret('podtretKategoriId', $kategoriId);
+        $podtrets = $model['podtret']->filterPodtret('podtretKategoriId', $kategoriId);
       }
     }
     
@@ -72,10 +75,12 @@ class Podtret extends Controller {
   }
 
   public function podtretKonten() {
+    $model = $this->loadPodtretModel();
+
     $podtretId = $_GET['podtretId'];
-    $data['podtret'] = $this->model('Podtret_model')->updatePodtretViews('podtretId', $podtretId, $_GET['views']+1);
-    $data['podtret'] = $this->model('Podtret_model')->getPodtretBy('podtretId', $podtretId);
-    $data['likes'] = $this->model('PodtretLike_model')->countLike('podtretId', 'likeState', $podtretId, 1);
+    $data['podtret'] = $model['podtret']->updatePodtretViews('podtretId', $podtretId, $_GET['views']+1);
+    $data['podtret'] = $model['podtret']->getPodtretBy('podtretId', $podtretId);
+    $data['likes'] = $model['podtretLike']->countLike('podtretId', 'likeState', $podtretId, 1);
 
 
     $this->view('layouts/navbar');
@@ -84,39 +89,47 @@ class Podtret extends Controller {
   }
 
   public function updateLike() {
+    $model = $this->loadPodtretModel();
+
     $podtretId = $_REQUEST["podtretId"];
     $userId = $_SESSION['user']['userId'];
 
-    $userLike = $this->model('PodtretLike_model')->checkUserLike('podtretId', 'userId', $podtretId, $userId);
+    $userLike = $model['podtretLike']->checkUserLike('podtretId', 'userId', $podtretId, $userId);
     if(!$userLike) {
-      $this->model('PodtretLike_model')->createLike($podtretId, $userId);
+      $model['podtretLike']->createLike($podtretId, $userId);
     } else {
       $userLike['likeState'] == 1 ? $newLikeState = 0 : $newLikeState = 1;
-      $this->model('PodtretLike_model')->updateLike('podtretLikeId', $userLike['podtretLikeId'], $newLikeState);
+      $model['podtretLike']->updateLike('podtretLikeId', $userLike['podtretLikeId'], $newLikeState);
     }
 
-    $likes = $this->model('PodtretLike_model')->countLike('podtretId', 'likeState', $podtretId, 1);
+    $likes = $model['podtretLike']->countLike('podtretId', 'likeState', $podtretId, 1);
     echo "Like : ";
     echo $likes['likes'];
   }
 
   public function addComment() {
+    $model = $this->loadPodtretModel();
+
     $podtretId = $_REQUEST["podtretId"];
     $comment = $_REQUEST['comment'];
-    $this->model('PodtretComment_model')->createComment($podtretId, $_SESSION['user']['userId'], $comment);
+    $model['podtretComment']->createComment($podtretId, $_SESSION['user']['userId'], $comment);
   }
 
   public function addReply() {
+    $model = $this->loadPodtretModel();
+
     $commentId = $_REQUEST["commentId"];
     $comment = $_REQUEST['comment'];
-    $this->model('PodtretCommentReply_model')->createComment($commentId, $comment);
+    $model['podtretCommentReply']->createComment($commentId, $comment);
   }
 
   public function loadComment() {
+    $model = $this->loadPodtretModel();
+
     $podtretId = $_REQUEST["podtretId"];
-    $comments = $this->model('PodtretComment_model')->getAllComment('podtretId', $podtretId);
+    $comments = $model['podtretComment']->getAllComment('podtretId', $podtretId);
     foreach($comments as $comment){
-      $commentsReply = $this->model('PodtretCommentReply_model')->getAllComment('podtretCommentId', $comment['podtretCommentId']);
+      $commentsReply = $model['podtretCommentReply']->getAllComment('podtretCommentId', $comment['podtretCommentId']);
       echo '<div class="section-comment mb-4">
               <div class="d-flex user-comment align-items-center">
                 <img src="/public/images/image-profile.jpg" alt="" class="img-comment" />

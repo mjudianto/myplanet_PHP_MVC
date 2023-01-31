@@ -4,10 +4,16 @@ class App {
   protected $controller = 'Home'; // default controller
   protected $method = 'index'; // default method
   protected $params = []; // default params kosong
+  protected $admin = array(
+    '', 'home', 'Home', 'admins', 'usermanagement'
+  );
 
   public function __construct() {
     $url = $this -> parseURL();
     // var_dump($url);
+
+    $needLogin = 'no';
+    if(isset($url[1])) in_array($url[1],$this->admin) ? $needLogin='no' : $needLogin='yes';
 
     // memanggil file controllers sesuai input
     if ( file_exists('../app/controllers/' . $url[1] . '.php') ) {
@@ -17,7 +23,7 @@ class App {
       unset($url[1]);
     }
 
-    if (!isset($_SESSION['user']) && $this->controller != 'Home' && $this->controller != 'home') {
+    if (!isset($_SESSION['user']) && $needLogin == 'yes') {
       $this->controller = 'Login';
     }
 

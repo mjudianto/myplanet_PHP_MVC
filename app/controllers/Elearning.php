@@ -13,7 +13,8 @@ class Elearning extends Controller {
   }
 
   public function loadKategori() {
-    $elearningKategori = $this->model('ElearningKategori_model')->getAllKategori();
+    $model = $this->loadElearningModel();
+    $elearningKategori = $model['elearningKategori']->getAllKategori();
 
     $curr = '';
     isset($_SESSION['selectedKategoriId']) && $_SESSION['selectedKategoriId'] == 0 || !isset($_SESSION['selectedKategoriId'])? $curr = 'active' : $curr = '';
@@ -25,12 +26,14 @@ class Elearning extends Controller {
   }
 
   public function loadCourse() {
-    $elearningCourse = $this->model('ElearningCourse_model')->getAllCourse();
+    $model = $this->loadElearningModel();
+
+    $elearningCourse = $model['elearningCourse']->getAllCourse();
 
     if (isset($_SESSION['selectedKategoriId'])) {
       $kategoriId = $_SESSION['selectedKategoriId'];
       if ($kategoriId != 0){
-        $elearningCourse = $this->model('ElearningCourse_model')->getCourseBy('elearningKategoriId', $kategoriId);
+        $elearningCourse = $model['elearningCourse']->getCourseBy('elearningKategoriId', $kategoriId);
       }
     }
     
@@ -69,14 +72,16 @@ class Elearning extends Controller {
   }
 
   public function elearningModule() {
-    $data['elearningModule'] = $this->model('ElearningModule_model')->getModuleBy('elearningCourseId',  $this->decrypt($_GET['elearningCourseId']));
+    $model = $this->loadElearningModel();
+
+    $data['elearningModule'] = $model['elearningModule']->getModuleBy('elearningCourseId',  $this->decrypt($_GET['elearningCourseId']));
     $data['elearningLesson'] = [];
     $data['elearningTest'] = [];
     foreach($data['elearningModule'] as $module){
-      $lessons = $this->model('ElearningLesson_model')->getLessonBy('elearningModuleId', $module['elearningModuleId']);
+      $lessons = $model['elearningLesson']->getLessonBy('elearningModuleId', $module['elearningModuleId']);
       array_push($data['elearningLesson'], $lessons);
 
-      $test = $this->model('ElearningTest_model')->getTestBy('elearningModuleId', $module['elearningModuleId']);
+      $test = $model['elearningTest']->getTestBy('elearningModuleId', $module['elearningModuleId']);
       array_push($data['elearningTest'], $test);
     }
 
@@ -86,7 +91,9 @@ class Elearning extends Controller {
   }
 
   public function elearningLesson() {
-    $data['elearningLesson'] = $this->model('ElearningLesson_model')->getSpesificLesson('elearningLessonId', $_GET['elearningLessonId']);
+    $model = $this->loadElearningModel();
+
+    $data['elearningLesson'] = $model['elearningLesson']->getSpesificLesson('elearningLessonId', $_GET['elearningLessonId']);
     $this->updateUserLessonAttempt($_GET['elearningLessonId']);
     $this->view('layouts/navbar');
     $this->view('elearning/elearningLesson', $data);
@@ -94,59 +101,65 @@ class Elearning extends Controller {
   }
 
   public function updateUserLessonAttempt($lessonId) {
-    $userRecord = $this->model('UserLessonRecord_model')->getUserLessonRecord('elearningLessonId', 'userId', $lessonId, $_SESSION['user']['userId']);
+    $model = $this->loadElearningModel();
+
+    $userRecord = $model['userLessonRecord']->getUserLessonRecord('elearningLessonId', 'userId', $lessonId, $_SESSION['user']['userId']);
     if($userRecord == false) {
-      $this->model('UserLessonRecord_model')->createUserRecord($lessonId, $_SESSION['user']['userId']);
+      $model['userLessonRecord']->createUserRecord($lessonId, $_SESSION['user']['userId']);
     } else {
       $attempt = $userRecord['attempt']+1;
-      $this->model('UserLessonRecord_model')->updateUserAttempt('elearningLessonId', 'userId', $lessonId, $_SESSION['user']['userId'], $attempt);
+      $model['userLessonRecord']->updateUserAttempt('elearningLessonId', 'userId', $lessonId, $_SESSION['user']['userId'], $attempt);
     }
   }
 
   public function elearningTest() {
+    $model = $this->loadElearningModel();
+
     $userId = $_SESSION['user']['userId'];
 
-    $data['elearningTest'] = $this->model('ElearningTest_model')->getTestBy('elearningModuleId', $_GET['elearningModuleId']);
+    $data['elearningTest'] = $model['elearningTest']->getTestBy('elearningModuleId', $_GET['elearningModuleId']);
     $elearningTestId = $data['elearningTest']['elearningTestId'];
 
-    $userTestRecord = $this->model('UserTestRecord_model')->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
+    $userTestRecord = $model['userTestRecord']->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
     if (!$userTestRecord) {
-      $this->model('UserTestRecord_model')->createUserRecord($elearningTestId, $userId);
-      $userTestRecord = $this->model('UserTestRecord_model')->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
-      $this->model('UserTestMaxAttempt_model')->createTestMaxAttempt($userTestRecord['userTestRecordId']);
+      $model['userTestRecord']->createUserRecord($elearningTestId, $userId);
+      $userTestRecord = $model['userTestRecord']->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
+      $model['userTestMaxAttempt']->createTestMaxAttempt($userTestRecord['userTestRecordId']);
     } else {
-      $maxAttempt = $this->model('UserTestMaxAttempt_model')->getTestMaxAttempt('userTestRecordId', $userTestRecord['userTestRecordId']);
+      $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt('userTestRecordId', $userTestRecord['userTestRecordId']);
       if ($userTestRecord['attempt']+1 > $maxAttempt['maxAttempt']) {
         header("Location: " . BASEURL . "elearning");
         exit;
       }
     }
 
-    $data['question'] = $this->model('Question_model')->getQuestionBy('elearningTestId', $elearningTestId);
+    $data['question'] = $model['question']->getQuestionBy('elearningTestId', $elearningTestId);
     $data['choice'] = [];
     foreach($data['question'] as $question){
-      $choice = $this->model('Choice_model')->getChoiceBy('questionId', $question['questionId']);
+      $choice = $model['choice']->getChoiceBy('questionId', $question['questionId']);
       array_push($data['choice'], $choice);
     }
-    $data['numberOfQuestion'] = $this->model('Question_model')->countQuestion('elearningTestId', $elearningTestId);
+    $data['numberOfQuestion'] = $model['question']->countQuestion('elearningTestId', $elearningTestId);
 
     $this->view('elearning/elearningTest', $data);
   }
 
   public function elearningTestSubmit() {
+    $model = $this->loadElearningModel();
+
     $userId = $_SESSION['user']['userId'];
 
-    $data['elearningTest'] = $this->model('ElearningTest_model')->getTestBy('elearningTestId', $_GET['elearningTestId']);
+    $data['elearningTest'] = $model['elearningTest']->getTestBy('elearningTestId', $_GET['elearningTestId']);
     $elearningTestId = $data['elearningTest']['elearningTestId'];
 
-    $data['questions'] = $this->model('Question_model')->getQuestionBy('elearningTestId', $elearningTestId);
+    $data['questions'] = $model['question']->getQuestionBy('elearningTestId', $elearningTestId);
     isset($_POST['selectedChoice']) ? $choice = $_POST['selectedChoice'] : $choice = '';
 
     $i=1;
     $data['resultDetail'] = [];
     $data['score'] = 0;
     foreach($data['questions'] as $question) {
-      $answer = $this->model('Answer_model')->getQuestionAnswer('questionId', $question['questionId']);
+      $answer = $model['answer']->getQuestionAnswer('questionId', $question['questionId']);
       if (isset($choice[$i])) {
         if ($choice[$i] == $answer['answerId']) {
           array_push($data['resultDetail'], 'Correct');
@@ -161,15 +174,13 @@ class Elearning extends Controller {
     }
 
     $data['score']<$data['elearningTest']['passingScore'] ? $status = 'Gagal' : $status = "Lulus";
-    $userTestRecord = $this->model('UserTestRecord_model')->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
-    $this->model('UserTestRecordDetail_model')->createTestRecordDetail($userTestRecord['userTestRecordId'], $userTestRecord['attempt']+1, $status, $data['score']);
-    $this->model('UserTestRecord_model')->updateUserAttempt('elearningTestId', 'userId', $elearningTestId, $userId, $userTestRecord['attempt']+1);
+    $userTestRecord = $model['userTestRecord']->getUserTestRecord('elearningTestId', 'userId', $elearningTestId, $userId);
+    $model['userTestRecordDetail']->createTestRecordDetail($userTestRecord['userTestRecordId'], $userTestRecord['attempt']+1, $status, $data['score']);
+    $model['userTestRecord']->updateUserAttempt('elearningTestId', 'userId', $elearningTestId, $userId, $userTestRecord['attempt']+1);
 
     $status == 'Lulus' ? $data['lulus'] = true : $data['lulus'] = false;
 
     $this->view('elearning/elearningTestResult', $data);
   }
-
-  
 
 }

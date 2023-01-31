@@ -3,8 +3,8 @@
 class Profile extends Controller {
 
   public function index() {
-    $data['userRecord'] = $this->model('UserLessonRecord_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
-    $data['userTestRecord'] = $this->model('UserTestRecordDetail_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
+    $data['userRecord'] = $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
+    $data['userTestRecord'] = $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
 
     $this->view('layouts/navbar');
     $this->view('profile/profile', $data);
@@ -24,7 +24,7 @@ class Profile extends Controller {
 
     if ($newPassword == $newPasswordConfirm) {
       if ( sha1($currentPassword) == $_SESSION['user']['password'] ) {
-        $this->model('User_model')->updateUserPassword($newPassword);
+        $this->model('user/User_model', 'User_model')->updateUserPassword($newPassword);
         $_SESSION['user']['password'] = sha1($newPassword);
       }
     }

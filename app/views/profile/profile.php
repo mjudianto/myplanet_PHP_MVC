@@ -1,51 +1,5 @@
 <body class="body-profile">
 
-  <!-- Modal Notifikasi -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content modal-notification">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="d-flex list-notification">
-            <a href="e-learning-neopgeneral.html"><img src="images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
-            <a href="e-learning-neopgeneral.html"></a>
-            <div class="berita">
-              <p>
-                Undangan! Kamu di undang untuk mengikuti kegiatan training
-                mengenai IT Security
-              </p>
-              <p1>18 September 2022</p1>
-              <a href=""><i class="fa fa-trash fa-lg trash-notification"></i></a>
-            </div>
-
-          </div>
-          <hr />
-          <div class="d-flex list-notification">
-            <a href="profile.html"><img src="images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
-            <a href="profile.html">
-              <div class="berita">
-                <p>
-                  Selamat! sertifikat anda sudah terbit, untuk melihat silahkan kunjungi halaman profile
-                </p>
-                <p1>12 September 2022</p1>
-                <a href=""><i class="fa fa-trash fa-lg trash-notification"></i></a>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container profile-page">
     <h2>Hello <?php echo $_SESSION['user']['nama'] ?>!</h2>
     <p>Welcome back, glad to see you again.</p>

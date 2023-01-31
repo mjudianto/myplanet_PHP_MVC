@@ -15,7 +15,7 @@ class Ldap {
     ldap_set_option($this->connection, LDAP_OPT_REFERRALS, 0);;
   }
 
-  public function getUserByNIK($username, $password) {
+  public function getUserByUsername($username, $password) {
     $this->ldap_user = $username;
     $this->ldap_pass = $password;
     $this->connect();

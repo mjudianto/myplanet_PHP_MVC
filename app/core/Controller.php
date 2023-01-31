@@ -7,8 +7,8 @@ class Controller {
     require_once '../app/views/' . $view . '.php';
   }
 
-  public function model($model) {
-    require_once '../app/models/' . $model . '.php';
+  public function model($modelPath, $model) {
+    require_once '../app/models/' . $modelPath . '.php';
     return new $model;
   }
 
@@ -41,5 +41,38 @@ class Controller {
 
     return $decryption;
   }
+
+  public function loadElearningModel() {
+    $model['elearningKategori'] = $this->model('elearning/ElearningKategori_model', 'ElearningKategori_model');
+    $model['elearningCourse'] = $this->model('elearning/ElearningCourse_model', 'ElearningCourse_model');
+    $model['elearningModule'] = $this->model('elearning/ElearningModule_model', 'ElearningModule_model');
+
+    $model['elearningLesson'] = $this->model('elearning/lesson/ElearningLesson_model', 'ElearningLesson_model');
+    $model['elearningTest'] = $this->model('elearning/test/ElearningTest_model', 'ElearningTest_model');
+
+    $model['userLessonRecord'] = $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model');
+
+    $model['userTestRecord'] = $this->model('elearning/test/userRecord/UserTestRecord_model', 'UserTestRecord_model');
+    $model['userTestRecordDetail'] = $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model');
+    $model['userTestMaxAttempt'] = $this->model('elearning/test/userRecord/UserTestMaxAttempt_model', 'UserTestMaxAttempt_model');
+    $model['question'] = $this->model('elearning/test/Question_model', 'Question_model');
+    $model['choice'] = $this->model('elearning/test/Choice_model', 'Choice_model');
+
+    return $model;
+  }
+
+  public function loadPodtretModel() {
+    $model['podtretKategori'] = $this->model('podtret/PodtretKategori_model', 'PodtretKategori_model');
+    $model['podtret'] = $this->model('podtret/Podtret_model', 'Podtret_model');
+    $model['podtretLike'] = $this->model('podtret/PodtretLike_model', 'PodtretLike_model');
+    $model['podtretComment'] = $this->model('podtret/PodtretComment_model', 'PodtretComment_model');
+    $model['podtretCommentReply'] = $this->model('podtret/PodtretCommentReply_model', 'PodtretCommentReply_model');
+
+    return $model;
+  }
+
+  // public function loadUserModel() {
+  //   $model['user'] = $this->model('user/User_model', 'User_model');
+  // }
   
 }

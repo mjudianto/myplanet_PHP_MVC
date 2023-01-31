@@ -7,12 +7,15 @@ class Login extends Controller{
   }
 
   public function createUserSession($user) {
+    $notificationModel =  $this->model('user/Notification_model', 'Notification_model');
     $_SESSION['user'] = $user;
+    $_SESSION['notification'] = $notificationModel->getUserNotification('userId', $user['userId']);
   }
 
 
   public function auth() {
-    $user =  $this->model('User_model')->userAuth($_POST['nik'], $_POST['password']);
+    $userModel = $this->model('user/User_model', 'User_model');
+    $user = $userModel->userAuth($_POST['nik'], $_POST['password']);
     
     if ($user == false) {
       $_SESSION['falseLoginInfo'] = true;
@@ -20,7 +23,7 @@ class Login extends Controller{
       exit;
     } else {
       $_SESSION['falseLoginInfo'] = false;
-      $this->model('User_model')->updateLastVisit($user);
+      $userModel->updateLastVisit($user);
       $this->createUserSession($user);
       isset($_SESSION['page']) ? header("Location: " . BASEURL . $_SESSION['page']) : header("Location: " . BASEURL);
       exit;
