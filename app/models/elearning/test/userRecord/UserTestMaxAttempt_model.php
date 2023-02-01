@@ -12,13 +12,13 @@ class UserTestMaxAttempt_model {
 
   public function createTestMaxAttempt($testRecordId) {
     $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :testRecordId, DEFAULT)');
-    $this->db->bind('testId', $testRecordId);
+    $this->db->bind('testRecordId', $testRecordId);
     $this->db->execute();
   }
 
-  public function getTestMaxAttempt($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function getTestMaxAttempt($testRecordId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE userTestRecordId=:testRecordId');
+    $this->db->bind('testRecordId', $testRecordId);
     return $this->db->single();
   }
 

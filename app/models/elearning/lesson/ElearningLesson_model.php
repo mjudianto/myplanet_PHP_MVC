@@ -10,14 +10,14 @@ class ElearningLesson_model {
     $this->db = new Database;
   }
   
-  public function getSpesificLesson($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
+  public function getSpesificLesson($value) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningLessonId=:value');
     $this->db->bind('value', $value);
     return $this->db->single();
   }
 
-  public function getLessonBy($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
+  public function getLessonBy($value) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningModuleId=:value');
     $this->db->bind('value', $value);
     return $this->db->resultSet();
   }

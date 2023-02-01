@@ -17,18 +17,18 @@ class UserLessonRecord_model {
     $this->db->execute();
   }
 
-  public function updateUserAttempt($column, $column2, $value, $value2, $attempt) {
-    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt, finished=default WHERE ' . $column . '=:value AND ' . $column2 . '=:value2');
-    $this->db->bind('value', $value);
-    $this->db->bind('value2', $value2);
+  public function updateUserAttempt($lessonId, $userId, $attempt) {
+    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt, finished=default WHERE elearningLessonId=:lessonId AND userId=:userId');
+    $this->db->bind('lessonId', $lessonId);
+    $this->db->bind('userId', $userId);
     $this->db->bind('attempt', $attempt);
     $this->db->execute();
   }
   
-  public function getUserLessonRecord($column, $column2, $value, $value2) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value AND ' . $column2 . '=:value2');
-    $this->db->bind('value', $value);
-    $this->db->bind('value2', $value2);
+  public function getUserLessonRecord($lessonId, $userId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningLessonId=:lessonId AND userId=:userId');
+    $this->db->bind('lessonId', $lessonId);
+    $this->db->bind('userId', $userId);
     return $this->db->single();
   }
 

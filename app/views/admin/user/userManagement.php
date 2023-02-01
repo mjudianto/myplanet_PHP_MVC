@@ -7,7 +7,7 @@
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								<li class="breadcrumb-item"><a href="<?= BASEURL ?>admins"><i class="bx bx-home-alt"></i></a>
 								</li>
 								<li class="breadcrumb-item active" aria-current="page">Management User</li>
 							</ol>
@@ -17,17 +17,6 @@
 				<!--end breadcrumb-->
 
 				<div class="card">
-					<!-- <div class="card-header border-bottom-0 bg-transparent">
-						<div class="d-flex align-items-center">
-							<div>
-								<h5 class="font-weight-bold mb-0">Management User</h5>
-							</div>
-							<div class="ms-auto mt-2">
-								<button type="button" class="btn btn-white radius-10"><i class="bx bx-plus"></i>Add
-									New</button>
-							</div>
-						</div>
-					</div> -->
 					<div class="card-body">
 						<div class="d-flex align-items-center">
 							<div>
@@ -72,10 +61,10 @@
                               <td>' . $user['email'] . '</td>
                               <td>' . $user['lastVisit'] . '</td>
                               <td>' . $user['locationName'] . '</td>
-                              <td> EPM - ' . $user['organizationName'] . '</td>
+                              <td>' . $user['organizationName'] . '</td>
                               <td>
                                 <div class="order-actions">
-                                  <a href="detail-user.html"
+                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '"
                                     class="text-primary bg-light-primary border-0"><i
                                       class="bx bxs-edit"></i></a>
                                 </div>
@@ -116,54 +105,48 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
-							<div class="modal-body">
-								<div class="col-12 mb-3">
-									<label for="inputNIK" class="form-label">NIK</label>
-									<input type="number" class="form-control" id="inputNIK" placeholder="Input NIK...">
+							<form action="<?= BASEURL ?>userManagement/addUser" method="post">
+								<div class="modal-body">
+									<div class="col-12 mb-3">
+										<label for="inputNIK" class="form-label">NIK</label>
+										<input type="text" name="nik" class="form-control" id="inputNIK" placeholder="Input NIK...">
+									</div>
+									<div class="col-12 mb-3">
+										<label for="inputName" class="form-label">Name</label>
+										<input type="text" name="name" class="form-control" id="inputName" placeholder="Input name...">
+									</div>
+									<div class="col-12 mb-3">
+										<label for="inputEmail" class="form-label">Email</label>
+										<input type="email" name="email" class="form-control" id="inputEmail"
+											placeholder="Input email...">
+									</div>
+									<!-- <div class="col-12 mb-3">
+										<label for="inputPassword" class="form-label">Password</label>
+										<input type="password" name="password" class="form-control" id="inputPassword"
+											placeholder="Input password...">
+									</div> -->
+									<div class="col-12 mb-3">
+										<label class="form-label">Location</label>
+										<select class="form-select" id="selectLocationAddNew" name="location">
+											<option value="" selected>Select Location</option>
+											<?php 
+											foreach($data['location'] as $location) {
+												echo '<option name="location" value="' . $location['locationId'] . '">' . $location['locationName'] . '</option>';
+											}
+											?>
+										</select>
+									</div>
+									<div class="col-12 mb-3">
+										<label for="" class="form-label">Organization Name</label>
+										<input type="text" name="organizationName" class="form-control" id="inputOrganizationName"
+											placeholder="Input organization name...">
+									</div>
 								</div>
-								<div class="col-12 mb-3">
-									<label for="inputName" class="form-label">Name</label>
-									<input type="text" class="form-control" id="inputName" placeholder="Input name...">
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Confirm</button>
 								</div>
-								<div class="col-12 mb-3">
-									<label for="inputEmail" class="form-label">Email</label>
-									<input type="email" class="form-control" id="inputEmail"
-										placeholder="Input email...">
-								</div>
-								<div class="col-12 mb-3">
-									<label for="inputPassword" class="form-label">Password</label>
-									<input type="password" class="form-control" id="inputPassword"
-										placeholder="Input password...">
-								</div>
-								<div class="col-12 mb-3">
-									<label class="form-label">Role</label>
-									<select class="form-select">
-										<option value="" selected>User Employee</option>
-										<option value="admin">User Admin</option>
-									</select>
-								</div>
-								<div class="col-12 mb-3">
-									<label class="form-label">Location</label>
-									<select class="form-select" id="selectLocationAddNew">
-										<option value="" selected>Select Location</option>
-                    <?php 
-                    foreach($data['location'] as $location) {
-                      echo '<option value="' . $location['locationId'] . '">EPM - ' . $location['locationName'] . '</option>';
-                    }
-                     ?>
-									</select>
-								</div>
-								<div class="col-12 mb-3">
-									<label for="" class="form-label">Organization Name</label>
-									<input type="text" class="form-control" id="inputOrganizationName"
-										placeholder="Input organization name...">
-								</div>
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Confirm</button>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>

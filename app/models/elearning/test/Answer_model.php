@@ -10,9 +10,9 @@ class Answer_model {
     $this->db = new Database;
   }
   
-  public function getQuestionAnswer($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function getQuestionAnswer($questionId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE questionId=:questionId');
+    $this->db->bind('questionId', $questionId);
     return $this->db->single();
   }
 

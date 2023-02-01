@@ -15,9 +15,9 @@ class ElearningModule_model {
     return $this->db->resultSet();
   }
 
-  public function getModuleBy($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function getModuleBy($courseId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningCourseId=:courseId');
+    $this->db->bind('courseId', $courseId);
     return $this->db->resultSet();
   }
 

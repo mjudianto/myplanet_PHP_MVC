@@ -57,6 +57,8 @@ class Controller {
     $model['userTestMaxAttempt'] = $this->model('elearning/test/userRecord/UserTestMaxAttempt_model', 'UserTestMaxAttempt_model');
     $model['question'] = $this->model('elearning/test/Question_model', 'Question_model');
     $model['choice'] = $this->model('elearning/test/Choice_model', 'Choice_model');
+    $model['answer'] = $this->model('elearning/test/Answer_model', 'Answer_model');
+
 
     return $model;
   }

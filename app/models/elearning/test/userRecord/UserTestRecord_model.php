@@ -15,19 +15,21 @@ class UserTestRecord_model {
     $this->db->bind('testId', $testId);
     $this->db->bind('userId', $userId);
     $this->db->execute();
+
+    $this->getUserTestRecord($testId, $userId);
   }
 
-  public function getUserTestRecord($column, $column2, $value, $value2) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value AND ' . $column2 . '=:value2');
-    $this->db->bind('value', $value);
-    $this->db->bind('value2', $value2);
+  public function getUserTestRecord($testId, $userId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningTestId=:testId AND userId=:userId');
+    $this->db->bind('testId', $testId);
+    $this->db->bind('userId', $userId);
     return $this->db->single();
   }
 
-  public function updateUserAttempt($column, $column2, $value, $value2, $attempt) {
-    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt WHERE ' . $column . '=:value AND ' . $column2 . '=:value2');
-    $this->db->bind('value', $value);
-    $this->db->bind('value2', $value2);
+  public function updateUserAttempt($testId, $userId, $attempt) {
+    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt WHERE elearningTestId=:testId AND userId=:userId');
+    $this->db->bind('testId', $testId);
+    $this->db->bind('userId', $userId);
     $this->db->bind('attempt', $attempt);
     $this->db->execute();
   }

@@ -10,9 +10,9 @@ class ElearningTest_model {
     $this->db = new Database;
   }
 
-  public function getTestBy($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function getTestBy($testId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningTestId=:testId');
+    $this->db->bind('testId', $testId);
     return $this->db->single();
   }
 

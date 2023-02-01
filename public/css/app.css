@@ -2388,8 +2388,9 @@ p {
 
 .trash-notification {
   color: red;
-  float: right;
+  float: right !important;
   margin-right: 10px;
+  margin-left: 30vw;
 }
 
 @media (max-width: 900px) {

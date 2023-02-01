@@ -88,7 +88,7 @@
                           <p>11 January 2022</p>
                         </li>
   
-                        <a href="' . BASEURL . 'elearning/elearningTest?elearningModuleId=' . $module['elearningModuleId'] . '&elearningTestId=' . $data['elearningTest'][$i]['elearningTestId'] . '"><button type="button" class="btn btn-start-resp">
+                        <a href="' . BASEURL . 'elearning/elearningTest?elearningTestId=' . $data['elearningTest'][$i]['elearningTestId'] . '"><button type="button" class="btn btn-start-resp">
                             Start
                           </button></a>
                       </ul>
