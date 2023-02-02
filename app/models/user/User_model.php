@@ -102,106 +102,135 @@ class User_model{
     $this->db->execute();
   }
 
-  public function userLessonRecord($userId) {
-    $query = 'SELECT 
-                elearningKategori.nama AS "nama kategori", elearningCourse.judul AS "judul course", 
+  public function userLessonRecord($userId, $orgId) {
+    $query = 'SELECT DISTINCT
+                elearningKategori.nama AS "nama kategori", 
+                elearningCourse.judul AS "judul course", 
+                elearningCourse.elearningCourseId AS "courseId", 
                 (SELECT COUNT(*) FROM elearningLesson) AS total_lessons, 
-                SUM(CASE WHEN userLessonRecord.elearningLessonId IS NOT NULL THEN 1 ELSE 0 END) AS attempted_lessons,
-                userLessonRecord.userId 
+                SUM(CASE WHEN userLessonRecord.elearningLessonId IS NOT NULL THEN 1 ELSE 0 END) AS attempted_lessons
               FROM 
                 elearningKategori 
                 INNER JOIN elearningCourse 
-                ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
-                INNER JOIN elearningModule
-                ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
-                INNER JOIN elearningLesson
-                ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
-                LEFT JOIN userLessonRecord ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
+                  ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
+                LEFT JOIN elearningModule
+                  ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
+                LEFT JOIN elearningLesson
+                  ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
+                LEFT JOIN userLessonRecord 
+                  ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
+                  AND userLessonRecord.userId=:userId
               WHERE
-                userLessonRecord.userId=:userId
+                (elearningCourse.access_type = 0 OR
+                (elearningCourse.access_type = 2 AND 
+                  elearningCourse.elearningCourseId IN 
+                    (SELECT elearningCourseId
+                    FROM elearningCourseAkses
+                    WHERE organizationId = :orgId
+                    )
+                )
+                )
               GROUP BY 
                 elearningKategori.nama,
                 elearningCourse.judul,
-                userLessonRecord.userId';
+                elearningCourse.elearningCourseId;';
 
     $this->db->query($query);
     $this->db->bind('userId', $userId);
+    $this->db->bind('orgId', $orgId);
 
     return $this->db->resultSet();
   }
 
-  public function userLessonRecordDetail($userId) {
+  public function userLessonRecordDetail($userId, $courseId) {
     $query = 'SELECT
                 elearningLesson.judul AS "judul lesson",
                 COALESCE(userLessonRecord.attempt, 0) AS attempt,
-                  userLessonRecord.finished
+                COALESCE(userLessonRecord.finished, 0) AS finished
               FROM
-                elearningModule
+                elearningCourse
+                INNER JOIN elearningModule ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId AND elearningCourse.elearningCourseId = :courseId
                 INNER JOIN elearningLesson ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
-                LEFT JOIN userLessonRecord ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId AND userLessonRecord.userId = :userId
+                LEFT JOIN userLessonRecord
+                ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId AND userLessonRecord.userId = :userId
               GROUP BY
                 elearningLesson.judul,
-                userLessonRecord.finished,
-                COALESCE(userLessonRecord.attempt, 0)';
+                COALESCE(userLessonRecord.attempt, 0),
+                COALESCE(userLessonRecord.finished, 0)';
 
     $this->db->query($query);
+    $this->db->bind('courseId', $courseId);
     $this->db->bind('userId', $userId);
 
     return $this->db->resultSet();
   }
 
-  public function userTestRecord($userId) {
-    $query = 'SELECT 
-                elearningKategori.nama AS "nama kategori", elearningCourse.judul AS "judul course", 
+  public function userTestRecord($userId, $orgId) {
+    $query = 'SELECT DISTINCT
+                elearningKategori.nama AS "nama kategori", 
+                elearningCourse.judul AS "judul course", 
                 (SELECT COUNT(*) FROM elearningTest) AS total_tests, 
-                SUM(CASE WHEN userTestRecord.elearningTestId IS NOT NULL THEN 1 ELSE 0 END) AS attempted_tests,
-                userTestRecord.userId 
-            FROM 
-              elearningKategori 
-              INNER JOIN elearningCourse 
-              ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
-              INNER JOIN elearningModule
-              ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
-              INNER JOIN elearningTest
-              ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
-              LEFT JOIN userTestRecord ON userTestRecord.elearningTestId = elearningTest.elearningTestId
-            WHERE
-              userTestRecord.userId=:userId
-            GROUP BY 
-              elearningKategori.nama,
-              elearningCourse.judul,
-              userTestRecord.userId';
+                SUM(CASE WHEN userTestRecord.elearningTestId IS NOT NULL THEN 1 ELSE 0 END) AS attempted_tests
+              FROM 
+                elearningKategori 
+                INNER JOIN elearningCourse 
+                  ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
+                LEFT JOIN elearningModule
+                  ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
+                LEFT JOIN elearningTest
+                  ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
+                LEFT JOIN userTestRecord 
+                  ON userTestRecord.elearningTestId = elearningTest.elearningTestId
+                  AND userTestRecord.userId=:userId
+              WHERE
+                (elearningCourse.access_type = 0 OR
+                (elearningCourse.access_type = 2 AND 
+                  elearningCourse.elearningCourseId IN 
+                    (SELECT elearningCourseId
+                    FROM elearningCourseAkses
+                    WHERE organizationId = :orgId
+                    )
+                )
+                )
+              GROUP BY 
+                elearningKategori.nama,
+                elearningCourse.judul;';
 
     $this->db->query($query);
     $this->db->bind('userId', $userId);
+    $this->db->bind('orgId', $orgId);
 
     return $this->db->resultSet();
   }
 
-  public function userTestRecordDetail($userId) {
+  public function userTestRecordDetail($userId, $courseId) {
     $query = 'SELECT 
                 elearningTest.judul AS "judul test", 
                 COALESCE(userTestRecord.attempt, 0) AS attempt, 
-                MAX(userTestRecordDetail.finished) AS finished, 
+                MAX(userTestRecordDetail.finished) AS finished,
                 MAX(userTestRecordDetail.score) AS score, 
                 (
-                    SELECT status 
+                    SELECT userTestRecordDetail.status 
                     FROM userTestRecordDetail
-                    WHERE score = ( SELECT MAX(score) FROM userTestRecordDetail LIMIT 1)
+                    RIGHT JOIN userTestRecord ON userTestRecordDetail.userTestRecordID=userTestRecord.userTestRecordId
+                    WHERE score = ( SELECT MAX(score) FROM userTestRecordDetail WHERE userTestRecordId=userTestRecord.userTestRecordId)
+                    AND userTestRecord.userID = :userId
                     LIMIT 1
                 ) AS status
-            FROM 
-                userTestRecord
-                INNER JOIN elearningTest ON userTestRecord.elearningTestId = elearningTest.elearningTestId
-                INNER JOIN elearningModule ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
-                LEFT JOIN userTestRecordDetail ON userTestRecordDetail.userTestRecordId = userTestRecord.userTestRecordId
-            WHERE 
-                userTestRecord.userId = :userId
-            GROUP BY 
+              FROM 
+                elearningCourse
+                INNER JOIN elearningModule ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId AND elearningCourse.elearningCourseId = :courseId
+                INNER JOIN elearningTest ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
+                LEFT JOIN userTestRecord
+                ON userTestRecord.elearningTestId = elearningTest.elearningTestId AND userTestRecord.userId = :userId
+                LEFT JOIN userTestRecordDetail
+                ON userTestRecordDetail.userTestRecordId = userTestRecord.userTestRecordId
+              GROUP BY 
                 elearningTest.judul, 
                 userTestRecord.attempt';
 
     $this->db->query($query);
+    $this->db->bind('courseId', $courseId);
     $this->db->bind('userId', $userId);
 
     return $this->db->resultSet();

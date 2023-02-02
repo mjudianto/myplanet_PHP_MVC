@@ -64,7 +64,7 @@
                               <td>' . $user['organizationName'] . '</td>
                               <td>
                                 <div class="order-actions">
-                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '"
+                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '&userOrganization=' . $user['organizationId'] . '"
                                     class="text-primary bg-light-primary border-0"><i
                                       class="bx bxs-edit"></i></a>
                                 </div>
@@ -138,8 +138,14 @@
 									</div>
 									<div class="col-12 mb-3">
 										<label for="" class="form-label">Organization Name</label>
-										<input type="text" name="organizationName" class="form-control" id="inputOrganizationName"
-											placeholder="Input organization name...">
+										<select class="form-select" id="selectLocationAddNew" name="location">
+											<option value="" selected>Select Organization</option>
+											<?php 
+											foreach($data['organization'] as $organization) {
+												echo '<option name="organization" value="' . $organization['organizationId'] . '">' . $organization['organizationName'] . '</option>';
+											}
+											?>
+										</select>
 									</div>
 								</div>
 								<div class="modal-footer">

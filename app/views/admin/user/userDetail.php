@@ -115,10 +115,10 @@
                                       </div>';
                             }
                             echo    '</td>
-                                    <td><a href="detail-course-user.html" type="button"
+                                    <td><button type="button" onclick="loadUserCourseRecordDetail(' . $lesson['courseId'] . ')"
                                         class="btn btn-primary btn-sm radius-30 px-4"
-                                        data-bs-toggle="modal" data-bs-target="#' . $lesson['userId'] . '">View
-                                        Details</a></td>
+                                        data-bs-toggle="modal" data-bs-target="#' . $lesson['courseId'] . '">View
+                                        Details</button></td>
                                     <td>
                                       <div class="d-flex order-actions">
                                         <a href="javascript:;" class=""><i class="bx bxs-trash"
@@ -220,16 +220,14 @@
 				</div>
 
         <?php 
-          if ($data['userLesson']) {
             foreach($data['userLesson'] as $lesson){
               echo '<!-- Modal View Detail Course -->
-                    <div class="modal fade" id="' . $lesson['userId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
+                    <div class="modal fade" id="' . $lesson['courseId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
                       aria-hidden="true">
                       <div class="modal-dialog" style="max-width: 735px;">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="modalViewDetailLabel">Becoming Effective People : Catatan Si
-                              Bejo</h5>
+                            <h5 class="modal-title" id="modalViewDetailLabel">' . $lesson['judul course'] . '</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                               aria-label="Close"></button>
                           </div>
@@ -245,27 +243,7 @@
                                     <th>Time</th>
                                   </tr>
                                 </thead>
-                                <tbody>';
-              foreach($data['userLessonDetail'] as $lessonDetail) {
-                    echo          '<tr>
-                                    <td>' . $lessonDetail['judul lesson'] . '</td>
-                                    <td>' . $lessonDetail['attempt'] . '</td>
-                                    <td></td>
-                                    <td class="">
-                                    </td>
-                                    <td>' . $lessonDetail['finished'] . '</td>
-                                  </tr>';
-              }
-              foreach($data['userTestDetail'] as $testDetail) {
-                    echo          '<tr>
-                                    <td>' . $testDetail['judul test'] . '</td>
-                                    <td>' . $testDetail['attempt'] . '</td>
-                                    <td>' . $testDetail['score'] . '</td>
-                                    <td class=""> ' . $testDetail['status'] . '
-                                    </td>
-                                    <td>' . $testDetail['finished'] . '</td>
-                                  </tr>';
-              }
+                                <tbody id="lessonRecordContainer">';
               echo              '</tbody>
                               </table>
                             </div>
@@ -278,67 +256,6 @@
                       </div>
                     </div>';
             }
-          } else {
-            if ($data['userTest']) {
-              foreach($data['userTest'] as $test){
-                echo '<!-- Modal View Detail Course -->
-                    <div class="modal fade" id="' . $test['userId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
-                      aria-hidden="true">
-                      <div class="modal-dialog" style="max-width: 735px;">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="modalViewDetailLabel">Becoming Effective People : Catatan Si
-                              Bejo</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                              aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="table-responsive mt-3">
-                              <table class="table align-middle mb-0">
-                                <thead class="table-light">
-                                  <tr>
-                                    <th>Lesson</th>
-                                    <th>Total Attempt</th>
-                                    <th>Score</th>
-                                    <th>Status</th>
-                                    <th>Time</th>
-                                  </tr>
-                                </thead>
-                                <tbody>';
-              foreach($data['userLessonDetail'] as $lessonDetail) {
-                    echo          '<tr>
-                                    <td>' . $lessonDetail['judul lesson'] . '</td>
-                                    <td>' . $lessonDetail['attempt'] . '</td>
-                                    <td></td>
-                                    <td class="">
-                                    </td>
-                                    <td>' . $lessonDetail['finished'] . '</td>
-                                  </tr>';
-              }
-              foreach($data['userTestDetail'] as $testDetail) {
-                    echo          '<tr>
-                                    <td>' . $testDetail['judul test'] . '</td>
-                                    <td>' . $testDetail['attempt'] . '</td>
-                                    <td>' . $testDetail['score'] . '</td>
-                                    <td class=""> ' . $testDetail['status'] . '
-                                    </td>
-                                    <td>' . $testDetail['finished'] . '</td>
-                                  </tr>';
-              }
-              echo              '</tbody>
-                              </table>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>';
-              }
-            }
-          }
         ?>
 
 				<!-- Modal BOX Edit Data -->
@@ -414,3 +331,25 @@
 
 			</div>
 		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+  <script>
+    $( document ).ready(function() {
+      loadUserCourseRecordDetail();
+    });
+  </script>
+
+  <script>
+
+    function loadUserCourseRecordDetail(courseId) {
+				var userId = <?= $_GET['userId'] ?>;
+        $.ajax({
+          url: "<?= BASEURL ?>userManagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId,
+          success: function(html) {
+						$('#lessonRecordContainer').html(html);
+          }
+        });
+      }
+  </script>

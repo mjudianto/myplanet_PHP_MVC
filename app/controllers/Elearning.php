@@ -36,12 +36,12 @@ class Elearning extends Controller {
   public function loadCourse() {
     $model = $this->loadElearningModel();
 
-    $elearningCourse = $model['elearningCourse']->getAllCourse();
+    $elearningCourse = $model['elearningCourse']->getAllCourse($_SESSION['user']['organizationId']);
 
     if (isset($_SESSION['selectedKategoriId'])) {
       $kategoriId = $_SESSION['selectedKategoriId'];
       if ($kategoriId != 0){
-        $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId);
+        $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId']);
       }
     }
     
