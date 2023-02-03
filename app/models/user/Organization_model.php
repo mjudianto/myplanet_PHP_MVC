@@ -15,4 +15,10 @@ class Organization_model {
     return $this->db->resultSet();
   }
 
+  public function createOrganization($orgName) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :orgName)');
+    $this->db->bind('orgName', $orgName);
+    $this->db->execute();
+  }
+
 }

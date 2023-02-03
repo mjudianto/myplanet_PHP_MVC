@@ -138,11 +138,11 @@
 									</div>
 									<div class="col-12 mb-3">
 										<label for="" class="form-label">Organization Name</label>
-										<select class="form-select" id="selectLocationAddNew" name="location">
+										<select class="form-select" id="selectLocationAddNew" name="organization">
 											<option value="" selected>Select Organization</option>
 											<?php 
 											foreach($data['organization'] as $organization) {
-												echo '<option name="organization" value="' . $organization['organizationId'] . '">' . $organization['organizationName'] . '</option>';
+												echo '<option  value="' . $organization['organizationId'] . '">' . $organization['organizationName'] . '</option>';
 											}
 											?>
 										</select>

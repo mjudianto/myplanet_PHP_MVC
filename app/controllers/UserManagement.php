@@ -17,7 +17,7 @@ class UserManagement extends Controller {
     $data['nama'] = $_POST['name'];
     $data['email'] = $_POST['email'];
     $data['locationId'] = $_POST['location'];
-    $data['department'] = $_POST['organizationName'];
+    $data['department'] = $_POST['organization'];
 
     $this->model('user/User_model', 'User_model')->addUser($data);
     header('location:' . BASEURL . 'usermanagement');
@@ -25,12 +25,13 @@ class UserManagement extends Controller {
   }
 
   public function userDetail() {
+    $model = $this->loadElearningModel();
+
     $data['user'] = $this->model('user/User_model', 'User_model')->getUserBy('userId', $_GET['userId']);
     $data['location'] = $this->model('user/Location_model', 'Location_model')->getAllLocation();
-    $data['userLesson'] = $this->model('user/User_model', 'User_model')->userLessonRecord($_GET['userId'], $_GET['userOrganization']);
-    // $data['userLessonDetail'] = $this->model('user/User_model', 'User_model')->userLessonRecordDetail($_GET['userId']);
-    $data['userTest'] = $this->model('user/User_model', 'User_model')->userTestRecord($_GET['userId'], $_GET['userOrganization']);
-    // $data['userTestDetail'] = $this->model('user/User_model', 'User_model')->userTestRecordDetail($_GET['userId']);
+
+    $data['userLesson'] = $model['userLessonRecord']->userLessonRecord($_GET['userId'], $_GET['userOrganization']);
+    $data['userTest'] = $model['userTestRecord']->userTestRecord($_GET['userId'], $_GET['userOrganization']);
 
     $this->view('admin/layouts/sidebar');
     $this->view('admin/user/userDetail', $data);
@@ -39,11 +40,13 @@ class UserManagement extends Controller {
   }
 
   public function loadUserCourseRecordDetail() {
+    $model = $this->loadElearningModel();
+
     $courseId = $_REQUEST['courseId'];
     $userId = $_REQUEST['userId'];
 
-    $data['userLessonDetail'] = $this->model('user/User_model', 'User_model')->userLessonRecordDetail($userId, $courseId);
-    $data['userTestDetail'] = $this->model('user/User_model', 'User_model')->userTestRecordDetail($userId, $courseId);
+    $data['userLessonDetail'] = $model['userLessonRecord']->userLessonRecordDetail($userId, $courseId);
+    $data['userTestDetail'] = $model['userTestRecord']->userTestRecordDetail($userId, $courseId);
     
     foreach($data['userLessonDetail'] as $lessonDetail) {
       echo  '<tr>
