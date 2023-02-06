@@ -8,19 +8,20 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
   <!--bootstrap harus tetep di atas file css-->
-  <link rel="stylesheet" href="/public/css/app.css">
+  <link rel="stylesheet" href="<?= BASEURL ?>css/app.css">
   <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
+<body>
+  
 
-<div class="container mt-4">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <img src="/public/assets/logo.png" alt="" class="d-inline-block align-text-top"/>
+        <img src="<?= BASEURL ?>assets/logo.png" alt="" class="d-inline-block align-text-top"/>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -134,12 +135,12 @@
         </div>
         <?php else: ?>
           <div class="vl ms-2" style="border-left: solid 2px #ededed">
-            <img src="/public/images/image-profile.jpg" alt="" class="image-navbar ms-3" onclick="toggleMenu()" />
+            <img src="<?= BASEURL ?>images/image-profile.jpg" alt="" class="image-navbar ms-3" onclick="toggleMenu()" />
 
             <div class="sub-menu-wrap" id="subMenu">
               <div class="sub-menu">
                 <div class="user-info">
-                  <a href="profile.html"><img src="/public/images/image-profile.jpg" alt="" class="img-nav-submenu"></a>
+                  <a href="profile.html"><img src="<?= BASEURL ?>images/image-profile.jpg" alt="" class="img-nav-submenu"></a>
                   <a href="<?= BASEURL ?>profile">
                     <h3><?php echo $_SESSION['user']['nama'] ?></h3>
                   </a>

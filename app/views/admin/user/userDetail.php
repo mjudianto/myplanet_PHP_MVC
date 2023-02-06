@@ -24,7 +24,7 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex flex-column align-items-center text-center">
-									<img src="/public/admin/images/avatars/avatar-18.png" alt="Admin"
+									<img src="<?= BASEURL ?>admin/images/avatars/avatar-18.png" alt="Admin"
 										class="rounded-circle p-1" width="110">
 									<div class="mt-3">
 										<h4><?= $data['user']['nama'] ?></h4>
@@ -177,42 +177,28 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal"
 											aria-label="Close"></button>
 									</div>
-									<div class="modal-body">
-										<div class="col-12 mb-3">
-											<label class="form-label">Category</label>
-											<select class="form-select" id="selectCategory">
-												<option value="" selected>Select Category</option>
-												<option value="general">General</option>
-												<option value="qasecurity">QA & Security</option>
-												<option value="technical">Technical</option>
-												<option value="softskill">Soft Skill</option>
-											</select>
+									<form action="<?= BASEURL ?>usermanagement/addUserPrivateCourse" method="post">
+										<div class="modal-body">
+											<input type="hidden" value="<?= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"; ?>" name="url">
+											<input type="hidden" value="<?= $_GET['userId'] ?>" name="userId" id="userId">
+											<div class="col-12 mb-3">
+												<label class="form-label">Course</label>
+												<select class="form-select" id="selectedCourseId" name="selectedCourseId">
+													<option value="" selected>Select Course</option>
+													<?php 
+														foreach($data['course'] as $course) {
+															echo '<option value="' . $course['elearningCourseId'] . '">' . $course['judul'] . '</option>';
+														};
+													?>
+												</select>
+											</div>
 										</div>
-										<div class="col-12 mb-3">
-											<label class="form-label">Course</label>
-											<select class="form-select" id="selectAssignment">
-												<option value="" selected>Select Course</option>
-												<option value="cdob">CDOB 2020</option>
-												<option value="cdakb">CDAKB 2020</option>
-												<option value="sertifikasihalal">Sertifikasi Halal</option>
-												<option value="safetysecurity2019">Sosialisasi</option>
-												<option value="safetysecurity2019">Safety Security 2019</option>
-												<option value="itsecurity2021">IT Security 2021</option>
-												<option value="sosialisasisop">Sosialisasi SOP & IK</option>
-												<option value="itsecurityemailphising">IT Security Email Phising
-												</option>
-												<option value="sitostatika">Penanganan Produk Sitostatika</option>
-												<option value="itsecurityawareness">General IT Security Awareness
-												</option>
-												<option value="penggunaanapar">Penggunaan APAR</option>
-											</select>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary">Confirm</button>
 										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Confirm</button>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>

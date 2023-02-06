@@ -6,7 +6,7 @@
             <div class="col-12 col-lg-3">
               <!-- <h5>FEATURES</h5> -->
               <ul class="list-unstyled">
-                <li><a href="#"><img src="../public/assets/logo.png" alt="" width="212" height="50"></a></li>
+                <li><a href="#"><img src="<?= BASEURL ?>assets/logo.png" alt="" width="212" height="50"></a></li>
                 <li class="mt-3" style="color: #ffffff;">Best Place for Learning<br>
                   Planet Enseval ©2022</li>
               </ul>
@@ -57,10 +57,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
-  <script src="../public/js/floating-btn.js"></script>
-  <script src="../public/js/aos.js"></script>
-  <script src="../public/js/submenu-profile.js"></script>
-  <script src="../public/js/floating-btn.js"></script>
+  <script src="<?= BASEURL ?>js/floating-btn.js"></script>
+  <script src="<?= BASEURL ?>js/aos.js"></script>
+  <script src="<?= BASEURL ?>js/submenu-profile.js"></script>
+  <script src="<?= BASEURL ?>js/floating-btn.js"></script>
 </body>
 
 </html>

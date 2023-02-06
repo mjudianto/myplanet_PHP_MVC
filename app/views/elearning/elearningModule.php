@@ -12,7 +12,7 @@
 
 <!-- Floating Button -->
 <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
-  <img src="/public/assets/ic-arrow-up.png" alt="" width="24" />
+  <img src="<?= BASEURL ?>assets/ic-arrow-up.png" alt="" width="24" />
 </button>
 <!-- Floating Buttonnn -->
 
@@ -33,7 +33,7 @@
           echo    '<div class="card card-neop-general mt-5">
                     <div class="row">
                       <div class="col-lg-4 text-center align-self-center">
-                        <img src="/public/images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
+                        <img src="' . BASEURL . 'images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
                       </div>
                       <div class="col card-title-neop align-self-lg-center flex-column flex-lg-row mt-4 ms-2">
                         <a href="">
@@ -61,7 +61,7 @@
           echo '<div class="card card-neop-general mt-5">
                   <div class="row">
                     <div class="col-lg-4 text-center align-self-center">
-                      <img src="/public/images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
+                      <img src="' . BASEURL . 'images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
                     </div>
                     <div class="col card-title-neop align-self-lg-center flex-column flex-lg-row mt-4 ms-2">
                       <div class="d-flex align-items-center">

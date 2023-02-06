@@ -23,7 +23,7 @@
       <div class="modal-body">
         <div class="d-flex list-notification">
           <a href="e-learning-neopgeneral.html"
-            ><img src="/public/images/img-notif.jpg" alt="" class="img-nav-submenu"
+            ><img src="<?= BASEURL ?>images/img-notif.jpg" alt="" class="img-nav-submenu"
           /></a>
           <a href="e-learning-neopgeneral.html"></a>
             <div class="berita">
@@ -76,7 +76,7 @@
             <div class="user-profile">
               <div class="user-avatar text-center">
                 <img
-                  src="/public/images/image-profile.jpg"
+                  src="<?= BASEURL ?>images/image-profile.jpg"
                   alt="Maxwell Admin"
                   class="avatar-user"
                 />

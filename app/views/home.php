@@ -24,14 +24,14 @@
             </form>
             <!-- <img src="assets/Play Button.png" alt="" class="icon" /> -->
             <form action=""><a class="btn btn-watch" href="#" role="button">
-                <img src="../public/assets/Play Button.svg" alt="" class="icon-play" />
+                <img src="<?= BASEURL ?>assets/Play Button.svg" alt="" class="icon-play" />
                 Watch Tutorial</a></form>
           </div>
         </div>
         <!--bagian column kiri-->
         <div class="col d-none d-sm-block">
           <!--bagian column kanan, Hidden only on xs-->
-          <img width="" src="../public/images/ilustrasi-myplanet.png" class="banner-img" alt="" />
+          <img width="" src="<?= BASEURL ?>images/ilustrasi-myplanet.png" class="banner-img" alt="" />
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
       <div class="section-popular-travel row justify-content-center mt-5">
         <!-- Floating Button -->
         <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
-          <img src="/public/assets/ic-arrow-up.png" alt="" width="24" />
+          <img src="<?= BASEURL ?>assets/ic-arrow-up.png" alt="" width="24" />
           <!-- <i class="fas fa-arrow-up"
               ><img src="assets/Arrow up.svg" alt="" width="18"
             /></i> -->
@@ -62,20 +62,20 @@
         <!-- Floating Button -->
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-            <a href="e-learning-neopgeneral.html"><img src="/public/images/Cover-Neop-General_min.png"
+            <a href="e-learning-neopgeneral.html"><img src="<?= BASEURL ?>images/Cover-Neop-General_min.png"
                 class="card-img-top py-2 px-2" alt="." /></a>
             <div class="card-body">
               <h5 class="card-title-learning"><a href="">Neop General</a></h5>
               <div class="row">
                 <div class="col">
                   <p class="card-text-learning">
-                    <img src="/public/assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
+                    <img src="<?= BASEURL ?>assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
                     26 Lesson
                   </p>
                 </div>
                 <div class="col">
                   <a href="e-learning-neopgeneral.html" class="btn-go">
-                    <img src="/public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                    <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                   </a>
                   <!-- <a href="#" class="btn btn-go">Go</a> -->
                 </div>
@@ -85,7 +85,7 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-            <a href=""><img src="/public/images/Card Image Warehouse.png" class="card-img-top py-2 px-2" alt="." /></a>
+            <a href=""><img src="<?= BASEURL ?>images/Card Image Warehouse.png" class="card-img-top py-2 px-2" alt="." /></a>
             <div class="card-body">
               <h5 class="card-title-learning">
                 <a href="">Neop Warehouse</a>
@@ -93,13 +93,13 @@
               <div class="row">
                 <div class="col">
                   <p class="card-text-learning">
-                    <img src="/public/assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
+                    <img src="<?= BASEURL ?>assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
                     31 Lesson
                   </p>
                 </div>
                 <div class="col">
                   <a href="" class="btn-go">
-                    <img src="/public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                    <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                   </a>
                 </div>
               </div>
@@ -108,7 +108,7 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-            <a href=""><img src="/public/images/Neop Transport.png" class="card-img-top py-2 px-2" alt="." /></a>
+            <a href=""><img src="<?= BASEURL ?>images/Neop Transport.png" class="card-img-top py-2 px-2" alt="." /></a>
             <div class="card-body">
               <h5 class="card-title-learning">
                 <a href="">Neop Transport</a>
@@ -116,13 +116,13 @@
               <div class="row">
                 <div class="col">
                   <p class="card-text-learning">
-                    <img src="/public/assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
+                    <img src="<?= BASEURL ?>assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
                     13 Lesson
                   </p>
                 </div>
                 <div class="col">
                   <a href="" class="btn-go">
-                    <img src="/public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                    <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                   </a>
                 </div>
               </div>
@@ -131,19 +131,19 @@
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-            <a href=""><img src="/public/images/CDOB.png" class="card-img-top py-2 px-2" alt="." /></a>
+            <a href=""><img src="<?= BASEURL ?>images/CDOB.png" class="card-img-top py-2 px-2" alt="." /></a>
             <div class="card-body">
               <h5 class="card-title-learning"><a href="">CDOB</a></h5>
               <div class="row">
                 <div class="col">
                   <p class="card-text-learning">
-                    <img src="/public/assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
+                    <img src="<?= BASEURL ?>assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" />
                     13 Lesson
                   </p>
                 </div>
                 <div class="col">
                   <a href="" class="btn-go">
-                    <img src="/public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                    <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                   </a>
                 </div>
               </div>
@@ -177,8 +177,8 @@
           <div class="section-popular-podtret row justify-content-center mt-3">
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href="video-play.html"><img src="/public/images/videoplaceholdit.png" class="card-img-top py-2 px-2"
-                    alt="..." /></a>
+                <a href="video-play.html"><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2"
+                    alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href="video-play.html"> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="col">
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
@@ -199,8 +199,8 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href="video-play.html"><img src="../public/images/videoplaceholdit.png" class="card-img-top py-2 px-2"
-                    alt="..." /></a>
+                <a href="video-play.html"><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2"
+                    alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href="video-play.html"> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="col">
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                       </button>
                     </div>
@@ -222,7 +222,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href=""><img src="../public/images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="..." /></a>
+                <a href=""><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -241,7 +241,7 @@
                       />
                     </button></a> -->
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
@@ -250,7 +250,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href=""><img src="../public/images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="..." /></a>
+                <a href=""><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -262,7 +262,7 @@
                     </div>
                     <div class="col">
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
@@ -271,7 +271,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href=""><img src="../public/images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="..." /></a>
+                <a href=""><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -283,7 +283,7 @@
                     </div>
                     <div class="col">
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
@@ -292,7 +292,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
               <div class="card card-podtret" data-aos="zoom-in" data-aos-duration="950">
-                <a href=""><img src="../public/images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="..." /></a>
+                <a href=""><img src="<?= BASEURL ?>images/videoplaceholdit.png" class="card-img-top py-2 px-2" alt="." /></a>
                 <div class="card-body">
                   <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
                       Siapa Takut ?! </a></h5>
@@ -304,7 +304,7 @@
                     </div>
                     <div class="col">
                       <a href="video-play-podtret.html" class="btn-go-podtret">
-                        <img src="../public/assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
+                        <img src="<?= BASEURL ?>assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
@@ -321,7 +321,7 @@
               <a href=""><img
                 src="images/videoplaceholdit.png"
                 class="card-img-top py-2 px-2"
-                alt="..."
+                alt="."
               /></a>
               <div class="card-body">
                 <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
@@ -350,7 +350,7 @@
               <a href=""><img
                 src="images/videoplaceholdit.png"
                 class="card-img-top py-2 px-2"
-                alt="..."
+                alt="."
               /></a>
               <div class="card-body">
                 <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
@@ -379,7 +379,7 @@
               <a href=""><img
                 src="images/videoplaceholdit.png"
                 class="card-img-top py-2 px-2"
-                alt="..."
+                alt="."
               /></a>
               <div class="card-body">
                 <h5 class="card-title-podtret"><a href=""> Rumpi Yuk! SPEAK UP? <br />
@@ -429,7 +429,7 @@
             wherever you're through online learning web app.
           </p>
         </div>
-        <img src="../public/images/community-2.png" alt="" />
+        <img src="<?= BASEURL ?>images/community-2.png" alt="" />
         <div class="text-center">
           <button type="button" class="btn btn-discover btn-lg">
             Discover

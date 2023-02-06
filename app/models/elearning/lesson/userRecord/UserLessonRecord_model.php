@@ -73,12 +73,18 @@ class UserLessonRecord_model {
                     FROM elearningCourseAkses
                     WHERE organizationId = :orgId
                     )
+                  OR
+                  elearningCourse.elearningCourseId IN 
+                    (SELECT elearningCourseId
+                    FROM userElearningCourseAkses
+                    WHERE userId = :userId
+                    )
                 )
                 )
               GROUP BY 
                 elearningKategori.nama,
                 elearningCourse.judul,
-                elearningCourse.elearningCourseId;';
+                elearningCourse.elearningCourseId';
 
     $this->db->query($query);
     $this->db->bind('userId', $userId);

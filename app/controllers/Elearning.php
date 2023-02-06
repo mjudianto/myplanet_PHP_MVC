@@ -36,14 +36,15 @@ class Elearning extends Controller {
   public function loadCourse() {
     $model = $this->loadElearningModel();
 
-    $elearningCourse = $model['elearningCourse']->getAllCourse($_SESSION['user']['organizationId']);
+    $elearningCourse = $model['elearningCourse']->getAllCourse($_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
 
     if (isset($_SESSION['selectedKategoriId'])) {
       $kategoriId = $_SESSION['selectedKategoriId'];
       if ($kategoriId != 0){
-        $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId']);
+        $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
       }
     }
+    
     
     echo '<!-- Floating Button -->
           <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">

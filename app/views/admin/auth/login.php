@@ -6,20 +6,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="/public/admin/images/logo-myplanet-2.png" type="image/png" />
+	<link rel="icon" href="<?= BASEURL ?>admin/images/logo-myplanet-2.png" type="image/png" />
 	<!--plugins-->
-	<link href="/public/admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-	<link href="/public/admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-	<link href="/public/admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
 	<!-- loader-->
-	<link href="/public/admin/css/pace.min.css" rel="stylesheet" />
-	<script src="/public/admin/js/pace.min.js"></script>
+	<link href="<?= BASEURL ?>admin/css/pace.min.css" rel="stylesheet" />
+	<script src="<?= BASEURL ?>admin/js/pace.min.js"></script>
 	<!-- Bootstrap CSS -->
-	<link href="/public/admin/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/public/admin/css/bootstrap-extended.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/bootstrap-extended.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-	<link href="/public/admin/css/app.css" rel="stylesheet">
-	<link href="/public/admin/css/icons.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/app.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/icons.css" rel="stylesheet">
 	<title>My Planet Enseval - Sign In</title>
 </head>
 
@@ -32,7 +32,7 @@
 				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
 					<div class="col mx-auto">
 						<div class="mb-4 text-center">
-							<img src="/public/admin/images/logo-img.png" width="180" alt="" />
+							<img src="<?= BASEURL ?>admin/images/logo-img.png" width="180" alt="" />
 						</div>
 						<div class="card">
 							<div class="card-body">
@@ -90,12 +90,12 @@
 	</div>
 	<!--end wrapper-->
 	<!-- Bootstrap JS -->
-	<script src="/public/admin/js/bootstrap.bundle.min.js"></script>
+	<script src="<?= BASEURL ?>admin/js/bootstrap.bundle.min.js"></script>
 	<!--plugins-->
-	<script src="/public/admin/js/jquery.min.js"></script>
-	<script src="/public/admin/plugins/simplebar/js/simplebar.min.js"></script>
-	<script src="/public/admin/plugins/metismenu/js/metisMenu.min.js"></script>
-	<script src="/public/admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="<?= BASEURL ?>admin/js/jquery.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 	<!--Password show & hide js -->
 	<script>
 		$(document).ready(function () {
@@ -114,7 +114,7 @@
 		});
 	</script>
 	<!--app JS-->
-	<script src="/public/admin/js/app.js"></script>
+	<script src="<?= BASEURL ?>admin/js/app.js"></script>
 </body>
 
 </html>

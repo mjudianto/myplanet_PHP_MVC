@@ -53,7 +53,7 @@
                               <td>' . $i . '</td>
                               <td>
                                 <div class="product-img bg-transparent border">
-                                  <img src="/public/admin/images/avatars/analog.jpeg" class="radius-10" alt="">
+                                  <img src="' . BASEURL . 'admin/images/avatars/analog.jpeg" class="radius-10" alt="">
                                 </div>
                               </td>
                               <td>' . $user['nik'] . '</td>

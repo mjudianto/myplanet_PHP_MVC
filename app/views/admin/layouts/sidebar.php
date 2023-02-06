@@ -6,26 +6,26 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--favicon-->
-	<link rel="icon" href="/public/admin/images/logo-myplanet-2.png" type="image/png" />
+	<link rel="icon" href="<?= BASEURL ?>admin/images/logo-myplanet-2.png" type="image/png" />
 	<!--plugins-->
-	<link href="/public/admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-	<link href="/public/admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-	<link href="/public/admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-	<link href="/public/admin/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
 	<!-- loader-->
-	<link href="/public/admin/css/pace.min.css" rel="stylesheet" />
-	<script src="/public/admin/js/pace.min.js"></script>
+	<link href="<?= BASEURL ?>admin/css/pace.min.css" rel="stylesheet" />
+	<script src="<?= BASEURL ?>admin/js/pace.min.js"></script>
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-	<link href="/public/admin/css/bootstrap-extended.css" rel="stylesheet">	
+	<link href="<?= BASEURL ?>admin/css/bootstrap-extended.css" rel="stylesheet">	
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-	<link href="/public/admin/css/app.css" rel="stylesheet">
-	<link href="/public/admin/css/icons.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/app.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/icons.css" rel="stylesheet">
 	<!-- Theme Style CSS -->
-	<link rel="stylesheet" href="/public/admin/css/dark-theme.css" />
-	<link rel="stylesheet" href="/public/admin/css/semi-dark.css" />
-	<link rel="stylesheet" href="/public/admin/css/header-colors.css" />
-	<link rel="stylesheet" href="/public/admin/libraries/gijgo/css/gijgo.min.css">
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/dark-theme.css" />
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/semi-dark.css" />
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/header-colors.css" />
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css">
 	<title>My Planet Admin</title>
 </head>
 
@@ -35,7 +35,7 @@
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div>
-					<img src="/public/admin/images/logo-myplanet-2.png" class="logo-icon" alt="logo icon">
+					<img src="<?= BASEURL ?>admin/images/logo-myplanet-2.png" class="logo-icon" alt="logo icon">
 				</div>
 				<div>
 					<h4 class="logo-text">My Planet Admin</h4>
@@ -47,7 +47,7 @@
 			<ul class="metismenu" id="menu">
 				<li class="menu-label">Menu</li>
 				<li>
-					<a href="dashboard-admin.html" class="">
+					<a href="<?= BASEURL ?>admins" class="">
 						<div class="parent-icon"><i class='bx bx-home'></i>
 						</div>
 						<div class="menu-title">Dashboard</div>
@@ -77,7 +77,7 @@
 					<div class="menu-title">Management Podtret</div>
 				</a>
 				<ul>
-					<li> <a href="upload-podtret.html"><i class="bx bx-right-arrow-alt"></i>Upload Podtret</a>
+					<li> <a href="<?= BASEURL ?>podtretmanagement/uploadPodtret"><i class="bx bx-right-arrow-alt"></i>Upload Podtret</a>
 					</li>
 					<li> <a href="podtret-visitor.html"><i class="bx bx-right-arrow-alt"></i>Podtret Visitors</a>
 					</li>
@@ -285,7 +285,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-1.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-1.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -299,7 +299,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-2.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-2.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -313,7 +313,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-3.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-3.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -327,7 +327,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-4.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-4.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -341,7 +341,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-5.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-5.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -355,7 +355,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-6.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-6.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -369,7 +369,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-7.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-7.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -383,7 +383,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-8.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-8.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -397,7 +397,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-9.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-9.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -411,7 +411,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-10.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-10.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -425,7 +425,7 @@
 										<a class="dropdown-item" href="javascript:;">
 											<div class="d-flex align-items-center">
 												<div class="user-online">
-													<img src="/public/admin/images/avatars/avatar-11.png" class="msg-avatar"
+													<img src="<?= BASEURL ?>admin/images/avatars/avatar-11.png" class="msg-avatar"
 														alt="user avatar">
 												</div>
 												<div class="flex-grow-1">
@@ -447,7 +447,7 @@
 					<div class="user-box dropdown">
 						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<img src="/public/admin/images/avatars/analog.jpeg" class="user-img" alt="user avatar">
+							<img src="<?= BASEURL ?>admin/images/avatars/analog.jpeg" class="user-img" alt="user avatar">
 							<div class="user-info ps-3">
 								<p class="user-name mb-0">Nanda Raditya</p>
 								<p class="designattion mb-0">UI/UX Designer</p>

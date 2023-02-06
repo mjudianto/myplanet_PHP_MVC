@@ -27,11 +27,17 @@ class UserManagement extends Controller {
   public function userDetail() {
     $model = $this->loadElearningModel();
 
-    $data['user'] = $this->model('user/User_model', 'User_model')->getUserBy('userId', $_GET['userId']);
-    $data['location'] = $this->model('user/Location_model', 'Location_model')->getAllLocation();
+    $userId = $_GET['userId'];
+    $userOrganization = $_GET['userOrganization'];
 
-    $data['userLesson'] = $model['userLessonRecord']->userLessonRecord($_GET['userId'], $_GET['userOrganization']);
-    $data['userTest'] = $model['userTestRecord']->userTestRecord($_GET['userId'], $_GET['userOrganization']);
+    $data = [
+      'user' => $this->model('user/User_model', 'User_model')->getUserBy('userId', $userId),
+      'location' => $this->model('user/Location_model', 'Location_model')->getAllLocation(),
+      'userLesson' => $model['userLessonRecord']->userLessonRecord($userId, $userOrganization),
+      'userTest' => $model['userTestRecord']->userTestRecord($userId, $userOrganization),
+      'course' => $model['elearningCourse']->getPrivateCourse($userOrganization, $userId)
+    ];
+
 
     $this->view('admin/layouts/sidebar');
     $this->view('admin/user/userDetail', $data);
@@ -42,32 +48,49 @@ class UserManagement extends Controller {
   public function loadUserCourseRecordDetail() {
     $model = $this->loadElearningModel();
 
-    $courseId = $_REQUEST['courseId'];
-    $userId = $_REQUEST['userId'];
+    $courseId = $_REQUEST['courseId'] ?? null;
+    $userId = $_REQUEST['userId'] ?? null;
 
-    $data['userLessonDetail'] = $model['userLessonRecord']->userLessonRecordDetail($userId, $courseId);
-    $data['userTestDetail'] = $model['userTestRecord']->userTestRecordDetail($userId, $courseId);
-    
-    foreach($data['userLessonDetail'] as $lessonDetail) {
-      echo  '<tr>
-              <td>' . $lessonDetail['judul lesson'] . '</td>
-              <td>' . $lessonDetail['attempt'] . '</td>
-              <td></td>
-              <td class="">
-              </td>
-              <td>' . $lessonDetail['finished'] . '</td>
-            </tr>';
+    if (!$courseId || !$userId) {
+        return;
     }
 
-    foreach($data['userTestDetail'] as $testDetail) {
-      echo  '<tr>
-              <td>' . $testDetail['judul test'] . '</td>
-              <td>' . $testDetail['attempt'] . '</td>
-              <td>' . $testDetail['score'] . '</td>
-              <td class="">' . $testDetail['status'] . '</td>
-              <td>' . $testDetail['finished'] . '</td>
-            </tr>';
+    $userLessonDetail = $model['userLessonRecord']->userLessonRecordDetail($userId, $courseId);
+    $userTestDetail = $model['userTestRecord']->userTestRecordDetail($userId, $courseId);
+
+    $data = [
+        'lesson' => $userLessonDetail,
+        'test' => $userTestDetail,
+    ];
+
+    foreach ($data as $type => $details) {
+        foreach ($details as $detail) {
+            echo '<tr>';
+            echo '<td>' . $detail['judul ' . $type] . '</td>';
+            echo '<td>' . $detail['attempt'] . '</td>';
+            
+            if ($type === 'test') {
+                echo '<td>' . $detail['score'] . '</td>';
+                echo '<td>' . $detail['status'] . '</td>';
+            } else {
+                echo '<td></td>';
+                echo '<td></td>';
+            }
+            
+            echo '<td>' . $detail['finished'] . '</td>';
+            echo '</tr>';
+        }
     }
+
+
+  }
+
+  public function addUserPrivateCourse() {
+    $model = $this->loadElearningModel();
+
+    $model['userCourseAkses']->createUserPermission($_POST['selectedCourseId'], $_POST['userId']);
+
+    header("location:" . $_POST['url']);
   }
 
 

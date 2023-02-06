@@ -11,7 +11,8 @@ class Podtret_model {
   }
   
   public function getAll() {
-    $this->db->query('SELECT * FROM ' . $this->table);
+    $this->db->query('SELECT * FROM ' . $this->table . ' LEFT JOIN podtretKategori ON ' . $this->table . '.podtretKategoriId = podtretKategori.podtretKategoriId
+                      ORDER BY ' . $this->table . '.uploadDate DESC');
     return $this->db->resultSet();
   }
 

@@ -11,7 +11,7 @@
         </div>
         <div class="modal-body">
           <div class="d-flex list-notification">
-            <a href="e-learning-neopgeneral.html"><img src="/public/images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
+            <a href="e-learning-neopgeneral.html"><img src="<?= BASEURL ?>images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
             <a href="e-learning-neopgeneral.html"></a>
             <div class="berita">
               <p>
@@ -25,7 +25,7 @@
           </div>
           <hr />
           <div class="d-flex list-notification">
-            <a href="profile.html"><img src="/public/images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
+            <a href="profile.html"><img src="<?= BASEURL ?>images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
             <a href="profile.html">
               <div class="berita">
                 <p>
@@ -53,8 +53,8 @@
       <video controls autoplay>
         <source src="<?= $data['podtret']['video'] ?>">
       </video>
-      <a href=""><img src="/public/assets/Button Nonton MP4.png" alt="" class="btn-opsi-play"></a>
-      <a href=""><img src="/public/assets/Button Nonton MP3.png" alt="" class="btn-opsi-play me-2"></a>
+      <a href=""><img src="<?= BASEURL ?>assets/Button Nonton MP4.png" alt="" class="btn-opsi-play"></a>
+      <a href=""><img src="<?= BASEURL ?>assets/Button Nonton MP3.png" alt="" class="btn-opsi-play me-2"></a>
       <h3 class="mt-3"><?php echo $data['podtret']['judul'] ?></h3>
       <h5>Premiere : <?php echo $data['podtret']['uploadDate'] ?></h5>
       <p><?= $data['podtret']['views'] ?> views</p>

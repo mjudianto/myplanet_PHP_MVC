@@ -44,7 +44,10 @@ class Controller {
 
   public function loadElearningModel() {
     $model['elearningKategori'] = $this->model('elearning/ElearningKategori_model', 'ElearningKategori_model');
+
     $model['elearningCourse'] = $this->model('elearning/ElearningCourse_model', 'ElearningCourse_model');
+    $model['userCourseAkses'] = $this->model('elearning/UserElearningCourseAkses_Model', 'UserElearningCourseAkses_Model');
+
     $model['elearningModule'] = $this->model('elearning/ElearningModule_model', 'ElearningModule_model');
 
     $model['elearningLesson'] = $this->model('elearning/lesson/ElearningLesson_model', 'ElearningLesson_model');
