@@ -25,8 +25,11 @@
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/dark-theme.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/semi-dark.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/header-colors.css" />
-	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css">
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+
 	<title>My Planet Admin</title>
+
 </head>
 
 <!--wrapper-->

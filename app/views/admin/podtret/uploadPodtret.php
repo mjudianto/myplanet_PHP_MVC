@@ -1,3 +1,4 @@
+
 <div class="page-wrapper">
 			<div class="page-content">
 				<!--breadcrumb-->
@@ -170,16 +171,41 @@
 							</select>
 						</div>
 						<div class="form-group mb-3">
-							<label for="poster" class="form-label">Poster</label>
-							<input class="form-control" type="file" id="poster" name="poster">
+							<label for="poster-upload" class="form-label">Poster</label>
+							<div class="card">
+								<div class="card-body">
+									<input id="poster-upload" type="file" name="files"
+										accept=".jpg, .png, image/jpeg, image/png">
+								</div>
+							</div>
 						</div>
 						<div class="form-group mb-3">
-							<label for="video" class="form-label">Video</label>
-							<input class="form-control" type="file" id="video" name="video">
+							<label for="video-upload" class="form-label">Video</label>
+							<div class="card">
+								<div class="card-body">
+									<input id="video-upload" type="file" name="files"
+										accept=".jpg, .png, image/jpeg, image/png, .mp4">
+								</div>
+							</div>
 						</div>
-						<div class="form-group mb-3">
+						<div class="form-group mb-4">
 							<label for="audio" class="form-label">Audio</label>
-							<input class="form-control" type="file" id="audio" name="audio">
+							<input class="form-control" type="file" id="audio">
+						</div>
+						<div class="form-group mb-3">
+							<label for="" class="form-label">Publish</label>
+							<div class="d-flex">
+								<div class="form-check me-2">
+									<input class="form-check-input" type="radio" name="flexRadioDefault"
+										id="flexRadioDefault1">
+									<label class="form-check-label" for="flexRadioDefault1">Yes</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault"
+										id="flexRadioDefault2" checked="">
+									<label class="form-check-label" for="flexRadioDefault2">No</label>
+								</div>
+							</div>
 						</div>
 
 					</div>
@@ -313,6 +339,17 @@
 
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			var table = $('#tablePodtret').DataTable({
+				dom: '<"row top"<"col-lg-6 col-md-6 col-sm-12 mb-2"l><"col-lg-6 col-md-6 col-sm-12 mb-2"f>>rtip'
+			});
+
+			table.buttons().container()
+				.appendTo('#example2_wrapper .col-md-6:eq(0)');
+		});
+	</script>
 
 		<script>
     function dateFilter() {

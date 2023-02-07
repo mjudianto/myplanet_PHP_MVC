@@ -657,8 +657,8 @@ a {
 
 .store-metrics {
   position: relative;
-
-  height: 450px;
+  /* height: 450px; */
+  height: 150px;
 }
 
 .best-selling-products {
@@ -2019,6 +2019,10 @@ a {
   background-color: rgb(13 202 240 / 18%) !important;
 }
 
+.bg-light-secondary {
+  background-color: #f7f7f7 !important;
+}
+
 .bg-gradient-cosmic {
   background: linear-gradient(
     to right,
@@ -3212,6 +3216,10 @@ input::placeholder {
   background-color: rgba(136, 51, 255, 20%);
 }
 
+#hidden_spesific {
+  display: none;
+}
+
 /* STYLE DATATABLE */
 /* .left-col {
   float: left;
@@ -3227,3 +3235,18 @@ input::placeholder {
   float: left;
   width: 25%;
 } */
+
+.myDiv {
+  display: none;
+  padding: 10px;
+  margin-top: 20px;
+}
+#showOne {
+  border: 1px solid red;
+}
+#showTwo {
+  border: 1px solid green;
+}
+#showThree {
+  border: 1px solid blue;
+}

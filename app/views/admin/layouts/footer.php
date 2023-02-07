@@ -18,9 +18,13 @@
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/accessibility.js"></script>
 	<script src="<?= BASEURL ?>admin/js/index3.js"></script>
 	<script src="<?= BASEURL ?>admin/libraries/gijgo/js/gijgo.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+
+
 	<script>
 		$(document).ready(function () {
-
+			$('#example').DataTable();
 
 			$(".datepickerawal").datepicker({
 				uiLibrary: "bootstrap4",
@@ -37,6 +41,8 @@
 			})
 		});
 	</script>
+
+
 	<script>
 		new PerfectScrollbar('.best-selling-products');
 		new PerfectScrollbar('.recent-reviews');

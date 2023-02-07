@@ -112,6 +112,17 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 		<script>
+		$(document).ready(function () {
+			var table = $('#tableVisitorPodtret').DataTable({
+				dom: '<"row top"<"col-lg-6 col-md-6 col-sm-12 mb-2"l><"col-lg-6 col-md-6 col-sm-12 mb-2"f>>rtip'
+			});
+
+			table.buttons().container()
+				.appendTo('#example2_wrapper .col-md-6:eq(0)');
+		});
+	</script>
+
+		<script>
     function dateFilter() {
 			var data = document.getElementById("data").value;
 			var columnName = document.getElementById("columnName").value;

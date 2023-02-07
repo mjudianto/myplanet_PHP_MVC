@@ -67,20 +67,20 @@ class PodtretManagement extends Controller {
     // $data == 'podtretVisitorDetail' ?? $data = $model['podtret']->getPodtretDetail($podtretId);
 
     $filtered_data = array_filter($data, function($item) use ($start_date, $end_date, $columnName) {
-      $item_date = new DateTime($item[$columnName]);
-      $start = new DateTime($start_date);
-      $end = new DateTime($end_date);
+      $item_date = strtotime($item[$columnName]);
+      $start = strtotime($start_date);
+      $end = strtotime($end_date);
 
-      if (isset($_REQUEST['startDate'])) {
-        if (isset($_REQUEST['endDate'])) {
+      if ($_REQUEST['startDate'] != '') {
+        if ($_REQUEST['endDate'] != '') {
           return ($item_date >= $start) && ($item_date <= $end);
         } else {
           return ($item_date >= $start);
         }
-      }
-
-      if (isset($_REQUEST['endDate'])) {
-        return ($item_date <= $end);
+      } else {
+        if ($_REQUEST['endDate'] != '') {
+          return ($item_date <= $end);
+        }
       }
       
     });
