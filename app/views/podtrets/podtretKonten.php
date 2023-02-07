@@ -105,7 +105,7 @@
       function updateLike() {
         var id = $('#podtretId').val();
         $.ajax({
-          url: "<?php echo BASEURL ?>podtret/updateLike?podtretId=" + id,
+          url: "<?php echo BASEURL ?>podtrets/updateLike?podtretId=" + id,
           success: function(html) {
             $('#podtretLike').html(html);
           }
@@ -116,7 +116,7 @@
         var id = $('#podtretId').val();
         var comment = $('#comment').val();
         $.ajax({
-          url: "<?php echo BASEURL ?>podtret/addComment?podtretId=" + id + "&comment=" + comment,
+          url: "<?php echo BASEURL ?>podtrets/addComment?podtretId=" + id + "&comment=" + comment,
           success: function(html) {
             loadComment();
           }
@@ -126,7 +126,7 @@
       function addReply(commentId) {
         var comment = $('#reply-'+commentId).val();
         $.ajax({
-          url: "<?php echo BASEURL ?>podtret/addReply?commentId=" + commentId + "&comment=" + comment,
+          url: "<?php echo BASEURL ?>podtrets/addReply?commentId=" + commentId + "&comment=" + comment,
           success: function(html) {
             loadComment();
           }
@@ -136,7 +136,7 @@
       function loadComment() {
         var id = $('#podtretId').val();
         $.ajax({
-          url: "<?php echo BASEURL ?>podtret/loadComment?podtretId=" + id,
+          url: "<?php echo BASEURL ?>podtrets/loadComment?podtretId=" + id,
           success: function(html) {
             $('#commentPodtret').html(html);
           }

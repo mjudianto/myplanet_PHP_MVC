@@ -31,9 +31,10 @@ class PodtretLike_model {
     $this->db->execute();
   }
 
-  public function countLike($column, $value, $column2, $value2) {
-    $this->db->query('SELECT COUNT(podtretLikeId) as "likes" FROM ' . $this->table . ' WHERE ' . $column . '=' . $value . ' AND ' . $column2 . '=:value2');
-    $this->db->bind('value2', $value2);
+  public function countLike($podtretId, $state) {
+    $this->db->query('SELECT COUNT(podtretLikeId) as "likes" FROM ' . $this->table . ' WHERE podtretId=:podtretId AND likeState=:state');
+    $this->db->bind('podtretId', $podtretId);
+    $this->db->bind('state', $state);
     return $this->db->single();
   }
 

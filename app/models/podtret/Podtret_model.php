@@ -16,23 +16,34 @@ class Podtret_model {
     return $this->db->resultSet();
   }
 
-  public function getPodtretBy($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function getPodtretBy($podtretId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE podtretId=:podtretId');
+    $this->db->bind('podtretId', $podtretId);
     return $this->db->single();
   }
 
-  public function filterPodtret($column, $value) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function filterPodtret($podtretKategoriId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE podtretKategoriId=:podtretKategoriId');
+    $this->db->bind('podtretKategoriId', $podtretKategoriId);
     return $this->db->resultSet();
   }
 
-  public function updatePodtretViews($column, $value, $newViews) {
-    $this->db->query('UPDATE ' . $this->table . ' SET views=:newViews WHERE ' . $column . '=:value');
-    $this->db->bind('value', $value);
+  public function updatePodtretViews($podtretId, $newViews) {
+    $this->db->query('UPDATE ' . $this->table . ' SET views=:newViews WHERE podtretId=:podtretId');
+    $this->db->bind('podtretId', $podtretId);
     $this->db->bind('newViews', $newViews);
     $this->db->execute();
+  }
+
+  public function getPodtretDetail($podtretId) {
+    $this->db->query('select podtret.judul, podtret.thumbnail as "thumbnail", user.nama, userPodtretRecord.views as "visit", userPodtretRecord.lastVisit as "lastVisit"
+                      from podtret
+                      right join userPodtretRecord on podtret.podtretId = userPodtretRecord.podtretId
+                      join user on userPodtretRecord.userId = user.userId
+                      where podtret.podtretId=:podtretId
+                      order by userPodtretRecord.views asc');
+    $this->db->bind('podtretId', $podtretId);
+    return $this->db->resultSet();
   }
 
 }

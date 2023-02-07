@@ -18,27 +18,29 @@
 						<h6 class="mb-0 text-uppercase">Podtret</h6>
 					</div>
 					<div class="col-lg-8 d-flex justify-content-end">
-						<!-- Date Picker -->
-						<div class="d-flex justify-content-center">
-							<div class="filter-awal me-2"><label for="filerDateAwal" class="sr-only">Start Date
-									Filter</label>
-								<div class="input-group mb-2 me-sm-2">
-									<input type="text" class="form-control datepickerawal" id="filterDateAwal"
-										placeholder="dd/mm/yyyy">
+							<input type="hidden" id="data" value="podtret">
+							<input type="hidden" id="columnName" value="uploadDate">
+							<!-- Date Picker -->
+							<div class="d-flex justify-content-center">
+								<div class="filter-awal me-2"><label for="filerDateAwal" class="sr-only">Start Date
+										Filter</label>
+									<div class="input-group mb-2 me-sm-2">
+										<input type="text" class="form-control datepickerawal"
+											placeholder="dd/mm/yyyy" id="startDate" autocomplete="off">
+									</div>
+								</div>
+								<div class="filter-akhir me-3"><label for="filerDateAkhir" class="sr-only">End Date
+										Filters</label>
+									<div class="input-group mb-2 me-sm-2">
+										<input type="text" class="form-control datepickerakhir"
+											placeholder="dd/mm/yyyy" id="endDate" autocomplete="off">
+									</div>
+								</div>
+								<div class="button-filter">
+									<label for="">Action</label> <br>
+									<button type="button" onclick="dateFilter()" class="btn btn-primary radius-10">Pilih</button>
 								</div>
 							</div>
-							<div class="filter-akhir me-3"><label for="filerDateAkhir" class="sr-only">End Date
-									Filters</label>
-								<div class="input-group mb-2 me-sm-2">
-									<input type="text" class="form-control datepickerakhir" id="filterDateAkhir"
-										placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-							<div class="button-filter">
-								<label for="">Action</label> <br>
-								<button type="button" class="btn btn-primary radius-10">Pilih</button>
-							</div>
-						</div>
 					</div>
 				</div>
 				<hr />
@@ -70,7 +72,7 @@
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="podtretContainer">
 
                 <?php 
                 $i=1;
@@ -78,7 +80,7 @@
                     echo '<tr>
                             <td>' . $i . '</td>
                             <td>' . $podtret['judul'] . '</td>
-                            <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalPoster"><img
+                            <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalPoster-' . $podtret['podtretId'] . '"><img
                                   src="' . $podtret['thumbnail'] . '"
                                   style="width: 130px; display:block; margin: 0 auto;"
                                   alt="edisi-pildun"></a>
@@ -158,18 +160,14 @@
 							<label for="judulSegmen" class="form-label">Segmen</label>
 							<select class="form-select" aria-label="Default select example" id="judulSegmen">
 								<option selected>Select segmen...</option>
-								<option value="1">#ngobrolsantai</option>
-								<option value="2">#sapamantan</option>
-								<option value="3">#kumis</option>
-								<option value="4">#innotalk</option>
+
+								<?php 
+								foreach($data['podtretKategori'] as $kategori){
+									echo '<option value="' . $kategori['podtretkategoriId'] . '">#' . $kategori['nama'] . '</option>';
+								}
+								?>
+
 							</select>
-						</div>
-						<div class="form-group mb-3">
-							<label for="filterDatePremiere" class="sr-only">Tanggal Premiere</label>
-							<div class="input-group mb-2 me-sm-2">
-								<input type="text" class="form-control datepickerpremiere" id="filterDatePremiere"
-									placeholder="dd/mm/yyyy">
-							</div>
 						</div>
 						<div class="form-group mb-3">
 							<label for="poster" class="form-label">Poster</label>
@@ -195,32 +193,34 @@
     </form>
 
 
-		<!-- Modal Poster -->
-		<div class="modal fade" id="modalPoster" tabindex="-1" aria-labelledby="modalPosterLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="modalPosterLabel">Thumbnail Podtret</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="container">
-							<img src="assets/images/poster/Ibuck-ibuck.png"
-								style="max-width: 100%; display:block; height: auto;" alt="">
-						</div>
-
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-					</div>
-				</div>
-			</div>
-		</div>
+		
 
     <?php 
       foreach($data['podtret'] as $podtret) {
+				echo '<!-- Modal Poster -->
+							<div class="modal fade" id="modalPoster-' . $podtret['podtretId'] . '" tabindex="-1" aria-labelledby="modalPosterLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="modalPosterLabel">Thumbnail Podtret</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div class="container">
+												<img src="' . $podtret['thumbnail'] . '"
+													style="max-width: 100%; display:block; height: auto;" alt="">
+											</div>
+					
+					
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					
+										</div>
+									</div>
+								</div>
+							</div>';
+
         echo '<!-- Modal Edit -->
               <div class="modal fade" id="' . $podtret['podtretId'] . '" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -238,18 +238,13 @@
                       <div class="form-group mb-3">
                         <label for="judulSegmen" class="form-label">Segmen</label>
                         <select class="form-select" aria-label="Default select example" id="judulSegmen">
-                          <option selected>#' . $podtret['nama'] . '</option>
-                          <option value="1">#ngobrolsantai</option>
-                          <option value="2">#sapamantan</option>
-                          <option value="3">#kumis</option>
-                        </select>
-                      </div>
-                      <div class="form-group mb-3">
-                        <label for="filterDatePremiere" class="sr-only">Tanggal Premiere</label>
-                        <div class="input-group mb-2 me-sm-2">
-                          <input type="text" class="form-control datepickerpremiereupload" id="filterDatePremiere"
-                            value="2022-12-13">
-                        </div>
+                          <option selected>#' . $podtret['nama'] . '</option>';
+
+				foreach($data['podtretKategori'] as $kategori){
+					echo            '<option value="' . $kategori['podtretkategoriId'] . '">#' . $kategori['nama'] . '</option>';
+				}
+        
+				echo						'</select>
                       </div>
                       <div class="form-group mb-3">
                         <label for="poster" class="form-label">Poster</label>
@@ -257,7 +252,7 @@
                       </div>
                       <div class="form-group mb-3">
                         <label for="video" class="form-label">Video</label>
-                        <input class="form-control" type="file" id="video" value="' . $podtret['video'] . '">
+                        <input class="form-control" type="file" id="video" value="">
                       </div>
                       <div class="form-group mb-3">
                         <label for="audio" class="form-label">Audio</label>
@@ -265,11 +260,15 @@
                       </div>
                       <div class="form-group mb-3">
                         <label for="publish" class="form-label">Publish</label>
-                        <select class="form-select" aria-label="Default select example" id="publish">
-                          <option selected>Yes</option>
-                          <option value="1">No</option>
-          
-                        </select>
+                        <select class="form-select" aria-label="Default select example" id="publish">';
+				if ($podtret['state'] == 1) {
+					echo            '<option selected>Yes</option>
+													 <option value="0">No</option>';
+				} else {
+					echo            '<option selected>No</option>
+													 <option value="1">Yes</option>';
+				}
+        echo            '</select>
                       </div>
                       <!-- <div class="form-group mb-3">
                         <label for="poster">Poster</label>
@@ -311,3 +310,25 @@
 				</div>
 			</div>
 		</div>
+
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+		<script>
+    function dateFilter() {
+			var data = document.getElementById("data").value;
+			var columnName = document.getElementById("columnName").value;
+			var startDate = document.getElementById("startDate").value;;
+			var endDate = document.getElementById("endDate").value;
+
+        $.ajax({
+          url: "<?= BASEURL ?>podtretmanagement/filterDate?data=" + data + "&columnName=" + columnName + "&startDate=" + startDate + "&endDate=" + endDate,
+          success: function(html) {
+						// alert('success');
+            $('#podtretContainer').html(html);
+            // loadKategori();
+            // loadCourse();
+          }
+        });
+    }
+  </script>

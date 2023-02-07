@@ -17,7 +17,6 @@
 </head>
 <body>
   
-
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
@@ -70,7 +69,7 @@
             <?php else:  ?>
             class="nav-link"
             <?php endif; ?>
-            href="<?= BASEURL ?>podtret">Podtret</a>
+            href="<?= BASEURL ?>podtrets">Podtret</a>
           </li>
           <li class="nav-item">
             <a 

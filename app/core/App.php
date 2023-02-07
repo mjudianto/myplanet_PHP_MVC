@@ -5,12 +5,12 @@ class App {
   protected $method = 'index'; // default method
   protected $params = []; // default params kosong
   protected $admin = array(
-    '', 'home', 'Home', 'admins', 'usermanagement'
+    '', 'home', 'Home', 'admins', 'usermanagement', 'podtretmanagement'
   );
 
   public function __construct() {
     $url = $this -> parseURL();
-    // var_dump($url);
+    // var_dump($url[1]);
 
     $needLogin = 'no';
     if(isset($url[1])) in_array($url[1],$this->admin) ? $needLogin='no' : $needLogin='yes';

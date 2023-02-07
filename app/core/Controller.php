@@ -72,6 +72,7 @@ class Controller {
     $model['podtretLike'] = $this->model('podtret/PodtretLike_model', 'PodtretLike_model');
     $model['podtretComment'] = $this->model('podtret/PodtretComment_model', 'PodtretComment_model');
     $model['podtretCommentReply'] = $this->model('podtret/PodtretCommentReply_model', 'PodtretCommentReply_model');
+    $model['podtretRecord'] = $this->model('podtret/UserPodtretRecord_model', 'UserPodtretRecord_model');
 
     return $model;
   }

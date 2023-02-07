@@ -1,10 +1,10 @@
 <?php 
 
-class Podtret extends Controller {
+class Podtrets extends Controller {
 
   public function index() {
     $this->view('layouts/navbar');
-    $this->view('podtret/podtret');
+    $this->view('podtrets/podtret');
     $this->view('layouts/page_footer');
   }
 
@@ -34,7 +34,7 @@ class Podtret extends Controller {
     if (isset($_SESSION['selectedPodtretKategori'])) {
       $kategoriId = $_SESSION['selectedPodtretKategori'];
       if ($kategoriId != 0){
-        $podtrets = $model['podtret']->filterPodtret('podtretKategoriId', $kategoriId);
+        $podtrets = $model['podtret']->filterPodtret($kategoriId);
       }
     }
     
@@ -46,11 +46,11 @@ class Podtret extends Controller {
     foreach ($podtrets as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
+                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
                     alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-page-podtret">
-                    <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
                   </h5>
                   <div class="row mt-3">
                     <div class="col-10">
@@ -59,7 +59,7 @@ class Podtret extends Controller {
                       </p>
                     </div>
                     <div class="col d-none d-lg-block">
-                      <a href="' . BASEURL . 'podtret/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
+                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
@@ -78,13 +78,19 @@ class Podtret extends Controller {
     $model = $this->loadPodtretModel();
 
     $podtretId = $_GET['podtretId'];
-    $data['podtret'] = $model['podtret']->updatePodtretViews('podtretId', $podtretId, $_GET['views']+1);
-    $data['podtret'] = $model['podtret']->getPodtretBy('podtretId', $podtretId);
-    $data['likes'] = $model['podtretLike']->countLike('podtretId', 'likeState', $podtretId, 1);
+    $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, $_GET['views']+1);
+    $data['podtret'] = $model['podtret']->getPodtretBy($podtretId);
+    $data['likes'] = $model['podtretLike']->countLike($podtretId, 1);
 
+    $podtretRecord = $model['podtretRecord']->checkUserRecord($podtretId, $_SESSION['user']['userId']);
+    if(is_bool($podtretRecord)){
+      $model['podtretRecord']->createPodtretRecord($podtretId, $_SESSION['user']['userId']);
+    } else {
+      $model['podtretRecord']->updatePodtretRecord($podtretId, $_SESSION['user']['userId'], $podtretRecord['views'] + 1);
+    }
 
     $this->view('layouts/navbar');
-    $this->view('podtret/podtretKonten', $data);
+    $this->view('podtrets/podtretKonten', $data);
     $this->view('layouts/page_footer');
   }
 
@@ -102,7 +108,7 @@ class Podtret extends Controller {
       $model['podtretLike']->updateLike('podtretLikeId', $userLike['podtretLikeId'], $newLikeState);
     }
 
-    $likes = $model['podtretLike']->countLike('podtretId', 'likeState', $podtretId, 1);
+    $likes = $model['podtretLike']->countLike($podtretId, 1);
     echo "Like : ";
     echo $likes['likes'];
   }

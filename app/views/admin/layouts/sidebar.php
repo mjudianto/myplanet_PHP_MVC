@@ -79,7 +79,7 @@
 				<ul>
 					<li> <a href="<?= BASEURL ?>podtretmanagement/uploadPodtret"><i class="bx bx-right-arrow-alt"></i>Upload Podtret</a>
 					</li>
-					<li> <a href="podtret-visitor.html"><i class="bx bx-right-arrow-alt"></i>Podtret Visitors</a>
+					<li> <a href="<?= BASEURL ?>podtretmanagement/podtretVisitor"><i class="bx bx-right-arrow-alt"></i>Podtret Visitors</a>
 					</li>
 					<li> <a href="podtret-comment.html"><i class="bx bx-right-arrow-alt"></i>Podtret Comment</a>
 					</li>

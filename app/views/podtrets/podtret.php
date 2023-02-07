@@ -50,7 +50,7 @@
     function filterKategori (id) {
       // var kategoriId = $('#kategoriId').val();
         $.ajax({
-          url: "<?= BASEURL ?>podtret/filterKategori?kategoriId=" + id,
+          url: "<?= BASEURL ?>podtrets/filterKategori?kategoriId=" + id,
           success: function(html) {
             loadKategori();
             loadCourse();
@@ -60,7 +60,7 @@
 
     function loadKategori() {
         $.ajax({
-          url: "<?= BASEURL ?>podtret/loadKategori",
+          url: "<?= BASEURL ?>podtrets/loadKategori",
           success: function(html) {
             $('#kategoriContainer').html(html);
           }
@@ -69,7 +69,7 @@
 
     function loadCourse() {
         $.ajax({
-          url: "<?= BASEURL ?>podtret/loadPodtret",
+          url: "<?= BASEURL ?>podtrets/loadPodtret",
           success: function(html) {
             $('#podtretContainer').html(html);
           }
