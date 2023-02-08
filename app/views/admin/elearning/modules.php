@@ -1,0 +1,157 @@
+<!--start page wrapper -->
+<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Management E-learning</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item"><a href="course.html">Course</a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Add Course</li>
+							</ol>
+						</nav>
+					</div>
+
+				</div>
+				<!--end breadcrumb-->
+
+
+				<hr />
+				<div class="row">
+					<div class="card">
+						<div class="card-body">
+							<h6 class="text-center mb-3">Penggunaan APAR</h6>
+							<div class="d-flex justify-content-end mb-3">
+								<div>
+									<button type="button" class="btn btn-primary radius-10" data-bs-toggle="modal"
+										data-bs-target="#modalAddNewModul"><i class="bx bx-plus"></i>Add
+										Modul</button>
+								</div>
+							</div>
+              <?php 
+              $i=0;
+                foreach($data['elearningModule'] as $module) {
+                  echo '<div class="card bg-light-primary">
+                          <div class="card-body order-actions">
+                            <h6 class="text-center">' . $module['judul'] . '</h6>
+                            <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                              data-bs-toggle="modal" data-bs-target="#modalAddNewModul"
+                              style="float: right; margin-top: -27px;"><i class="bx bxs-edit"></i></a>
+                          </div>
+                        </div>
+                        <div class="container">';
+                  if(isset($data['elearningLesson'][$i])) {
+                    foreach($data['elearningLesson'][$i] as $lesson) {
+                      echo  '<div class="card bg-light-success">
+                              <div class="card-body text-center order-actions">
+                                <h6 class="text-center">' . $lesson['judul'] . '</h6>
+                                <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                                  style="float: right; margin-top: -27px;" data-bs-toggle="modal"
+                                  data-bs-target="#modalAddNewLesson"><i class="bx bxs-edit"></i></a>
+                              </div>
+                            </div>';
+                    }
+                  }
+                  echo '<div class="d-flex justify-content-end" style="margin-bottom:5%;">
+                          <a href="add-post-test.html" type="button"
+                            class="btn btn-outline-danger radius-10 me-2"><i class="bx bx-plus"></i>Add
+                            Post Test</a>
+                          <button type="button" class="btn btn-outline-success radius-10"
+                            data-bs-toggle="modal" data-bs-target="#modalAddNewLesson-' . $module['elearningModuleId'] . '"><i
+                              class="bx bx-plus"></i>Add
+                            Lesson</button>
+                        </div>
+                      </div>';
+                    $i+=1;
+                }
+              ?>
+							
+						</div>
+					</div>
+
+				</div>
+
+        <form action="<?= BASEURL ?>elearningmanagement/addModule" method="post">
+          <!-- Modal Box Add Modul -->
+          <div class="modal fade" id="modalAddNewModul" tabindex="-1" aria-labelledby="modalAddNewModulLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalAddNewModulLabel">Add New Course</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" name="courseId" value="<?= $_GET['courseId'] ?>">
+                  <div class="mb-3">
+                    <label for="modulName" class="form-label">Modul Name</label>
+                    <input type="text" class="form-control" id="modulName" name="judul" placeholder="Modul Name">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" onclick="" class="btn btn-primary">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        <?php 
+          foreach($data['elearningModule'] as $module) {
+            echo '<!-- Modal Box Add Lesson -->
+                  <div class="modal fade" id="modalAddNewLesson-' . $module['elearningModuleId'] . '" tabindex="-1" aria-labelledby="modalAddNewLessonLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalAddNewLessonLabel">Add New Lesson</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="mb-3">
+                            <label for="lessonName" class="form-label">Lesson Name</label>
+                            <input type="text" class="form-control" id="lessonName" placeholder="Lesson Name">
+                          </div>
+                          <div class="mb-3">
+                            <label for="lessonType" class="form-label">Category Modul</label>
+                            <select class="form-select" aria-label="Default select example">
+                              <option selected>Open this select menu</option>
+                              <option value="1">Safety Security K3</option>
+                              <option value="2">Safety Security Example</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="lessonType" class="form-label">Lesson Type</label>
+                            <select class="form-select" aria-label="Default select example">
+                              <option selected>Open this select menu</option>
+                              <option value="1">Video</option>
+                              <option value="2">PDF</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="formFile" class="form-label">Lesson File</label>
+                            <input class="form-control" type="file" id="formFile">
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" onclick="CreateTodo();" class="btn btn-primary">Confirm</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>';
+          }
+        ?>
+				
+
+
+			</div>
+		</div>
+		<!--end page wrapper -->

@@ -102,9 +102,9 @@
 					<div class="menu-title">Management E-learning</div>
 				</a>
 				<ul>
-					<li> <a href="category-learning.html"><i class="bx bx-right-arrow-alt"></i>Course Category</a>
+					<li> <a href="<?= BASEURL ?>elearningmanagement/courseCategory"><i class="bx bx-right-arrow-alt"></i>Course Category</a>
 					</li>
-					<li> <a href="course.html"><i class="bx bx-right-arrow-alt"></i>Courses</a>
+					<li> <a href="<?= BASEURL ?>elearningmanagement/courses"><i class="bx bx-right-arrow-alt"></i>Courses</a>
 					</li>
 				</ul>
 			</li>
@@ -119,20 +119,8 @@
 					<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
 					</div>
 
-					<!-- <div class="search-bar flex-grow-1">
-						<div class="position-relative search-bar-box">
-							<input type="text" class="form-control search-control" placeholder="Type to search...">
-							<span class="position-absolute top-50 search-show translate-middle-y"><i
-									class='bx bx-search'></i></span>
-							<span class="position-absolute top-50 search-close translate-middle-y"><i
-									class='bx bx-x'></i></span>
-						</div>
-					</div> -->
 					<div class="top-menu ms-auto">
 						<ul class="navbar-nav align-items-center">
-							<!-- <li class="nav-item mobile-search-icon">
-								<a class="nav-link" href="#"> <i class='bx bx-search'></i>
-								</a>
 							</li> -->
 
 							<li class="nav-item dropdown dropdown-large d-none">

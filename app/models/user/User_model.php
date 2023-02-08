@@ -102,6 +102,19 @@ class User_model{
     $this->db->execute();
   }
 
+  public function countAllUser() {
+    $this->db->query('select count(*) as "totalUser" from user');
+
+    return $this->db->single();
+  }
+
+  public function countUserInOrganization($organizationId) {
+    $this->db->query('select count(*) as "totalUser" from user where organizationId=:organizationId');
+
+    $this->db->bind('organizationId', $organizationId);
+    return $this->db->single();
+  }
+
   
 
 }

@@ -69,4 +69,42 @@ class ElearningCourse_model {
     return $this->db->resultSet();
   }
 
+  public function getUserInCourse($accessType) {
+    $this->db->query('SELECT 
+                        ' . $this->table . '.judul AS "Judul Course", 
+                        ' . $this->table . '.elearningCourseId AS "Course ID", 
+                        count(elearningLesson.elearningLessonId) AS "Total Lessons",
+                        (select count(*) from user) as "totalUser",
+                        elearningCourse.state,
+                        elearningCourse.uploadDate,
+                        elearningCourse.access_type
+                      FROM 
+                        ' . $this->table . ' 
+                        LEFT JOIN elearningModule
+                          ON ' . $this->table . '.elearningCourseId = elearningModule.elearningCourseId
+                        LEFT JOIN elearningLesson
+                          ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
+                      WHERE access_type=:accessType
+                      GROUP BY 
+                        ' . $this->table . '.elearningCourseId');
+                        
+    $this->db->bind('accessType', $accessType);
+    return $this->db->resultSet();
+  }
+
+  public function getCourseAksesOrganizationId($courseId) {
+    $this->db->query('select organizationId from elearningCourseAkses
+                      where elearningCourseId=:courseId');
+
+    $this->db->bind('courseId', $courseId);
+    return $this->db->resultSet();
+  }
+
+  public function getCourseUserPrivateAkses($courseId) {
+    $this->db->query('select count(*) as "totalUser" from userElearningCourseAkses where elearningCourseId=:courseId');
+
+    $this->db->bind('courseId', $courseId);
+    return $this->db->single();
+  }
+
 }

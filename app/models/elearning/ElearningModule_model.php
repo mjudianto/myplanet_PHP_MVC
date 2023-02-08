@@ -21,4 +21,11 @@ class ElearningModule_model {
     return $this->db->resultSet();
   }
 
+  public function createNewModule($courseId, $judul) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :courseId, :judul, default)');
+    $this->db->bind('courseId', $courseId);
+    $this->db->bind('judul', $judul);
+    $this->db->execute();
+  }
+
 }
