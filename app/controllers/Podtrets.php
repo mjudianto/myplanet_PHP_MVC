@@ -126,7 +126,7 @@ class Podtrets extends Controller {
 
     $commentId = $_REQUEST["commentId"];
     $comment = $_REQUEST['comment'];
-    $model['podtretCommentReply']->createComment($commentId, $comment);
+    $model['podtretCommentReply']->createComment($commentId, $_SESSION['user']['userId'], $comment);
   }
 
   public function loadComment() {

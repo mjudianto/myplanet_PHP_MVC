@@ -63,8 +63,13 @@ class PodtretManagement extends Controller {
     $end_date = $_REQUEST['endDate'];
     $columnName = $_REQUEST['columnName'];
 
-    $data == 'podtret' || $data == 'podtretVisitor' ? $data = $model['podtret']->getAll() :  $data = $model['podtret']->getPodtretDetail($podtretId);
-    // $data == 'podtretVisitorDetail' ?? $data = $model['podtret']->getPodtretDetail($podtretId);
+    $data == 'podtret' || $data == 'podtretVisitor' ? $data = $model['podtret']->getAll() : '';
+    $data == 'podtretVisitorDetail' ? $data = $model['podtret']->getPodtretDetail($podtretId) : '';
+    
+    if ($data == 'podtretComment') {
+      $data = $model['podtretRecord']->getUserCommentRecord();
+      $data2 = $model['podtretRecord']->getUserReplyRecord();
+    } 
 
     $filtered_data = array_filter($data, function($item) use ($start_date, $end_date, $columnName) {
       $item_date = strtotime($item[$columnName]);
@@ -84,6 +89,27 @@ class PodtretManagement extends Controller {
       }
       
     });
+
+    if (isset($data2)) {
+      $filtered_data2 = array_filter($data2, function($item) use ($start_date, $end_date, $columnName) {
+        $item_date = strtotime($item[$columnName]);
+        $start = strtotime($start_date);
+        $end = strtotime($end_date);
+  
+        if ($_REQUEST['startDate'] != '') {
+          if ($_REQUEST['endDate'] != '') {
+            return ($item_date >= $start) && ($item_date <= $end);
+          } else {
+            return ($item_date >= $start);
+          }
+        } else {
+          if ($_REQUEST['endDate'] != '') {
+            return ($item_date <= $end);
+          }
+        }
+        
+      });
+    }
 
     $i=1;
     if ($_REQUEST['data'] == 'podtret'){
@@ -171,31 +197,58 @@ class PodtretManagement extends Controller {
         $i+=1;
       }
     }
+
+    if ($_REQUEST['data'] == 'podtretComment') {
+      foreach($filtered_data as $comment) {
+        echo '<tr>
+                <td>' . $i . '</td>
+                <td>' . $comment['nik'] . '</td>
+                <td>' . $comment['nama'] . '</td>
+                <td>' . $comment['comment'] . '</td>
+                <td>' . $comment['judul'] . '</td>
+                <td>' . $comment['uploadDate'] . '</td>
+                <td>
+                  <div class="d-flex order-actions">
+                    <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                      data-bs-toggle="modal" data-bs-target="#modalEditComment"><i
+                        class="bx bxs-edit"></i></a>
+                    <a href="javascript:;" class="ms-2 text-danger bg-light-danger border-0"
+                      data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                        class="bx bxs-trash"></i></a>
+                  </div>
+                </td>
+              </tr>';
+        $i+=1;
+      }
+
+      foreach($filtered_data2 as $reply) {
+        echo '<tr>
+                <td>' . $i . '</td>
+                <td>' . $reply['nik'] . '</td>
+                <td>' . $reply['nama'] . '</td>
+                <td>' . $reply['comment'] . '</td>
+                <td>' . $reply['judul'] . '</td>
+                <td>' . $reply['uploadDate'] . '</td>
+                <td>
+                  <div class="d-flex order-actions">
+                    <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                      data-bs-toggle="modal" data-bs-target="#modalEditComment"><i
+                        class="bx bxs-edit"></i></a>
+                    <a href="javascript:;" class="ms-2 text-danger bg-light-danger border-0"
+                      data-bs-toggle="modal" data-bs-target="#deleteModal"><i
+                        class="bx bxs-trash"></i></a>
+                  </div>
+                </td>
+              </tr>';
+        $i+=1;
+      }
+    }
   }
 
   public function podtretVisitor() {
     $model = $this->loadPodtretModel();
 
     $data['podtret'] = $model['podtret']->getAll();
-
-    $this->view('admin/layouts/sidebar');
-    $this->view('admin/podtret/podtretVisitor', $data);
-    $this->view('admin/layouts/footer');
-  }
-
-  public function filterDatePodtretVisitor() {
-    $start_date = $_POST['startDate'];
-    $end_date = $_POST['endDate'];
-
-    $model = $this->loadPodtretModel();
-
-    $data['podtret'] = $model['podtret']->getAll();
-
-    $columnName = 'uploadDate';
-    // Filter the data based on the date range
-    $filtered_data = $this->filterDate($data['podtret'], $start_date, $end_date, $columnName);
-
-    $data['podtret'] = $filtered_data;
 
     $this->view('admin/layouts/sidebar');
     $this->view('admin/podtret/podtretVisitor', $data);
@@ -213,23 +266,14 @@ class PodtretManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function filterDatePodtretVisitorDetail() {
-    $start_date = $_POST['startDate'];
-    $end_date = $_POST['endDate'];
-
+  public function podtretComment() {
     $model = $this->loadPodtretModel();
-    $podtretId = $_POST['podtretId'];
 
-    $data['podtretDetail'] = $model['podtret']->getPodtretDetail($podtretId);
-
-    $columnName = 'lastVisit';
-    // Filter the data based on the date range
-    $filtered_data = $this->filterDate($data['podtretDetail'], $start_date, $end_date, $columnName);
-
-    $data['podtretDetail'] = $filtered_data;
+    $data['comment'] = $model['podtretRecord']->getUserCommentRecord();
+    $data['reply'] = $model['podtretRecord']->getUserReplyRecord();
 
     $this->view('admin/layouts/sidebar');
-    $this->view('admin/podtret/podtretVisitorDetail', $data);
+    $this->view('admin/podtret/podtretComment', $data);
     $this->view('admin/layouts/footer');
   }
 
