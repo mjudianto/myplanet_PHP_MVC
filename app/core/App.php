@@ -5,7 +5,7 @@ class App {
   protected $method = 'index'; // default method
   protected $params = []; // default params kosong
   protected $admin = array(
-    '', 'home', 'Home', 'admins', 'usermanagement', 'podtretmanagement'
+    '', 'home', 'Home', 'admins', 'usermanagement', 'podtretmanagement', 'elearningmanagement'
   );
 
   public function __construct() {

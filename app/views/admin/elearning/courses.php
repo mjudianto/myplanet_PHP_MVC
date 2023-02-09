@@ -79,7 +79,7 @@
                                 <a href="' . BASEURL . 'elearningmanagement/modules?courseId=' . $course['Course ID'] . '"
                                   class="text-primary bg-light-primary border-0"><i
                                     class="bx bxs-edit"></i></a>
-                                <a href="detail-course.html"
+                                <a href="' . BASEURL . 'elearningmanagement/courseTestRecord?courseId=' . $course['Course ID'] . '"
                                   class="ms-4 text-success bg-light-success border-0"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -260,12 +260,12 @@
     <script>
 		$(document).ready(function () {
 			var table = $('#tableCourse').DataTable({
-				lengthChange: false,
+				dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
 				buttons: ['csv', 'excel', 'pdf', 'print']
 			});
 
 			table.buttons().container()
-				.appendTo('#tableCourse_wrapper .col-md-6:eq(0)');
+				.appendTo('#tableCourse .col-md-6:eq(0)');
 		});
 	</script>
 

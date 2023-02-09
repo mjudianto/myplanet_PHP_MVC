@@ -114,11 +114,12 @@
 		<script>
 		$(document).ready(function () {
 			var table = $('#tableVisitorPodtret').DataTable({
-				dom: '<"row top"<"col-lg-6 col-md-6 col-sm-12 mb-2"l><"col-lg-6 col-md-6 col-sm-12 mb-2"f>>rtip'
+				dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
+				buttons: ['csv', 'excel', 'pdf', 'print']
 			});
 
 			table.buttons().container()
-				.appendTo('#example2_wrapper .col-md-6:eq(0)');
+				.appendTo('#tableVisitorPodtret_wrapper');
 		});
 	</script>
 

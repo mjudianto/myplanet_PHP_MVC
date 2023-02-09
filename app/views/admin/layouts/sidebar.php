@@ -108,6 +108,26 @@
 					</li>
 				</ul>
 			</li>
+			<li>	
+				<a href="javascript:;" class="has-arrow">
+					<div class="parent-icon"><i class='lni lni-video'></i>
+					</div>
+					<div class="menu-title">Management Ensight</div>
+				</a>
+				<ul>
+					<li> <a href="upload-ensight.html"><i class="bx bx-right-arrow-alt"></i>Upload Ensight</a>
+					</li>
+					<li> <a href="ensight-visitor.html"><i class="bx bx-right-arrow-alt"></i>Ensight Visitors</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="management-notification.html" class="">
+					<div class="parent-icon"><i class='bx bx-bell'></i>
+					</div>
+					<div class="menu-title">Manage Notifications</div>
+				</a>
+			</li>
 			</ul>
 			<!--end navigation-->
 		</div>
