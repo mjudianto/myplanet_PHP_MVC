@@ -3,21 +3,22 @@
 			<div class="page-content">
 				<!--breadcrumb-->
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Management E-learning</div>
+					<div class="breadcrumb-title pe-3">Report E-Learning</div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="dashboard-admin.html"><i
-											class="bx bx-home-alt"></i></a>
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item"><a href="course.html">Courses</a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Detail Course</li>
+								<li class="breadcrumb-item active" aria-current="page">Data Post Test</li>
 							</ol>
 						</nav>
 					</div>
+
 				</div>
 				<!--end breadcrumb-->
+
+
+
 
 				<div class="row">
 					<div class="col-lg-4 mt-lg-4 mb-3">
@@ -25,7 +26,6 @@
 					</div>
 					<div class="col-lg-8 d-flex justify-content-end">
 						<!-- Date Picker -->
-            <input type="hidden" id="courseId" value="<?= $_GET['courseId'] ?>">
 						<div class="d-flex justify-content-center">
 							<div class="filter-awal me-2"><label for="filerDateAwal" class="sr-only">Start Date
 									Filter</label>
@@ -51,7 +51,6 @@
 				<hr />
 				<div class="card">
 					<div class="card-body">
-						<h5 class="font-weight-bold mb-0 text-center"><?= $data['course']['judul'] ?></h5>
 						<div class="table-responsive">
 							<div id="printbar" style="float:right"></div>
 							<br>
@@ -148,12 +147,11 @@
 
   <script>
     function dateFilter() {
-			var courseId = document.getElementById("courseId").value;
 			var startDate = document.getElementById("startDate").value;;
 			var endDate = document.getElementById("endDate").value;
 
         $.ajax({
-          url: "<?= BASEURL ?>elearningmanagement/filterDate?courseId=" + courseId + "&startDate=" + startDate + "&endDate=" + endDate,
+          url: "<?= BASEURL ?>report/filterDate?startDate=" + startDate + "&endDate=" + endDate,
           success: function(html) {
 						// alert('success');
             $('#recordContainer').html(html);

@@ -9,7 +9,8 @@ class Login extends Controller{
   public function createUserSession($user) {
     $notificationModel =  $this->model('user/Notification_model', 'Notification_model');
     $_SESSION['user'] = $user;
-    $_SESSION['notification'] = $notificationModel->getUserNotification('userId', $user['userId']);
+    $_SESSION['notification'] = $notificationModel->getUserNotification($user['userId'], $user['organizationId']);
+    $_SESSION['notificationCount'] = sizeof($_SESSION['notification']);
   }
 
 

@@ -135,4 +135,32 @@ class UserTestRecord_model {
     return $this->db->resultSet();
   }
 
+  public function getAllRecord() {
+    $query = 'select elearningTest.judul, 
+                userTestRecord.userId, 
+                max(userTestRecordDetail.attemptNumber) as "totalAttempt",
+                max(userTestRecordDetail.score) as "score",
+                max(userTestRecordDetail.status) as "status",
+                max(userTestRecordDetail.finished) as "time",
+                user.nik,
+                user.nama,
+                organization.organizationName,
+                location.locationName
+              from elearningTest
+                left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
+                left join userTestRecord on elearningTest.elearningTestId = userTestRecord.elearningTestId
+                left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
+                left join user on userTestRecord.userId = user.userId
+                left join location on user.locationId = location.locationId
+                left join organization on user.organizationId = organization.organizationId
+              group by 
+                userTestRecord.userId,
+                elearningTest.judul,
+                user.nik';
+
+    $this->db->query($query);
+
+    return $this->db->resultSet();
+  }
+
 }

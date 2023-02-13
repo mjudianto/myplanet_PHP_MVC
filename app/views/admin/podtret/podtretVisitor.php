@@ -119,7 +119,8 @@
 			});
 
 			table.buttons().container()
-				.appendTo('#tableVisitorPodtret_wrapper');
+    		.appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+				
 		});
 	</script>
 

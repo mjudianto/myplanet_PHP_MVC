@@ -15,9 +15,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
-<body>
   
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg mt-3" style="width: 90%; margin:auto;">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
         <img src="<?= BASEURL ?>assets/logo.png" alt="" class="d-inline-block align-text-top"/>
@@ -135,6 +134,7 @@
         <?php else: ?>
           <div class="vl ms-2" style="border-left: solid 2px #ededed">
             <img src="<?= BASEURL ?>images/image-profile.jpg" alt="" class="image-navbar ms-3" onclick="toggleMenu()" />
+            <span class="badge"><?php if($_SESSION['notificationCount'] != 0) echo $_SESSION['notificationCount'] ?></span>
 
             <div class="sub-menu-wrap" id="subMenu">
               <div class="sub-menu">
@@ -152,7 +152,9 @@
                   <span>></span>
                 </a>
                 <a href="" class="sub-menu-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <i class="fa fa-bell"></i>
+                  <i class="fa fa-bell">
+                    <?php if(!empty($_SESSION['notification'])) {echo '<span class="badge-not"></span>';} ?>
+                  </i>
                   <!-- <img src="assets/user-info.png" alt="" /> -->
                   <p>Notification</p>
                   <span>></span>

@@ -9,6 +9,12 @@ class ElearningCourse_model {
   public function __construct() {
     $this->db = new Database;
   }
+
+  public function getCourseDetail($courseId) {
+    $this->db->query('select * from ' . $this->table . ' where elearningCourseId=:courseId');
+    $this->db->bind('courseId', $courseId);
+    return $this->db->single();
+  }
   
   public function getAllCourse($orgId, $userId) {
     $this->db->query('SELECT *

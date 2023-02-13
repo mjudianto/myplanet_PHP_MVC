@@ -196,6 +196,7 @@ class ElearningManagement extends Controller {
   public function courseTestRecord() {
     $model = $this->loadElearningModel();
 
+    $data['course'] = $model['elearningCourse']->getCourseDetail($_GET['courseId']);
     $data['testRecord'] = $model['userTestRecord']->getAllUserRecord($_GET['courseId']);
 
     $this->view('admin/layouts/sidebar');

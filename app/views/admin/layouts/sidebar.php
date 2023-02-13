@@ -26,6 +26,7 @@
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/semi-dark.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/header-colors.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css" />
+	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
 
 	<title>My Planet Admin</title>
@@ -63,7 +64,7 @@
 						<div class="menu-title">Report E-Learning</div>
 					</a>
 					<ul>
-						<li> <a href="data-post-test.html"><i class="bx bx-right-arrow-alt"></i>Data Post Test</a>
+						<li> <a href="<?= BASEURL ?>report/testReport"><i class="bx bx-right-arrow-alt"></i>Data Post Test</a>
 						</li>
 						<li> <a href="report-attempt.html"><i class="bx bx-right-arrow-alt"></i>Report Attempt</a>
 						</li>
@@ -122,7 +123,7 @@
 				</ul>
 			</li>
 			<li>
-				<a href="management-notification.html" class="">
+				<a href="<?= BASEURL ?>notificationmanagement" class="">
 					<div class="parent-icon"><i class='bx bx-bell'></i>
 					</div>
 					<div class="menu-title">Manage Notifications</div>

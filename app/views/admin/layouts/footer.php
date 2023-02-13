@@ -18,6 +18,7 @@
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/accessibility.js"></script>
 	<script src="<?= BASEURL ?>admin/js/index3.js"></script>
 	<script src="<?= BASEURL ?>admin/libraries/gijgo/js/gijgo.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/select2/js/select2.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 
 
