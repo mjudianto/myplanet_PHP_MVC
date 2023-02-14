@@ -12,6 +12,31 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
+  public function addKategori() {
+    $model = $this->loadElearningModel();
+
+    if ($_POST['courseKategori'] != '') {
+      $model['elearningKategori']->addKategori($_POST['courseKategori']);
+    }
+
+    header("Location:" . BASEURL . 'elearningmanagement/courseCategory');
+    exit;
+
+  }
+
+  public function updateKategori() {
+    $model = $this->loadElearningModel();
+
+    if ($_POST['kategori'] != '') {
+      $model['elearningKategori']->updateKategori($_POST['kategoriId'], $_POST['kategori']);
+    }
+
+    // var_dump($_POST['kategori']);
+    header("Location:" . BASEURL . 'elearningmanagement/courseCategory');
+    exit;
+
+  }
+
   public function courses() {
     $model = $this->loadElearningModel();
 
@@ -143,54 +168,73 @@ class ElearningManagement extends Controller {
   }
 
   public function addLesson() {
-    if (isset($_FILES['video'])) {
-      $video = $_FILES['video'];
-    
-      // Ensure the file is a valid video file
-      $fileType = pathinfo($video['name'], PATHINFO_EXTENSION);
+    // var_dump($_FILES['konten-' . $_GET['moduleId']]["error"] != UPLOAD_ERR_NO_FILE);
+    if ($_FILES['konten-' . $_GET['moduleId']]["error"] != UPLOAD_ERR_NO_FILE && $_POST['lessonName-' . $_GET['moduleId']] != '') {
+      $model = $this->loadElearningModel();
+      $konten = $_FILES['konten-' . $_GET['moduleId']];
+      $judul = $_POST['lessonName-' . $_GET['moduleId']];
+
+      $fileType = pathinfo($konten['name'], PATHINFO_EXTENSION);
       if (!in_array($fileType, ['mp4', 'webm', 'ogg'])) {
-        echo "Error: Invalid video format.";
-        exit;
+        if($konten['type'] != 'application/pdf'){
+          // Return error message
+          echo "Error: Invalid file format";
+          exit;
+        } else {
+          $fileType = 'pdf';
+        }
+      } else {
+        $fileType = 'video';
       }
-    
-      // Validate the size of the video
-      if ($video['size'] > 100000000) { // 100 MB
-        echo "Error: Video file size too large.";
-        exit;
+
+      if ($fileType == 'video') {
+        // Validate the size of the video
+        if ($konten['size'] > 1000000000) { // 1 GB
+          echo "Error: Video file size too large.";
+          exit;
+        }
+      
+        // Generate a unique filename for the video
+        $filename = uniqid() . '.' . $fileType;
+        $destination = 'elearningAssets/videos/' .  basename($filename . 'mp4');
+      
+        // Move the uploaded file to the uploads folder
+        move_uploaded_file($konten['tmp_name'], $destination);
+
+        // var_dump(BASEURL . $destination);
+        $model['elearningLesson']->addLesson($_GET['moduleId'], $judul, $destination);
+        header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
       }
-    
-      // Generate a unique filename for the video
-      $filename = uniqid() . '.' . $fileType;
-      $destination = 'uploads/' . $filename;
-    
-      // Move the uploaded file to the uploads folder
-      move_uploaded_file($video['tmp_name'], $destination);
+    } else {
+      echo "please fill the lesson name and content";
     }
 
-    if(isset($_FILES['pdf_file'])){
-      $pdf = $_FILES['pdf_file'];
+    // if(isset($_FILES['pdf_file'])){
+    //   $pdf = $_FILES['pdf_file'];
     
-      // Check if file is a PDF
-      if($pdf['type'] != 'application/pdf'){
-        // Return error message
-        echo "Error: Only PDF files are allowed.";
-        return;
-      }
+    //   // Check if file is a PDF
+    //   if($pdf['type'] != 'application/pdf'){
+    //     // Return error message
+    //     echo "Error: Only PDF files are allowed.";
+    //     return;
+    //   }
     
-      // Generate a unique file name
-      $fileName = md5(uniqid()) . '.pdf';
+    //   // Generate a unique file name
+    //   $fileName = md5(uniqid()) . '.pdf';
     
-      // Set upload directory
-      $uploadDir = 'uploads/';
+    //   // Set upload directory
+    //   $uploadDir = 'uploads/';
     
-      // Check if upload directory exists, if not create it
-      if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-      }
+    //   // Check if upload directory exists, if not create it
+    //   if (!file_exists($uploadDir)) {
+    //     mkdir($uploadDir, 0777, true);
+    //   }
     
-      // Save PDF file to upload directory
-      move_uploaded_file($pdf['tmp_name'], $uploadDir . $fileName);
-    }
+    //   // Save PDF file to upload directory
+    //   move_uploaded_file($pdf['tmp_name'], $uploadDir . $fileName);
+    // }
+
+
   }
 
   public function courseTestRecord() {
@@ -203,6 +247,8 @@ class ElearningManagement extends Controller {
     $this->view('admin/elearning/courseTestRecord', $data);
     $this->view('admin/layouts/footer');
   }
+  
+  
 
 }
   

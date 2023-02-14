@@ -71,13 +71,13 @@
 																		<div class="d-flex order-actions" style="width:100%; justify-content:center;">
 																			<a href="#" class="text-primary bg-light-primary border-0"
 																				data-bs-toggle="modal"
-																				data-bs-target="#modalEditCategory"><i
+																				data-bs-target="#modalEditCategory-' . $kategori['elearningKategoriId'] . '"><i
 																					class="bx bxs-edit"></i></a>
-																			<a href="javascript:;"
+																			<!-- <a href="javascript:;"
 																				class="ms-4 text-danger bg-light-danger border-0"
 																				data-bs-toggle="modal"
 																				data-bs-target="#modalDeleteCategory"><i
-																					class="bx bxs-trash"></i></a>
+																					class="bx bxs-trash"></i></a> -->
 																		</div>
 																	</td>
 																</tr>';
@@ -104,47 +104,57 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
-							<div class="modal-body">
-								<div class="col-12 mb-3">
-									<label for="inputCategory" class="form-label">Judul Category</label>
-									<input type="text" class="form-control" id="inputCategory"
-										placeholder="Input Title Category">
-								</div>
+							<form action="<?= BASEURL ?>elearningmanagement/addKategori" method="post">
+								<div class="modal-body">
+									<div class="col-12 mb-3">
+										<label for="inputCategory" class="form-label">Judul Category</label>
+										<input type="text" class="form-control" id="inputCategory" name="courseKategori"
+											placeholder="Input Title Category">
+									</div>
 
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Confirm</button>
-							</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Confirm</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
-
-				<!-- Modal Edit Category -->
-				<div class="modal fade" id="modalEditCategory" tabindex="-1" aria-labelledby="modalEditCategoryLabel"
-					aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="modalEditCategoryLabel">Edit Category</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div class="col-12 mb-3">
-									<label for="inputCategory" class="form-label">Judul Category</label>
-									<input type="text" class="form-control" id="inputCategory"
-										placeholder="Input Title Category">
-								</div>
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Confirm</button>
-							</div>
-						</div>
-					</div>
-				</div>
+				
+				<form action="<?= BASEURL ?>elearningmanagement/updateKategori" method="post">
+				<?php 
+					foreach($data['kategori'] as $kategori) {
+						echo '<!-- Modal Edit Category -->
+									<div class="modal fade" id="modalEditCategory-' . $kategori['elearningKategoriId'] . '" tabindex="-1" aria-labelledby="modalEditCategoryLabel"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="modalEditCategoryLabel">Edit Category</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal"
+														aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<div class="col-12 mb-3">
+														<input type="hidden" name="kategoriId" value="' . $kategori['elearningKategoriId'] . '">
+														<label for="inputCategory" class="form-label">Judul Category</label>
+														<input type="text" class="form-control" name="kategori" value="' . $kategori['nama'] . '"
+															placeholder="Input Title Category">
+													</div>
+					
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+													<button type="submit" class="btn btn-primary">Confirm</button>
+												</div>
+											</div>
+										</div>
+									</div>';
+					}
+				?>
+				</form>
+				
 
 
 

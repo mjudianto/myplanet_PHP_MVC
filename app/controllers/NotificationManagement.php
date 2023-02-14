@@ -11,7 +11,19 @@ class NotificationManagement extends Controller {
   }
 
   public function addNotification() {
-    
+    if($_POST['message'] != ''){
+      $this->model('user/Notification_model', 'Notification_model')->addNotification($_POST['message']);
+    }
+
+    header("Location:" . BASEURL . 'notificationmanagement');
+  }
+
+  public function updateNotification() {
+    if($_POST['message'] != ''){
+      $this->model('user/Notification_model', 'Notification_model')->updateNotification($_POST['notifId'], $_POST['message']);
+    }
+
+    header("Location:" . BASEURL . 'notificationmanagement');
   }
 
 

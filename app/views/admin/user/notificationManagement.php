@@ -1,3 +1,5 @@
+
+
 <!--start page wrapper -->
 <div class="page-wrapper">
 			<div class="page-content">
@@ -84,11 +86,11 @@
                               <td class="10%">
                                 <div class="d-flex order-actions">
                                   <a href="javascript:;" class="text-primary bg-light-primary border-0"
-                                    data-bs-toggle="modal" data-bs-target="#modalEdit"><i
+                                    data-bs-toggle="modal" data-bs-target="#modalEdit-' . $notif['notificationId'] . '"><i
                                       class="bx bxs-edit"></i></a>
-                                  <a href="javascript:;" class="ms-2 text-danger bg-light-danger border-0"
+																	<!-- <a href="javascript:;" class="ms-2 text-danger bg-light-danger border-0"
                                     data-bs-toggle="modal" data-bs-target="#deleteModal"><i
-                                      class="bx bxs-trash"></i></a>
+                                      class="bx bxs-trash"></i></a> -->
                                 </div>
                               </td>
                             </tr>';
@@ -176,129 +178,142 @@
 						<h1 class="modal-title fs-5" id="modalAddNewNotificationLabel">Push Notification</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body">
-						<div class="form-group mb-3">
-							<label for="juudlPodtret" class="form-label">Notification</label>
-							<input type="email" class="form-control" id="juudlPodtret" placeholder="Input title...">
-						</div>
-						<div class="form-group mb-3">
-							<label for="selectSpesific" class="form-label">Given To</label>
-							<select class="form-select" aria-label="Default select example" id="addSelectSpesific">
-								<option value="all" selected>All</option>
-								<option value="byOrganization">Spesific by Organization</option>
-								<option value="byName">Spesific by User</option>
-							</select>
-						</div>
-						<div id="orgName" class="col-12 mb-3" style="display:none;">
-							<div class="mb-3">
-								<label class="form-label">Choose Organization</label>
-								<select class="checkbox-spesific" data-placeholder="Choose anything"
-									multiple="multiple">
-									<option value="hrd">Human Resource Development</option>
-									<option value="it">Information Technology</option>
-									<option value="finance">Finance</option>
-									<option value="marketing">Marketing</option>
-									<option value="operation">Operation</option>
-									<option value="production">Production</option>
-									<option value="quality">Quality</option>
-									<option value="sales">Sales</option>
-									<option value="supplychain">Supply Chain</option>
+					<form action="<?= BASEURL ?>notificationmanagement/addNotification" method="post">
+						<div class="modal-body">
+							<div class="form-group mb-3">
+								<label for="message" class="form-label">Notification</label>
+								<input type="text" class="form-control" id="message" name="message" placeholder="Input message...">
+							</div>
+						
+							<!-- <div class="form-group mb-3">
+								<label for="selectSpesific" class="form-label">Given To</label>
+								<select class="form-select" aria-label="Default select example" id="addSelectSpesific">
+									<option value="all" selected>All</option>
+									<option value="byOrganization">Spesific by Organization</option>
+									<option value="byName">Spesific by User</option>
 								</select>
 							</div>
+							<div id="orgName" class="col-12 mb-3" style="display:none;">
+								<div class="mb-3">
+									<label class="form-label">Choose Organization</label>
+									<select class="checkbox-spesific" data-placeholder="Choose anything"
+										multiple="multiple">
+										<option value="hrd">Human Resource Development</option>
+										<option value="it">Information Technology</option>
+										<option value="finance">Finance</option>
+										<option value="marketing">Marketing</option>
+										<option value="operation">Operation</option>
+										<option value="production">Production</option>
+										<option value="quality">Quality</option>
+										<option value="sales">Sales</option>
+										<option value="supplychain">Supply Chain</option>
+									</select>
+								</div>
 
-						</div>
-						<div id="userName" class="col-12 mb-3" style="display:none;">
-							<div class="mb-3">
-								<label class="form-label">Choose User</label>
-								<select class="checkbox-spesific" data-placeholder="Choose anything"
-									multiple="multiple">
-									<option value="nanda">Nanda Raditya</option>
-									<option value="dwi">Dwi Prasetyo</option>
-									<option value="dewi">Dewi Sartika</option>
-									<option value="siti">Siti Nuraini</option>
-									<option value="susi">Susi Susanti</option>
-									<option value="sari">Sari Sari</option>
-									<option value="siti">Siti Nuraini</option>
-									<option value="susi">Susi Susanti</option>
-									<option value="sari">Sari Sari</option>
-									<option value="siti">Siti Nuraini</option>
-								</select>
 							</div>
+							<div id="userName" class="col-12 mb-3" style="display:none;">
+								<div class="mb-3">
+									<label class="form-label">Choose User</label>
+									<select class="checkbox-spesific" data-placeholder="Choose anything"
+										multiple="multiple">
+										<option value="nanda">Nanda Raditya</option>
+										<option value="dwi">Dwi Prasetyo</option>
+										<option value="dewi">Dewi Sartika</option>
+										<option value="siti">Siti Nuraini</option>
+										<option value="susi">Susi Susanti</option>
+										<option value="sari">Sari Sari</option>
+										<option value="siti">Siti Nuraini</option>
+										<option value="susi">Susi Susanti</option>
+										<option value="sari">Sari Sari</option>
+										<option value="siti">Siti Nuraini</option>
+									</select>
+								</div>
+							</div> -->
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Submit</button>
-					</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 
-		<!-- Modal Edit -->
-		<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="modalEditLabel">Edit Podtret</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group mb-3">
-							<label for="juudlPodtret" class="form-label">Notification</label>
-							<input type="email" class="form-control" id="juudlPodtret" placeholder="Input title...">
-						</div>
-						<div class="form-group mb-3">
-							<label for="selectSpesific" class="form-label">Given To</label>
-							<select class="form-select" aria-label="Default select example" id="selectSpesific">
-								<option value="all" selected>All</option>
-								<option value="byOrganization">Spesific by Organization</option>
-								<option value="byName">Spesific by User</option>
-							</select>
-						</div>
-						<div id="orgName" class="col-12 mb-3" style="display:none;">
-							<div class="mb-3">
-								<label class="form-label">Choose Organization</label>
-								<select class="checkbox-spesific" data-placeholder="Choose anything"
-									multiple="multiple">
-									<option value="hrd">Human Resource Development</option>
-									<option value="it">Information Technology</option>
-									<option value="finance">Finance</option>
-									<option value="marketing">Marketing</option>
-									<option value="operation">Operation</option>
-									<option value="production">Production</option>
-									<option value="quality">Quality</option>
-									<option value="sales">Sales</option>
-									<option value="supplychain">Supply Chain</option>
-								</select>
-							</div>
 
-						</div>
-						<div id="userName" class="col-12 mb-3" style="display:none;">
-							<div class="mb-3">
-								<label class="form-label">Choose User</label>
-								<select class="checkbox-spesific" data-placeholder="Choose anything"
-									multiple="multiple">
-									<option value="nanda">Nanda Raditya</option>
-									<option value="dwi">Dwi Prasetyo</option>
-									<option value="dewi">Dewi Sartika</option>
-									<option value="siti">Siti Nuraini</option>
-									<option value="susi">Susi Susanti</option>
-									<option value="sari">Sari Sari</option>
-									<option value="siti">Siti Nuraini</option>
-									<option value="susi">Susi Susanti</option>
-									<option value="sari">Sari Sari</option>
-									<option value="siti">Siti Nuraini</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<?php 
+			foreach($data['notification'] as $notif) {
+				echo '<!-- Modal Edit -->
+							<div class="modal fade" id="modalEdit-' . $notif['notificationId'] . '" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="modalEditLabel">Edit Podtret</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<form action="' . BASEURL . 'notificationmanagement/updateNotification" method="post">
+											<div class="modal-body">
+											<input type="hidden" value="' . $notif['notificationId'] . '" name="notifId">
+												<div class="form-group mb-3">
+													<label for="message" class="form-label">Notification</label>
+													<input type="text" class="form-control" id="message" name="message" value="' . $notif['message'] . '" placeholder="Input title...">
+												</div>
+												<!-- <div class="form-group mb-3">
+													<label for="selectSpesific" class="form-label">Given To</label>
+													<select class="form-select" aria-label="Default select example" id="selectSpesific">
+														<option value="all" selected>All</option>
+														<option value="byOrganization">Spesific by Organization</option>
+														<option value="byName">Spesific by User</option>
+													</select>
+												</div>
+												<div id="orgName" class="col-12 mb-3" style="display:none;">
+													<div class="mb-3">
+														<label class="form-label">Choose Organization</label>
+														<select class="checkbox-spesific" data-placeholder="Choose anything"
+															multiple="multiple">
+															<option value="hrd">Human Resource Development</option>
+															<option value="it">Information Technology</option>
+															<option value="finance">Finance</option>
+															<option value="marketing">Marketing</option>
+															<option value="operation">Operation</option>
+															<option value="production">Production</option>
+															<option value="quality">Quality</option>
+															<option value="sales">Sales</option>
+															<option value="supplychain">Supply Chain</option>
+														</select>
+													</div>
+					
+												</div>
+												<div id="userName" class="col-12 mb-3" style="display:none;">
+													<div class="mb-3">
+														<label class="form-label">Choose User</label>
+														<select class="checkbox-spesific" data-placeholder="Choose anything"
+															multiple="multiple">
+															<option value="nanda">Nanda Raditya</option>
+															<option value="dwi">Dwi Prasetyo</option>
+															<option value="dewi">Dewi Sartika</option>
+															<option value="siti">Siti Nuraini</option>
+															<option value="susi">Susi Susanti</option>
+															<option value="sari">Sari Sari</option>
+															<option value="siti">Siti Nuraini</option>
+															<option value="susi">Susi Susanti</option>
+															<option value="sari">Sari Sari</option>
+															<option value="siti">Siti Nuraini</option>
+														</select>
+													</div>
+												</div> -->
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">Save changes</button>
+											</div>
+										</form>
+					
+									</div>
+								</div>
+							</div>';
+			}
+		?>
+		
 
 		<!-- Modal Delete -->
 		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -350,20 +365,7 @@
 			placeholder: $(this).data('placeholder'),
 			allowClear: Boolean($(this).data('allow-clear')),
 		});
+		
 
-		const selectOption = document.getElementById("addSelectSpesific");
-		selectOption.addEventListener("change", function () {
-			const selectedOption = this.value;
-			if (selectedOption === "all") {
-				document.getElementById("orgName").style.display = "none";
-				document.getElementById("userName").style.display = "none";
-			}
-			else if (selectedOption === "byOrganization") {
-				document.getElementById("orgName").style.display = "block";
-				document.getElementById("userName").style.display = "none";
-			} else if (selectedOption === "byName") {
-				document.getElementById("orgName").style.display = "none";
-				document.getElementById("userName").style.display = "block";
-			}
-		});
+		
 	</script>

@@ -5,7 +5,7 @@
         <h5>NIK : <?= $_SESSION['user']['nik'] ?></h5>
 
         <video controls autoplay>
-          <source src="<?= $data['elearningLesson']['konten'] ?>">
+          <source src="<?= BASEURL . $data['elearningLesson']['konten'] ?>">
         </video>
         <a href="e-learning-neopgeneral.html"
           ><button class="btn btn-finish mt-3 mb-2">Finish</button></a

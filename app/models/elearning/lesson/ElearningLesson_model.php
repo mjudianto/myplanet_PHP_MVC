@@ -22,4 +22,12 @@ class ElearningLesson_model {
     return $this->db->resultSet();
   }
 
+  public function addLesson($moduleId, $judul, $konten) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :moduleId, :judul, :konten, default, default)');
+    $this->db->bind('moduleId', $moduleId);
+    $this->db->bind('judul', $judul);
+    $this->db->bind('konten', $konten);
+    $this->db->execute();
+  }
+
 }

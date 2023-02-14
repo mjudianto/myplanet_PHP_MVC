@@ -105,6 +105,7 @@
         <?php 
           foreach($data['elearningModule'] as $module) {
             echo '<!-- Modal Box Add Lesson -->
+                  <form action="' . BASEURL  . 'elearningmanagement/addLesson?moduleId=' . $module['elearningModuleId'] . '&courseId=' . $_GET['courseId'] .'" method="post" enctype="multipart/form-data">
                   <div class="modal fade" id="modalAddNewLesson-' . $module['elearningModuleId'] . '" tabindex="-1" aria-labelledby="modalAddNewLessonLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -115,21 +116,14 @@
                             aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                          <input type="hidden" name="moduleId" value="' . $module['elearningModuleId'] . '">
                           <div class="mb-3">
                             <label for="lessonName" class="form-label">Lesson Name</label>
-                            <input type="text" class="form-control" id="lessonName" placeholder="Lesson Name">
-                          </div>
-                          <div class="mb-3">
-                            <label for="lessonType" class="form-label">Category Modul</label>
-                            <select class="form-select" aria-label="Default select example">
-                              <option selected>Open this select menu</option>
-                              <option value="1">Safety Security K3</option>
-                              <option value="2">Safety Security Example</option>
-                            </select>
+                            <input type="text" class="form-control" name="lessonName-' . $module['elearningModuleId'] . '" placeholder="Lesson Name">
                           </div>
                           <div class="mb-3">
                             <label for="lessonType" class="form-label">Lesson Type</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select" aria-label="Default select example" name="type">
                               <option selected>Open this select menu</option>
                               <option value="1">Video</option>
                               <option value="2">PDF</option>
@@ -137,16 +131,18 @@
                           </div>
                           <div class="mb-3">
                             <label for="formFile" class="form-label">Lesson File</label>
-                            <input class="form-control" type="file" id="formFile">
+                            <input class="form-control" type="file" id="formFile" name="konten-' . $module['elearningModuleId'] . '" id="konten">
                           </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" onclick="CreateTodo();" class="btn btn-primary">Confirm</button>
+                          <button type="submit" onclick="CreateTodo();" class="btn btn-primary">Confirm</button>
                         </div>
                       </div>
                     </div>
-                  </div>';
+                  </div>
+                  </form>';
+
           }
         ?>
 				

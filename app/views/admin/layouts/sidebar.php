@@ -12,6 +12,8 @@
 	<link href="<?= BASEURL ?>admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
 	<!-- loader-->
 	<link href="<?= BASEURL ?>admin/css/pace.min.css" rel="stylesheet" />
 	<script src="<?= BASEURL ?>admin/js/pace.min.js"></script>

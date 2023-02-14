@@ -24,7 +24,7 @@ class Notification_model {
                       and userNotification.userId=:userId
                       and userNotification.state=1
                       and notification.state=1
-                      union
+                      union 
                       select ' . $this->table . '.* from organizationNotification
                       left join ' . $this->table . ' on ' . $this->table . '.notificationId = organizationNotification.notificationId
                       where ' . $this->table . '.access_type=2
@@ -37,8 +37,21 @@ class Notification_model {
     return $this->db->resultSet();
   }
 
-  public function countNotification() {
-    
+  public function addNotification($message) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :message, default, default, default)');
+
+    $this->db->bind('message', $message);
+
+    $this->db->execute();
+  }
+
+  public function updateNotification($notifId, $message) {
+    $this->db->query('UPDATE ' . $this->table . ' SET message=:message where notificationId=:notifId');
+
+    $this->db->bind('message', $message);
+    $this->db->bind('notifId', $notifId);
+
+    $this->db->execute();
   }
 
   

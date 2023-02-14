@@ -53,4 +53,22 @@
 	<script src="<?= BASEURL ?>admin/js/app.js"></script>
 </body>
 
+<script>
+	const selectOption = document.getElementById("addSelectSpesific");
+		selectOption.addEventListener("change", function () {
+			const selectedOption = this.value;
+			if (selectedOption === "all") {
+				document.getElementById("orgName").style.display = "none";
+				document.getElementById("userName").style.display = "none";
+			}
+			else if (selectedOption === "byOrganization") {
+				document.getElementById("orgName").style.display = "block";
+				document.getElementById("userName").style.display = "none";
+			} else if (selectedOption === "byName") {
+				document.getElementById("orgName").style.display = "none";
+				document.getElementById("userName").style.display = "block";
+			}
+		});
+</script>
+
 </html>
