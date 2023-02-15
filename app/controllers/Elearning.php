@@ -44,6 +44,9 @@ class Elearning extends Controller {
         $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
       }
     }
+
+    
+
     
     
     echo '<!-- Floating Button -->
@@ -52,23 +55,26 @@ class Elearning extends Controller {
           </button>
           <!-- Floating Button -->';
     foreach ($elearningCourse as $course) {
+      $lessonCount = $model['elearningCourse']->countLesson($course['elearningCourseId']);
+      $testCount = $model['elearningCourse']->countTest($course['elearningCourseId']);
+
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
                 <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '"><img src="' . $course['thumbnail'] .
                     '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-learning">
-                    <a href="e-learning-neopgeneral.html">' . $course['judul'] . '</a>
+                    <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '">' . $course['judul'] . '</a>
                   </h5>
                   <div class="row">
                     <div class="col">
                       <p class="card-text-learning">
                         <img src="assets/list_alt_FILL1_wght400_GRAD0_opsz48.png" alt="" class="" />
-                        26 Lesson
+                        ' . $lessonCount['total lesson'] + $testCount['total test'] . ' Lesson
                       </p>
                     </div>
                     <div class="col">
-                      <a href="e-learning-neopgeneral.html" class="btn-go">
+                      <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '" class="btn-go">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                       <!-- <a href="#" class="btn btn-go">Go</a> -->
@@ -140,7 +146,8 @@ class Elearning extends Controller {
 
     $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
     if (!$userTestRecord) {
-      $userTestRecord = $model['userTestRecord']->createUserRecord($elearningTestId, $userId);
+      $model['userTestRecord']->createUserRecord($elearningTestId, $userId);
+      $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
       $model['userTestMaxAttempt']->createTestMaxAttempt($userTestRecord['userTestRecordId']);
     } else {
       $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecord['userTestRecordId']);

@@ -124,11 +124,11 @@
 		});
 	</script>
 
-		<script>
+	<script>
     function dateFilter() {
 			var data = document.getElementById("data").value;
 			var columnName = document.getElementById("columnName").value;
-			var startDate = document.getElementById("startDate").value;;
+			var startDate = document.getElementById("startDate").value;
 			var endDate = document.getElementById("endDate").value;
 
         $.ajax({
@@ -141,4 +141,4 @@
           }
         });
     }
-		</script>
+	</script>

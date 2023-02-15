@@ -11,7 +11,7 @@ class PodtretCommentReply_model {
   }
   
   public function createComment($podtreCommentId, $userId, $comment) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :podtreCommentId, :userId :comment, DEFAULT)');
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :podtreCommentId, :userId, :comment, default)');
     $this->db->bind('podtreCommentId', $podtreCommentId);
     $this->db->bind('userId', $userId);
     $this->db->bind('comment', $comment);

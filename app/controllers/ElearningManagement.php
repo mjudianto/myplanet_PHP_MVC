@@ -1,5 +1,7 @@
 <?php 
 
+use Shuchkin\SimpleXLSX;
+
 class ElearningManagement extends Controller {
 
   public function courseCategory() {
@@ -75,6 +77,7 @@ class ElearningManagement extends Controller {
     $courseId = $_GET['courseId'];
 
     $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
+    $data['elearningCourse'] = $model['elearningCourse']->getCourseDetail($courseId);
 
     $moduleIds = array_column($data['elearningModule'], 'elearningModuleId');
 
@@ -98,6 +101,13 @@ class ElearningManagement extends Controller {
 
     header("Location: " . BASEURL . "elearningmanagement/modules?courseId=" . $_POST['courseId']);
     exit;
+  }
+
+  public function updateModule() {
+    $model = $this->loadElearningModel();
+
+    $model['elearningModule']->updateModule($_POST['moduleName'], $_POST['moduleId']);
+    header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
   }
 
   public function filterDate() {
@@ -246,6 +256,58 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/sidebar');
     $this->view('admin/elearning/courseTestRecord', $data);
     $this->view('admin/layouts/footer');
+  }
+
+  public function addPostTest() {
+    $this->view('admin/layouts/sidebar');
+    $this->view('admin/elearning/addPostTest');
+    $this->view('admin/layouts/footer');
+  }
+
+  public function importTest() {
+    $model = $this->loadElearningModel();
+
+    $uploaded = false;
+    $testName = $_POST['testName'];
+    $passingScore = $_POST['passingScore'];
+    $timeLimit = $_POST['timeLimit'];
+    $endDate = $_POST['endDate'];
+    
+    if($_FILES['xlsx_file']["error"] != UPLOAD_ERR_NO_FILE ) { // Check if file has been uploaded
+      $target_dir = "elearningAssets/test/"; // Directory where you want to save the file
+      $file_name = uniqid() . '.' . pathinfo($_FILES['xlsx_file']['name'], PATHINFO_EXTENSION); // Generate unique ID and concatenate with file extension
+      $target_file = $target_dir . $file_name; // Get the name of the file
+    
+      // Check if file already exists
+      if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+      } else {
+        // Move the uploaded file to the desired directory
+        if (move_uploaded_file($_FILES['xlsx_file']['tmp_name'], $target_file)) {
+          $uploaded = true;
+        } else {
+          echo "Sorry, there was an error uploading your file.";
+        }
+      }
+    }
+    
+
+    if ($uploaded) {
+      if ( $xlsx = SimpleXLSX::parse('elearningAssets/test/' . $file_name )) {
+        $model['elearningTest']->createTest($_GET['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
+        foreach( $xlsx->rows() as $row ) {
+          // Skip the first row
+          if ($row === $xlsx->rows()[0]) {
+            continue;
+          }
+          
+
+        }
+      } else {
+          echo SimpleXLSX::parseError();
+      }
+    }
+
   }
   
   

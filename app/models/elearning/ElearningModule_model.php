@@ -28,4 +28,11 @@ class ElearningModule_model {
     $this->db->execute();
   }
 
+  public function updateModule($judul, $moduleId) {
+    $this->db->query('UPDATE ' . $this->table . ' SET judul=:judul WHERE elearningModuleId=:moduleId');
+    $this->db->bind('judul', $judul);
+    $this->db->bind('moduleId', $moduleId);
+    $this->db->execute();
+  }
+
 }

@@ -57,18 +57,18 @@ class ElearningCourse_model {
     $this->db->query('SELECT *
                       FROM ' . $this->table . '
                       WHERE access_type = 2
-                      EXCEPT
-                      SELECT ' . $this->table . '.*
+                      AND elearningCourseId NOT IN (
+                      SELECT ' . $this->table . '.elearningCourseId
                       FROM ' . $this->table . ' 
                       JOIN elearningCourseAkses ON ' . $this->table . '.elearningCourseId = elearningCourseAkses.elearningCourseId
                       WHERE elearningCourseAkses.organizationId = :orgId
-                      AND ' . $this->table . '.access_type = 2
-                      EXCEPT
-                      SELECT ' . $this->table . '.*
+                      AND ' . $this->table . '.access_type = 2 )
+                      AND elearningCourseId NOT IN (
+                      SELECT ' . $this->table . '.elearningCourseId
                       FROM ' . $this->table . ' 
                       JOIN userElearningCourseAkses ON ' . $this->table . '.elearningCourseId = userElearningCourseAkses.elearningCourseId
                       WHERE userElearningCourseAkses.userId = :userId
-                      AND ' . $this->table . '.access_type = 2');
+                      AND ' . $this->table . '.access_type = 2)');
 
     $this->db->bind('orgId', $orgId);
     $this->db->bind('userId', $userId);
@@ -108,6 +108,28 @@ class ElearningCourse_model {
 
   public function getCourseUserPrivateAkses($courseId) {
     $this->db->query('select count(*) as "totalUser" from userElearningCourseAkses where elearningCourseId=:courseId');
+
+    $this->db->bind('courseId', $courseId);
+    return $this->db->single();
+  }
+
+  public function countLesson($courseId) {
+    $this->db->query('select count(elearningLesson.elearningLessonId) as "total lesson"
+                      from ' . $this->table . '
+                      right join elearningModule on ' . $this->table . '.' . $this->table . 'Id=elearningModule.' . $this->table . 'Id
+                      right join elearningLesson on elearningModule.elearningModuleId=elearningLesson.elearningModuleId
+                      where ' . $this->table . '.' . $this->table . 'Id=:courseId');
+
+    $this->db->bind('courseId', $courseId);
+    return $this->db->single();
+  }
+
+  public function countTest($courseId) {
+    $this->db->query('select count(elearningTest.elearningTestId) as "total test"
+                      from ' . $this->table . '
+                      right join elearningModule on ' . $this->table . '.' . $this->table . 'Id=elearningModule.' . $this->table . 'Id
+                      right join elearningTest on elearningModule.elearningModuleId=elearningTest.elearningModuleId
+                      where ' . $this->table . '.' . $this->table . 'Id=:courseId');
 
     $this->db->bind('courseId', $courseId);
     return $this->db->single();

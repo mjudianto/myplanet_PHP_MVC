@@ -24,7 +24,7 @@
 				<div class="row">
 					<div class="card">
 						<div class="card-body">
-							<h6 class="text-center mb-3">Penggunaan APAR</h6>
+							<h6 class="text-center mb-3"><?= $data['elearningCourse']['judul'] ?></h6>
 							<div class="d-flex justify-content-end mb-3">
 								<div>
 									<button type="button" class="btn btn-primary radius-10" data-bs-toggle="modal"
@@ -39,7 +39,7 @@
                           <div class="card-body order-actions">
                             <h6 class="text-center">' . $module['judul'] . '</h6>
                             <a href="javascript:;" class="text-primary bg-light-primary border-0"
-                              data-bs-toggle="modal" data-bs-target="#modalAddNewModul"
+                              data-bs-toggle="modal" data-bs-target="#editModule-' . $module['elearningModuleId'] . '"
                               style="float: right; margin-top: -27px;"><i class="bx bxs-edit"></i></a>
                           </div>
                         </div>
@@ -57,7 +57,7 @@
                     }
                   }
                   echo '<div class="d-flex justify-content-end" style="margin-bottom:5%;">
-                          <a href="add-post-test.html" type="button"
+                          <a href="' . BASEURL . 'elearningmanagement/addPostTest?moduleId=' . $module['elearningModuleId'] . '" type="button"
                             class="btn btn-outline-danger radius-10 me-2"><i class="bx bx-plus"></i>Add
                             Post Test</a>
                           <button type="button" class="btn btn-outline-success radius-10"
@@ -104,6 +104,34 @@
         
         <?php 
           foreach($data['elearningModule'] as $module) {
+            echo '<form action="' . BASEURL . 'elearningmanagement/updateModule" method="post">
+                  <div class="modal fade" id="editModule-' . $module['elearningModuleId'] . '" tabindex="-1" aria-labelledby="modalAddNewModulLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modalAddNewModulLabel">Add New Course</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" name="moduleId" value="' . $module['elearningModuleId'] . '">
+                        <input type="hidden" name="courseId" value="' . $_GET['courseId'] . '">
+                        <div class="mb-3">
+                          <label for="modulName" class="form-label">Modul Name</label>
+                          <input type="text" class="form-control" id="modulName" value="' . $module['judul'] . '" name="moduleName" placeholder="Modul Name">
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" onclick="" class="btn btn-primary">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>';
+
+
             echo '<!-- Modal Box Add Lesson -->
                   <form action="' . BASEURL  . 'elearningmanagement/addLesson?moduleId=' . $module['elearningModuleId'] . '&courseId=' . $_GET['courseId'] .'" method="post" enctype="multipart/form-data">
                   <div class="modal fade" id="modalAddNewLesson-' . $module['elearningModuleId'] . '" tabindex="-1" aria-labelledby="modalAddNewLessonLabel"

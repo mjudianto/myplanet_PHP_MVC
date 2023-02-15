@@ -65,7 +65,7 @@ class Podtrets extends Controller {
                     </div>
                   </div>
                   <div class="d-flex mt-2">
-                    <a href=""><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
                     <a href=""><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
                   </div>
                 </div>

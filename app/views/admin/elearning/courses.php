@@ -142,13 +142,8 @@
 										<option value="softskill">Soft Skill</option>
 									</select>
 								</div>
-								<div class="col-12 mb-3">
+								<!-- <div class="col-12 mb-3">
 									<label class="form-label" for="select">Choose:</label>
-									<!-- <select class="form-select" id="test" name="form_select"
-										onchange="showDiv('hidden_spesific', this)">
-										<option value="0">All</option>
-										<option value="1">Spesific</option>
-									</select> -->
 									<select class="form-select" id="selectSpesific" name="form_select">
 										<option value="all">All</option>
 										<option value="byOrganization">Spesific by Organization</option>
@@ -190,7 +185,7 @@
 											<option value="siti">Siti Nuraini</option>
 										</select>
 									</div>
-								</div>
+								</div> -->
 								<div class="col-12 mb-3">
 									<label for="" class="form-label">Image Poster</label>
 									<div class="card">

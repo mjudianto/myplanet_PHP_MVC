@@ -17,6 +17,7 @@ class Login extends Controller{
   public function auth() {
     $userModel = $this->model('user/User_model', 'User_model');
     $user = $userModel->userAuth($_POST['nik'], $_POST['password']);
+    // var_dump($user);
     
     if ($user == false) {
       $_SESSION['falseLoginInfo'] = true;
