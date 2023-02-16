@@ -16,7 +16,7 @@ class ElearningModule_model {
   }
 
   public function getModuleBy($courseId) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningCourseId=:courseId');
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningCourseId=:courseId and state=1');
     $this->db->bind('courseId', $courseId);
     return $this->db->resultSet();
   }
@@ -31,6 +31,12 @@ class ElearningModule_model {
   public function updateModule($judul, $moduleId) {
     $this->db->query('UPDATE ' . $this->table . ' SET judul=:judul WHERE elearningModuleId=:moduleId');
     $this->db->bind('judul', $judul);
+    $this->db->bind('moduleId', $moduleId);
+    $this->db->execute();
+  }
+
+  public function deleteModule($moduleId) {
+    $this->db->query('UPDATE ' . $this->table . ' SET state=0 WHERE (elearningModuleId = :moduleId)');
     $this->db->bind('moduleId', $moduleId);
     $this->db->execute();
   }

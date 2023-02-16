@@ -38,6 +38,9 @@
                   echo '<div class="card bg-light-primary">
                           <div class="card-body order-actions">
                             <h6 class="text-center">' . $module['judul'] . '</h6>
+                            <a href="javascript:;" class="text-danger bg-light-danger border-0 ms-2"
+                                  data-bs-toggle="modal" data-bs-target="#modalDeleteModule-' . $module['elearningModuleId'] .'"
+                                  style="float: right; margin-top: -27px;"><i class="bx bxs-trash"></i></a>
                             <a href="javascript:;" class="text-primary bg-light-primary border-0"
                               data-bs-toggle="modal" data-bs-target="#editModule-' . $module['elearningModuleId'] . '"
                               style="float: right; margin-top: -27px;"><i class="bx bxs-edit"></i></a>
@@ -49,6 +52,9 @@
                       echo  '<div class="card bg-light-success">
                               <div class="card-body text-center order-actions">
                                 <h6 class="text-center">' . $lesson['judul'] . '</h6>
+                                <a href="javascript:;" class="text-danger bg-light-danger border-0 ms-2"
+                                  data-bs-toggle="modal" data-bs-target="#modalDeleteLesson"
+                                  style="float: right; margin-top: -27px;"><i class="bx bxs-trash"></i></a>
                                 <a href="javascript:;" class="text-primary bg-light-primary border-0"
                                   style="float: right; margin-top: -27px;" data-bs-toggle="modal"
                                   data-bs-target="#modalAddNewLesson"><i class="bx bxs-edit"></i></a>
@@ -61,9 +67,14 @@
                       echo  '<div class="card bg-light-success">
                               <div class="card-body text-center order-actions">
                                 <h6 class="text-center">' . $test['judul'] . '</h6>
-                                <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                                <a href="javascript:;" class="text-danger bg-light-danger border-0 ms-2"
+                                  data-bs-toggle="modal" data-bs-target="#modalDeleteLesson"
+                                  style="float: right; margin-top: -27px;"><i class="bx bxs-trash"></i></a>
+                                <a href="javascript:;" class="text-primary bg-light-primary border-0 ms-2"
                                   style="float: right; margin-top: -27px;" data-bs-toggle="modal"
                                   data-bs-target="#modalAddNewLesson"><i class="bx bxs-edit"></i></a>
+                                <a href="javascript:;" class="text-success bg-light-success border-0"
+                                  style="float: right; margin-top: -27px;"><i class="lni lni-download"></i></a>
                               </div>
                             </div>';
                     }
@@ -116,6 +127,30 @@
         
         <?php 
           foreach($data['elearningModule'] as $module) {
+            echo '<form action="' . BASEURL . 'elearningmanagement/deleteModule?moduleId=' . $module['elearningModuleId'] .'" method="post">
+                    <!-- Modal Delete Modul -->
+                    <input type="hidden" name="courseId" value="' . $_GET['courseId'] . '">
+                    <div class="modal fade" id="modalDeleteModule-' . $module['elearningModuleId'] .'" tabindex="-1" aria-labelledby="modalDeleteModulLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="modalDeleteModulLabel">Delete Modul</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h6>Are you sure want to delete this modul?</h6>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>';
+
             echo '<form action="' . BASEURL . 'elearningmanagement/updateModule" method="post">
                   <div class="modal fade" id="editModule-' . $module['elearningModuleId'] . '" tabindex="-1" aria-labelledby="modalAddNewModulLabel"
                   aria-hidden="true">

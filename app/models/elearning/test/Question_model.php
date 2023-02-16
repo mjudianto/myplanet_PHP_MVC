@@ -16,12 +16,6 @@ class Question_model {
     return $this->db->resultSet();
   }
 
-  public function countQuestion($testId) {
-    $this->db->query('SELECT COUNT(questionId) as numberOfQuestion FROM ' . $this->table . ' WHERE elearningTestId=:testId');
-    $this->db->bind('testId', $testId);
-    return $this->db->single();
-  }
-
   public function createQuestion($testId, $question, $score) {
     $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :testId, :question, :score)');
     $this->db->bind('testId', $testId);

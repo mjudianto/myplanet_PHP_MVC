@@ -47,7 +47,7 @@
                           </li>
 
 
-                          <a href="' . BASEURL . 'elearning/elearningLesson?elearningLessonId=' . $lesson['elearningLessonId'] . '"><button type="button" class="btn btn-start-resp-non-test">
+                          <a href="' . BASEURL . 'elearning/elearningLesson?elearningCourseId=' . $_GET['elearningCourseId'] . '&elearningLessonId=' . encrypt($lesson['elearningLessonId']) . '"><button type="button" class="btn btn-start-resp-non-test">
                               Start
                             </button></a>
 
@@ -90,7 +90,7 @@
                             <p>'; if(isset($data['testRecord'][$i][$j]['finished'])){echo $data['testRecord'][$i][$j]['finished'];} else {echo "No Attempt";}  echo '</p>
                           </li>
     
-                          <a href="' . BASEURL . 'elearning/elearningTest?elearningTestId=' . $test['elearningTestId'] . '"><button type="button" class="btn btn-start-resp">
+                          <a href="' . BASEURL . 'elearning/elearningTest?elearningTestId=' . encrypt($test['elearningTestId']) . '"><button type="button" class="btn btn-start-resp">
                               Start
                             </button></a>
                         </ul>

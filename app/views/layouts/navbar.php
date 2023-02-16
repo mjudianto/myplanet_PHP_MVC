@@ -134,7 +134,7 @@
         <?php else: ?>
           <div class="vl ms-2" style="border-left: solid 2px #ededed">
             <img src="<?= BASEURL ?>images/image-profile.jpg" alt="" class="image-navbar ms-3" onclick="toggleMenu()" />
-            <span class="badge"><?php if($_SESSION['notificationCount'] != 0) echo $_SESSION['notificationCount'] ?></span>
+            <span class="badge"><?php if(isset($_SESSION['notificationCount']) and $_SESSION['notificationCount'] != 0) echo $_SESSION['notificationCount'] ?></span>
 
             <div class="sub-menu-wrap" id="subMenu">
               <div class="sub-menu">

@@ -1,5 +1,7 @@
 <?php 
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class Login extends Controller{
 
   public function index() {
@@ -36,6 +38,33 @@ class Login extends Controller{
     session_destroy();
     header("Location: " . BASEURL);
     exit;
+  }
+
+  public function resetPassword() {
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer();
+
+    // Set the SMTP settings
+    $mail->isSMTP();
+    $mail->SMTPDebug  = 0;
+    $mail->Host       = "10.100.21.3";
+    $mail->Port       = "25";
+    $mail->SMTPSecure = false;
+    $mail->SMTPAutoTLS = false;
+    $mail->SMTPAuth   = false;
+
+    // Set the email content
+    $mail->setFrom("admin.planet@enseval.com", "Planet Enseval -- no reply");
+    $mail->addAddress('nandaraditya80@gmail.com');
+    $mail->Subject = 'Test email from PHPMailer';
+    $mail->Body = 'This is a test email from PHPMailer.';
+
+    // Send the email
+    if ($mail->send()) {
+        echo 'Email sent successfully';
+    } else {
+        echo 'Error sending email: ' . $mail->ErrorInfo;
+    }
   }
 
 }

@@ -46,6 +46,7 @@ class ElearningManagement extends Controller {
 
     $courses = $model['elearningCourse']->getUserInCourse(0);
     $courses2 = $model['elearningCourse']->getUserInCourse(2);
+    $user = $userModel->getAllUsers();
 
     $userCount = array_map(function ($course) use ($model, $userModel) {
       $courseId = $course['Course ID'];
@@ -63,10 +64,11 @@ class ElearningManagement extends Controller {
     $data = [
       'courses' => $courses,
       'courses2' => $courses2,
-      'userCount' => $userCount
+      'userCount' => $userCount,
+      'user' => $user,
     ];
 
-
+    // var_dump($data['user'][0]);
     $this->view('admin/layouts/sidebar');
     $this->view('admin/elearning/courses', $data);
     $this->view('admin/layouts/footer');
@@ -107,6 +109,13 @@ class ElearningManagement extends Controller {
     $model = $this->loadElearningModel();
 
     $model['elearningModule']->updateModule($_POST['moduleName'], $_POST['moduleId']);
+    header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
+  }
+
+  public function deleteModule() {
+    $model = $this->loadElearningModel();
+
+    $model['elearningModule']->deleteModule($_GET['moduleId']);
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
   }
 
@@ -205,7 +214,7 @@ class ElearningManagement extends Controller {
         }
       
         // Generate a unique filename for the video
-        $filename = uniqid() . '.' . $fileType;
+        $filename = uniqid();
         $destination = 'elearningAssets/videos/' .  basename($filename . 'mp4');
       
         // Move the uploaded file to the uploads folder
@@ -214,35 +223,29 @@ class ElearningManagement extends Controller {
         // var_dump(BASEURL . $destination);
         $model['elearningLesson']->addLesson($_GET['moduleId'], $judul, $destination);
         header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
+      } else {
+        // Generate a unique file name
+        $fileName = md5(uniqid()) . '.pdf';
+      
+        // Set upload directory
+        $uploadDir = 'elearningAssets/pdf/';
+      
+        // Check if upload directory exists, if not create it
+        if (!file_exists($uploadDir)) {
+          mkdir($uploadDir, 0777, true);
+        }
+      
+        $destination = $uploadDir .  basename($fileName);
+
+        // Save PDF file to upload directory
+        move_uploaded_file($konten['tmp_name'], $uploadDir . $fileName);
+
+        $model['elearningLesson']->addLesson($_GET['moduleId'], $judul, $destination);
+        header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
       }
     } else {
       echo "please fill the lesson name and content";
     }
-
-    // if(isset($_FILES['pdf_file'])){
-    //   $pdf = $_FILES['pdf_file'];
-    
-    //   // Check if file is a PDF
-    //   if($pdf['type'] != 'application/pdf'){
-    //     // Return error message
-    //     echo "Error: Only PDF files are allowed.";
-    //     return;
-    //   }
-    
-    //   // Generate a unique file name
-    //   $fileName = md5(uniqid()) . '.pdf';
-    
-    //   // Set upload directory
-    //   $uploadDir = 'uploads/';
-    
-    //   // Check if upload directory exists, if not create it
-    //   if (!file_exists($uploadDir)) {
-    //     mkdir($uploadDir, 0777, true);
-    //   }
-    
-    //   // Save PDF file to upload directory
-    //   move_uploaded_file($pdf['tmp_name'], $uploadDir . $fileName);
-    // }
 
 
   }
@@ -325,7 +328,5 @@ class ElearningManagement extends Controller {
 
   }
   
-  
-
 }
   

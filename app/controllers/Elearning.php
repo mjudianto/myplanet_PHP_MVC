@@ -45,10 +45,6 @@ class Elearning extends Controller {
       }
     }
 
-    
-
-    
-    
     echo '<!-- Floating Button -->
           <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
             <img src="assets/ic-arrow-up.png" alt="" width="24" />
@@ -117,8 +113,9 @@ class Elearning extends Controller {
   public function elearningLesson() {
     $model = $this->loadElearningModel();
 
-    $data['elearningLesson'] = $model['elearningLesson']->getSpesificLesson($_GET['elearningLessonId']);
-    $this->updateUserLessonAttempt($_GET['elearningLessonId']);
+    $lessonId = $this->decrypt($_GET['elearningLessonId']);
+    $data['elearningLesson'] = $model['elearningLesson']->getSpesificLesson($lessonId);
+    $this->updateUserLessonAttempt($lessonId);
 
     $this->view('layouts/navbar');
     $this->view('elearning/elearningLesson', $data);
@@ -144,7 +141,7 @@ class Elearning extends Controller {
     $model = $this->loadElearningModel();
 
     $userId = $_SESSION['user']['userId'];
-    $elearningTestId = $_GET['elearningTestId'];
+    $elearningTestId = $this->decrypt($_GET['elearningTestId']);
 
     $test = $model['elearningTest']->getSingleTest($elearningTestId);
 
@@ -177,9 +174,8 @@ class Elearning extends Controller {
       'elearningTest' => $test,
       'question' => $questions,
       'choice' => $choices,
-      'numberOfQuestion' => $model['question']->countQuestion($elearningTestId)
+      'numberOfQuestion' => count($questions),
     ];
-
 
     $this->view('elearning/elearningTest', $data);
   }

@@ -46,26 +46,26 @@ class Podtrets extends Controller {
     foreach ($podtrets as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
+                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
                     alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-page-podtret">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '">' . $podtret['judul'] . '</a>
                   </h5>
                   <div class="row mt-3">
                     <div class="col-10">
                       <p class="card-text-page-podtret">
-                        47x ditonton • 2 bulan lalu
+                        ' . $podtret['views'] . 'x ditonton • ' . $this->dateFormatAsString($podtret['uploadDate']) . '
                       </p>
                     </div>
                     <div class="col d-none d-lg-block">
-                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
+                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '" class="btn-go-podtret">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
                   <div class="d-flex mt-2">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $podtret['podtretId'] . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
                     <a href=""><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
                   </div>
                 </div>
@@ -74,11 +74,36 @@ class Podtrets extends Controller {
       } 
   }
 
+  public function dateFormatAsString($date) {
+    $now = new DateTime(); // get the current date and time
+    $originalDate = new DateTime($date); // create a DateTime object for the original date
+
+    // calculate the difference between the original date and the current date
+    $interval = $now->diff($originalDate);
+    $string = '';
+    // output the result based on the difference
+    if ($interval->y > 0) {
+        $string = $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
+    } else if ($interval->m > 0) {
+        $string = $interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago';
+    } else if ($interval->d > 0) {
+        $string = $interval->d . ' day' . ($interval->d > 1 ? 's' : '') . ' ago';
+    } else if ($interval->h > 0) {
+        $string = $interval->h . ' hour' . ($interval->h > 1 ? 's' : '') . ' ago';
+    } else if ($interval->i > 0) {
+        $string = $interval->i . ' minute' . ($interval->i > 1 ? 's' : '') . ' ago';
+    } else {
+        $string = 'just now';
+    }
+
+    return $string;
+  }
+
   public function podtretKonten() {
     $model = $this->loadPodtretModel();
 
-    $podtretId = $_GET['podtretId'];
-    $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, $_GET['views']+1);
+    $podtretId = $this->decrypt($_GET['podtretId']);
+    $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, $this->decrypt($_GET['views'])+1);
     $data['podtret'] = $model['podtret']->getPodtretBy($podtretId);
     $data['likes'] = $model['podtretLike']->countLike($podtretId, 1);
 

@@ -30,7 +30,6 @@
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css" />
 	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
-
 	<title>My Planet Admin</title>
 
 </head>

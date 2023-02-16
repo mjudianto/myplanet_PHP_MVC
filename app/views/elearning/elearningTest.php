@@ -29,7 +29,7 @@
 
       <div class="card mb-4 mt-4 transition post-test-start" id="quiz" style="height: 450px;">
         <div class="card-header header-post-test d-flex">
-          <p class="mb-0">Question <p id="questionCounter">1 </p> of <?= $data['numberOfQuestion']['numberOfQuestion'] ?></p>
+          <p class="mb-0">Question <span id="questionCounter">1</span> of <?= $data['numberOfQuestion'] ?></p>
           <p class="ms-auto mb-0"></p>
 
           <div class="vl ms-2 mb-0" style="border-left: solid 2px #ffffff">
@@ -118,7 +118,7 @@
     }
 
     var currentQuestion = <?= $data['question'][0]['questionId'] ?>;
-    var totalQuestions = <?= (int)$data['numberOfQuestion']['numberOfQuestion'] + (int)$data['question'][0]['questionId'] ?>;
+    var totalQuestions = <?= (int)$data['numberOfQuestion'] + (int)$data['question'][0]['questionId'] ?>;
 
     document.getElementById("question-" + currentQuestion).classList.add("active");
 
@@ -157,6 +157,7 @@
           document
             .getElementById("question-" + currentQuestion)
             .classList.add("active");
+          prevQuestion();
         }
       });
     }
@@ -168,6 +169,11 @@
     function nextQuestion() {
       var qc = parseInt(document.getElementById("questionCounter").innerHTML);
       document.getElementById("questionCounter").innerHTML = qc+1;
+    }
+
+    function prevQuestion() {
+      var qc = parseInt(document.getElementById("questionCounter").innerHTML);
+      document.getElementById("questionCounter").innerHTML = qc-1;
     }
     
   </script>

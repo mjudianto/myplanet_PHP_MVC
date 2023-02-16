@@ -142,50 +142,17 @@
 										<option value="softskill">Soft Skill</option>
 									</select>
 								</div>
-								<!-- <div class="col-12 mb-3">
-									<label class="form-label" for="select">Choose:</label>
-									<select class="form-select" id="selectSpesific" name="form_select">
-										<option value="all">All</option>
-										<option value="byOrganization">Spesific by Organization</option>
-										<option value="byName">Spesific by User</option>
-									</select>
+								<div class="col-12 mb-3">
+									<label class="form-label">Accessibility</label>
+									<input type="text" list="list" id="accessList" placeholder="Search ..." class="form-control inputSearch">
+                    <datalist id="list">
+											<?php 
+												foreach($data['user'] as $user) {
+													echo '<option value="' . $user['nama'] . '" />';
+												}
+											?>
+                    </datalist>
 								</div>
-								<div id="orgName" class="col-12 mb-3" style="display:none;">
-									<div class="mb-3">
-										<label class="form-label">Choose Organization</label>
-										<select class="checkbox-spesific" data-placeholder="Choose anything"
-											multiple="multiple">
-											<option value="hrd">Human Resource Development</option>
-											<option value="it">Information Technology</option>
-											<option value="finance">Finance</option>
-											<option value="marketing">Marketing</option>
-											<option value="operation">Operation</option>
-											<option value="production">Production</option>
-											<option value="quality">Quality</option>
-											<option value="sales">Sales</option>
-											<option value="supplychain">Supply Chain</option>
-										</select>
-									</div>
-
-								</div>
-								<div id="userName" class="col-12 mb-3" style="display:none;">
-									<div class="mb-3">
-										<label class="form-label">Choose User</label>
-										<select class="checkbox-spesific" data-placeholder="Choose anything"
-											multiple="multiple">
-											<option value="nanda">Nanda Raditya</option>
-											<option value="dwi">Dwi Prasetyo</option>
-											<option value="dewi">Dewi Sartika</option>
-											<option value="siti">Siti Nuraini</option>
-											<option value="susi">Susi Susanti</option>
-											<option value="sari">Sari Sari</option>
-											<option value="siti">Siti Nuraini</option>
-											<option value="susi">Susi Susanti</option>
-											<option value="sari">Sari Sari</option>
-											<option value="siti">Siti Nuraini</option>
-										</select>
-									</div>
-								</div> -->
 								<div class="col-12 mb-3">
 									<label for="" class="form-label">Image Poster</label>
 									<div class="card">
@@ -250,6 +217,8 @@
 		<!--end page wrapper -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
 
 
     <script>
@@ -259,24 +228,5 @@
 				buttons: ['csv', 'excel', 'pdf', 'print']
 			});
 
-			table.buttons().container()
-				.appendTo('#tableCourse .col-md-6:eq(0)');
-		});
-	</script>
-
-<script>
-		$('#selectCategoryAddNew').select2({
-			dropdownParent: $('#modalAddNewCourse'),
-			theme: 'bootstrap4',
-			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-			placeholder: $(this).data('placeholder'),
-			allowClear: Boolean($(this).data('allow-clear')),
-		});
-		$('.checkbox-spesific').select2({
-			dropdownParent: $('#modalAddNewCourse'),
-			theme: 'bootstrap4',
-			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-			placeholder: $(this).data('placeholder'),
-			allowClear: Boolean($(this).data('allow-clear')),
 		});
 	</script>
