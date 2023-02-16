@@ -16,4 +16,19 @@ class Choice_model {
     return $this->db->resultSet();
   }
 
+  public function createChoice($questionId, $answer, $answerId) {
+    if ($answerId == 'null') {
+      $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :questionId, :answer, null)');
+      $this->db->bind('questionId', $questionId);
+      $this->db->bind('answer', $answer);
+    } else {
+      $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :questionId, :answer, :answerId)');
+      $this->db->bind('questionId', $questionId);
+      $this->db->bind('answer', $answer);
+      $this->db->bind('answerId', $answerId);
+    }
+    
+    $this->db->execute();
+  }
+
 }

@@ -16,4 +16,11 @@ class Answer_model {
     return $this->db->single();
   }
 
+  public function createAnswer($questionId, $answer) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :questionId, :answer)');
+    $this->db->bind('questionId', $questionId);
+    $this->db->bind('answer', $answer);
+    $this->db->execute();
+  }
+
 }

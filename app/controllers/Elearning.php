@@ -93,6 +93,7 @@ class Elearning extends Controller {
     $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
     $data['elearningLesson'] = [];
     $data['elearningTest'] = [];
+    $data['testRecord'] = [];
 
     foreach ($data['elearningModule'] as $module) {
       $moduleId = $module['elearningModuleId'];
@@ -102,6 +103,9 @@ class Elearning extends Controller {
 
       $test = $model['elearningTest']->getTestBy($moduleId);
       array_push($data['elearningTest'], $test);
+
+      $testRecord = $model['userTestRecord']->getTestRecord($_SESSION['user']['userId'], $moduleId); 
+      $data['testRecord'][] = $testRecord;
     }
 
 
@@ -142,7 +146,7 @@ class Elearning extends Controller {
     $userId = $_SESSION['user']['userId'];
     $elearningTestId = $_GET['elearningTestId'];
 
-    $test = $model['elearningTest']->getTestBy($elearningTestId);
+    $test = $model['elearningTest']->getSingleTest($elearningTestId);
 
     $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
     if (!$userTestRecord) {
@@ -158,9 +162,14 @@ class Elearning extends Controller {
     }
 
     $questions = $model['question']->getQuestionBy($elearningTestId);
+    if ($test['questionNumber'] != 0 && count($questions) > $test['questionNumber']) {
+      $questions = array_rand($questions,$test['questionNumber']);
+    }
+    shuffle($questions);
     $choices = [];
     foreach ($questions as $question) {
       $choice = $model['choice']->getChoiceBy($question['questionId']);
+      shuffle($choice); 
       array_push($choices, $choice);
     }
 
@@ -181,7 +190,7 @@ class Elearning extends Controller {
     $userId = $_SESSION['user']['userId'];
     $elearningTestId = $_GET['elearningTestId'];
 
-    $elearningTest = $model['elearningTest']->getTestBy($elearningTestId);
+    $elearningTest = $model['elearningTest']->getSingleTest($elearningTestId);
     
     $questions = $model['question']->getQuestionBy($elearningTestId);
     $selectedChoices = $_POST['selectedChoice'] ?? [];

@@ -270,8 +270,9 @@ class ElearningManagement extends Controller {
     $uploaded = false;
     $testName = $_POST['testName'];
     $passingScore = $_POST['passingScore'];
-    $timeLimit = $_POST['timeLimit'];
-    $endDate = $_POST['endDate'];
+    $timeLimit = (int)$_POST['timeLimit'] * 60 * 1000;
+    $endDate = new DateTime($_POST['endDate']);
+    $endDate = $endDate->format('Y-m-d');
     
     if($_FILES['xlsx_file']["error"] != UPLOAD_ERR_NO_FILE ) { // Check if file has been uploaded
       $target_dir = "elearningAssets/test/"; // Directory where you want to save the file
@@ -295,14 +296,28 @@ class ElearningManagement extends Controller {
     if ($uploaded) {
       if ( $xlsx = SimpleXLSX::parse('elearningAssets/test/' . $file_name )) {
         $model['elearningTest']->createTest($_GET['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
+        $test =  $model['elearningTest']->getTestByJudul($_GET['moduleId'], $testName);
+
         foreach( $xlsx->rows() as $row ) {
           // Skip the first row
           if ($row === $xlsx->rows()[0]) {
             continue;
           }
           
+          $model['question']->createQuestion($test['elearningTestId'], $row[0], $row[6]);
+          $question = $model['question']->getSingelQuestion($test['elearningTestId'], $row[0]);
+          $model['answer']->createAnswer($question['questionId'], $row[5]);
+          $answer = $model['answer']->getQuestionAnswer($question['questionId']);
 
+          for ($i=1 ; $i<=4 ; $i++){
+            if ($row[$i] == $row[5]) {
+              $model['choice']->createChoice($question['questionId'], $row[$i], $answer['answerId']);
+            }
+            $model['choice']->createChoice($question['questionId'], $row[$i], 'null');
+          }
         }
+
+        header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
       } else {
           echo SimpleXLSX::parseError();
       }

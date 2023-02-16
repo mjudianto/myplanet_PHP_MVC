@@ -163,4 +163,21 @@ class UserTestRecord_model {
     return $this->db->resultSet();
   }
 
+  public function getTestRecord($userId, $moduleId) {
+    $query = 'select max(userTestRecordDetail.score) as "score", max(userTestRecordDetail.status) as "status", 
+              max(userTestRecordDetail.attemptNumber) as "attempt", max(userTestRecordDetail.finished) as "finished"
+              from elearningTest
+              left join userTestRecord on elearningTest.elearningTestId=userTestRecord.elearningTestId
+              left join userTestRecordDetail on userTestRecord.userTestRecordId=userTestRecordDetail.userTestRecordId
+              where userTestRecord.userId=:userId and elearningTest.elearningModuleId=:moduleId
+              group by
+              elearningTest.elearningTestId;';
+
+    $this->db->query($query);
+    $this->db->bind('userId', $userId);
+    $this->db->bind('moduleId', $moduleId);
+
+    return $this->db->resultSet();
+  }
+
 }

@@ -29,7 +29,7 @@
 
       <div class="card mb-4 mt-4 transition post-test-start" id="quiz" style="height: 450px;">
         <div class="card-header header-post-test d-flex">
-          <p class="mb-0">Question <p id="questionCounter">1</p> of <?= $data['numberOfQuestion']['numberOfQuestion'] ?></p>
+          <p class="mb-0">Question <p id="questionCounter">1 </p> of <?= $data['numberOfQuestion']['numberOfQuestion'] ?></p>
           <p class="ms-auto mb-0"></p>
 
           <div class="vl ms-2 mb-0" style="border-left: solid 2px #ffffff">
@@ -76,7 +76,7 @@
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   <script src="<?= BASEURL ?>js/floating-btn.js"></script>
-  <script src="<?= BASEURL ?>js/startClick.js"></script>
+  <!-- <script src="<?= BASEURL ?>js/startClick.js"></script> -->
 
   <script>
     var countDownDate = new Date().getTime()+<?= $data['elearningTest']['timeLimit'] ?>;
@@ -108,6 +108,67 @@
   </script>
 
   <script>
+    function startClick() {
+    var startPostTest = document.getElementById("startPostTest");
+    var formQuestion = document.getElementById("quiz");
+
+    startPostTest.classList.add("post-test-start");
+    formQuestion.classList.remove("post-test-start");
+    setTimeout(startPostTest.classList.add("d-none"), 0.2);
+    }
+
+    var currentQuestion = <?= $data['question'][0]['questionId'] ?>;
+    var totalQuestions = <?= (int)$data['numberOfQuestion']['numberOfQuestion'] + (int)$data['question'][0]['questionId'] ?>;
+
+    document.getElementById("question-" + currentQuestion).classList.add("active");
+
+    // Next button
+    var nextButton = document.getElementsByClassName("next-button");
+    for (var i = 0; i < nextButton.length; i++) {
+      if (i == nextButton.length-1){
+        nextButton[i].textContent = 'Submit';
+        nextButton[i].setAttribute('type', 'submit');
+      } 
+      nextButton[i].addEventListener("click", function () {
+        if (currentQuestion < totalQuestions) {
+          document
+            .getElementById("question-" + currentQuestion)
+            .classList.remove("active");
+          currentQuestion++;
+          document
+            .getElementById("question-" + currentQuestion)
+            .classList.add("active");
+          nextQuestion();
+        } else {
+          document.getElementById("myForm").submit();
+        }
+      });
+    }
+
+    // Previous button
+    var prevButton = document.getElementsByClassName("prev-button");
+    for (var i = 0; i < prevButton.length; i++) {
+      prevButton[i].addEventListener("click", function () {
+        if (currentQuestion > 1) {
+          document
+            .getElementById("question-" + currentQuestion)
+            .classList.remove("active");
+          currentQuestion--;
+          document
+            .getElementById("question-" + currentQuestion)
+            .classList.add("active");
+        }
+      });
+    }
+
+    function timeOut() {
+      document.getElementById("myForm").submit();
+    }
+
+    function nextQuestion() {
+      var qc = parseInt(document.getElementById("questionCounter").innerHTML);
+      document.getElementById("questionCounter").innerHTML = qc+1;
+    }
     
   </script>
 </body>

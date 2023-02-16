@@ -7,7 +7,7 @@ function startClick() {
   setTimeout(startPostTest.classList.add("d-none"), 0.2);
 }
 
-var currentQuestion = 1;
+var currentQuestion = 3;
 var totalQuestions = 2;
 
 document.getElementById("question-" + currentQuestion).classList.add("active");

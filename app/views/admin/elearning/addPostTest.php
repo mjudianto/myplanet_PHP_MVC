@@ -416,23 +416,24 @@
                     aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+									<input type="hidden" name="courseId" value="<?= $_GET['courseId'] ?>">
                   <div class="mb-3">
                     <label for="modulName" class="form-label">Post Test Title</label>
-                    <input  type="text" class="form-control" name="testName" id="testName" placeholder="Enter Post Test Title">
+                    <input required  type="text" class="form-control" name="testName" id="testName" placeholder="Enter Post Test Title">
                   </div>
                   <div class="mb-3">
                     <label for="modulName" class="form-label">Passing Score</label>
-                    <input  type="text" class="form-control" name="passingScore" id="passingScore" placeholder="Enter Passing Score">
+                    <input required  type="text" class="form-control" name="passingScore" id="passingScore" placeholder="Enter Passing Score">
                   </div>
                   <div class="mb-3">
                     <label for="modulName" class="form-label">Time Limit</label>
                     <label> ( As Minute! )</label>
-                    <input  type="text" class="form-control" name="timeLimit" id="timeLimit" placeholder="Enter Time Limit as Minute">
+                    <input required  type="text" class="form-control" name="timeLimit" id="timeLimit" placeholder="Enter Time Limit as Minute">
                   </div>
                   <div class="filter-akhir mb-3"><label for="filerDateAkhir" class="sr-only">End Date
                     Filters</label>
                     <div class="input-group mb-2 me-sm-2">
-                      <input  type="text" class="form-control datepickerakhir" name="endDate" id="endDate"
+                      <input required  type="text" class="form-control datepickerakhir" name="endDate" id="endDate"
                         placeholder="dd/mm/yyyy" autocomplete="off">
                     </div>
                   </div>

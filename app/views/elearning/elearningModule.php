@@ -56,46 +56,50 @@
                     </div>
                   </div>';
         }
-        if(isset($data['elearningTest'][$i]) && !is_bool($data['elearningTest'][$i])) {
+        if(!empty($data['elearningTest'][$i])) {
           // echo $data['elearningTest'][$i]['judul'];
-          echo '<div class="card card-neop-general mt-5">
-                  <div class="row">
-                    <div class="col-lg-4 text-center align-self-center">
-                      <img src="' . BASEURL . 'images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
-                    </div>
-                    <div class="col card-title-neop align-self-lg-center flex-column flex-lg-row mt-4 ms-2">
-                      <div class="d-flex align-items-center">
-                        <a href="">
-                          <h3>Digital Awareness Neop Post Test</h3>
-                        </a>
-                        <p class="ms-auto mt-2 nik-post-test">'. $_SESSION['user']['nik'] . '</p>
+          $j=0;
+          foreach($data['elearningTest'][$i] as $test) {
+            echo '<div class="card card-neop-general mt-5">
+                    <div class="row">
+                      <div class="col-lg-4 text-center align-self-center">
+                        <img src="' . BASEURL . 'images/post test.png" alt="" class="py-4 ms-2" width="300" height="200" />
                       </div>
-                      <!-- CODINGAN LAMA -->
-                      <ul class="d-lg-flex list-nilai-test">
-                        <li class="nilai">
-                          <p> My Score : 90</p>
-                        </li>
-                        <li class="percobaan">
-                          <p> My Attempts : 3</p>
-                        </li>
-                      </ul>
-                      <!-- Pembatas -->
-                      <ul class="d-lg-flex list-nilai-test">
-                        <li class="kondisi">
-                          <p> My Status : <span>Lulus</span></p>
-                        </li>
-                        <li class="time">
-                          <p>11 January 2022</p>
-                        </li>
-  
-                        <a href="' . BASEURL . 'elearning/elearningTest?elearningTestId=' . $data['elearningTest'][$i]['elearningTestId'] . '"><button type="button" class="btn btn-start-resp">
-                            Start
-                          </button></a>
-                      </ul>
-                      <!-- End Codingan lama -->
+                      <div class="col card-title-neop align-self-lg-center flex-column flex-lg-row mt-4 ms-2">
+                        <div class="d-flex align-items-center">
+                          <a href="">
+                            <h3>' . $test['judul'] . '</h3>
+                          </a>
+                          <p class="ms-auto mt-2 nik-post-test">'. $_SESSION['user']['nik'] . '</p>
+                        </div>
+                        <!-- CODINGAN LAMA -->
+                        <ul class="d-lg-flex list-nilai-test">
+                          <li class="nilai">
+                            <p> My Score : '; if(isset($data['testRecord'][$i][$j]['score'])) echo $data['testRecord'][$i][$j]['score'];  echo '</p>
+                          </li>
+                          <li class="percobaan">
+                            <p> My Attempts : '; if(isset($data['testRecord'][$i][$j]['attempt'])) echo $data['testRecord'][$i][$j]['attempt'];  echo '</p>
+                          </li>
+                        </ul>
+                        <!-- Pembatas -->
+                        <ul class="d-lg-flex list-nilai-test">
+                          <li class="kondisi">
+                            <p> My Status : <span>'; if(isset($data['testRecord'][$i][$j]['status'])) echo $data['testRecord'][$i][$j]['status'];  echo '</span></p>
+                          </li>
+                          <li class="time">
+                            <p>'; if(isset($data['testRecord'][$i][$j]['finished'])){echo $data['testRecord'][$i][$j]['finished'];} else {echo "No Attempt";}  echo '</p>
+                          </li>
+    
+                          <a href="' . BASEURL . 'elearning/elearningTest?elearningTestId=' . $test['elearningTestId'] . '"><button type="button" class="btn btn-start-resp">
+                              Start
+                            </button></a>
+                        </ul>
+                        <!-- End Codingan lama -->
+                      </div>
                     </div>
-                  </div>
-                </div>';
+                  </div>';
+            $j+=1;
+          }
         }
           echo'</div>
               </div>

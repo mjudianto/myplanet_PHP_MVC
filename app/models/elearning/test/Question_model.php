@@ -22,4 +22,19 @@ class Question_model {
     return $this->db->single();
   }
 
+  public function createQuestion($testId, $question, $score) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :testId, :question, :score)');
+    $this->db->bind('testId', $testId);
+    $this->db->bind('question', $question);
+    $this->db->bind('score', $score);
+    $this->db->execute();
+  }
+
+  public function getSingelQuestion($testId, $question) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningTestId=:testId AND question=:question');
+    $this->db->bind('testId', $testId);
+    $this->db->bind('question', $question);
+    return $this->db->single();
+  }
+
 }

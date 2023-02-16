@@ -56,8 +56,20 @@
                             </div>';
                     }
                   }
+                  if(isset($data['elearningTest'][$i])) {
+                    foreach($data['elearningTest'][$i] as $test) {
+                      echo  '<div class="card bg-light-success">
+                              <div class="card-body text-center order-actions">
+                                <h6 class="text-center">' . $test['judul'] . '</h6>
+                                <a href="javascript:;" class="text-primary bg-light-primary border-0"
+                                  style="float: right; margin-top: -27px;" data-bs-toggle="modal"
+                                  data-bs-target="#modalAddNewLesson"><i class="bx bxs-edit"></i></a>
+                              </div>
+                            </div>';
+                    }
+                  }
                   echo '<div class="d-flex justify-content-end" style="margin-bottom:5%;">
-                          <a href="' . BASEURL . 'elearningmanagement/addPostTest?moduleId=' . $module['elearningModuleId'] . '" type="button"
+                          <a href="' . BASEURL . 'elearningmanagement/addPostTest?courseId=' . $_GET['courseId'] . '&moduleId=' . $module['elearningModuleId'] . '" type="button"
                             class="btn btn-outline-danger radius-10 me-2"><i class="bx bx-plus"></i>Add
                             Post Test</a>
                           <button type="button" class="btn btn-outline-success radius-10"
