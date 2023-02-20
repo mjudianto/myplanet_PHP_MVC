@@ -62,14 +62,14 @@
 							<table id="tablePodtret" class="table align-middle" style="width:100%">
 
 								<thead class="table-light">
-									<tr>
+									<tr>	
 										<th>No</th>
 										<th>Judul</th>
 										<th>Thumbnail</th>
 										<th>Segmen</th>
-										<th>Premiere</th>
+										<th>Publish At</th>
 										<th>Publish</th>
-										<th>Published At</th>
+										<th>Upload At</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -84,10 +84,10 @@
                             <td><a href="#" data-bs-toggle="modal" data-bs-target="#modalPoster-' . $podtret['podtretId'] . '"><img
                                   src="' . $podtret['thumbnail'] . '"
                                   style="width: 130px; display:block; margin: 0 auto;"
-                                  alt="edisi-pildun"></a>
+                                  alt="No-Image"></a>
                             </td>
                             <td>#' . $podtret['nama'] . '</td>
-                            <td>' . $podtret['uploadDate'] . '</td>';
+                            <td>' . $podtret['publishDate'] . '</td>';
                     if ($podtret['state'] == 1){
                       echo  '<td>
                               <div
@@ -107,11 +107,8 @@
                             <td>
                               <div class="d-flex order-actions">
                                 <a href="javascript:;" class="text-primary bg-light-primary border-0"
-                                  data-bs-toggle="modal" data-bs-target="#' . $podtret['podtretId'] . '"><i
+                                  data-bs-toggle="modal" data-bs-target="#updatePodtret-' . $podtret['podtretId'] . '"><i
                                     class="bx bxs-edit"></i></a>
-                                <a href="javascript:;" class="ms-2 text-danger bg-light-danger border-0"
-                                  data-bs-toggle="modal" data-bs-target="#deleteModal"><i
-                                    class="bx bxs-trash"></i></a>
                               </div>
                             </td>
                           </tr>';
@@ -128,9 +125,9 @@
 										<th>Judul</th>
 										<th>Thumbnail</th>
 										<th>Segmen</th>
-										<th>Premiere</th>
+										<th>Publish At</th>
 										<th>Publish</th>
-										<th>Published At</th>
+										<th>Upload At</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
@@ -142,7 +139,7 @@
 			</div>
 		</div>
 
-    <form action="<?= BASEURL ?>podtretmanagement/upload" method="post" enctype="multipart/form-data">
+    <form action="<?= BASEURL ?>podtretmanagement/newPodtret" method="post" enctype="multipart/form-data">
     <!-- Modal Add New -->
 		<div class="modal fade" id="modalAddNewPodtret" tabindex="-1" aria-labelledby="modalAddNewPodtretLabel"
 			aria-hidden="true">
@@ -155,16 +152,15 @@
 					<div class="modal-body">
 						<div class="form-group mb-3">
 							<label for="juudlPodtret" class="form-label">Judul</label>
-							<input type="email" class="form-control" id="juudlPodtret" placeholder="Input title...">
+							<input required type="text" class="form-control" name="newJudul" placeholder="Input title...">
 						</div>
 						<div class="form-group mb-3">
 							<label for="judulSegmen" class="form-label">Segmen</label>
-							<select class="form-select" aria-label="Default select example" id="judulSegmen">
-								<option selected>Select segmen...</option>
-
+							<select class="form-select" aria-label="Default select example" name="newKategori">
+								<option value="<?= $data['podtretKategori'][0]['podtretKategoriId'] ?>">#<?= $data['podtretKategori'][0]['nama'] ?></option>
 								<?php 
 								foreach($data['podtretKategori'] as $kategori){
-									echo '<option value="' . $kategori['podtretkategoriId'] . '">#' . $kategori['nama'] . '</option>';
+									echo '<option value="' . $kategori['podtretKategoriId'] . '">#' . $kategori['nama'] . '</option>';
 								}
 								?>
 
@@ -174,8 +170,8 @@
 							<label for="poster-upload" class="form-label">Poster</label>
 							<div class="card">
 								<div class="card-body">
-									<input id="poster-upload" type="file" name="files"
-										accept=".jpg, .png, image/jpeg, image/png">
+									<input id="poster-upload" type="file" name="newThumbnail"
+										accept="image/jpg, image/jpeg, image/png">
 								</div>
 							</div>
 						</div>
@@ -183,25 +179,25 @@
 							<label for="video-upload" class="form-label">Video</label>
 							<div class="card">
 								<div class="card-body">
-									<input id="video-upload" type="file" name="files"
-										accept=".jpg, .png, image/jpeg, image/png, .mp4">
+									<input id="video-upload" type="file" name="newVideo"
+										accept="video/mp4">
 								</div>
 							</div>
 						</div>
 						<div class="form-group mb-4">
 							<label for="audio" class="form-label">Audio</label>
-							<input class="form-control" type="file" id="audio">
+							<input class="form-control" accept="audio/mpeg" type="file" name="newAudio">
 						</div>
 						<div class="form-group mb-3">
 							<label for="" class="form-label">Publish</label>
 							<div class="d-flex">
 								<div class="form-check me-2">
-									<input class="form-check-input" type="radio" name="flexRadioDefault"
+									<input class="form-check-input" type="radio" name="newPublish" value="1"
 										id="flexRadioDefault1">
 									<label class="form-check-label" for="flexRadioDefault1">Yes</label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault"
+									<input class="form-check-input" type="radio" name="newPublish" value="0"
 										id="flexRadioDefault2" checked="">
 									<label class="form-check-label" for="flexRadioDefault2">No</label>
 								</div>
@@ -220,35 +216,11 @@
 
 
 		
-
+    <!-- Modal Edit -->
     <?php 
       foreach($data['podtret'] as $podtret) {
-				echo '<!-- Modal Poster -->
-							<div class="modal fade" id="modalPoster-' . $podtret['podtretId'] . '" tabindex="-1" aria-labelledby="modalPosterLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="modalPosterLabel">Thumbnail Podtret</h1>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<div class="container">
-												<img src="' . $podtret['thumbnail'] . '"
-													style="max-width: 100%; display:block; height: auto;" alt="">
-											</div>
-					
-					
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					
-										</div>
-									</div>
-								</div>
-							</div>';
-
-        echo '<!-- Modal Edit -->
-              <div class="modal fade" id="' . $podtret['podtretId'] . '" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+        echo '<form action="' . BASEURL . 'podtretmanagement/updatePodtret?podtretId=' . $podtret['podtretId'] . '" method="post" enctype="multipart/form-data">
+							<div class="modal fade" id="updatePodtret-' . $podtret['podtretId'] . '" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -258,84 +230,65 @@
                     <div class="modal-body">
                       <div class="form-group mb-3">
                         <label for="judulPodtret" class="form-label">Judul</label>
-                        <input type="email" class="form-control" id="judulPodtret"
+                        <input type="text" class="form-control" name="updateJudul-' . $podtret['podtretId'] . '"
                           value="' . $podtret['judul'] . '">
                       </div>
                       <div class="form-group mb-3">
                         <label for="judulSegmen" class="form-label">Segmen</label>
-                        <select class="form-select" aria-label="Default select example" id="judulSegmen">
-                          <option selected>#' . $podtret['nama'] . '</option>';
+                        <select class="form-select" aria-label="Default select example" name="updateKategori-' . $podtret['podtretId'] . '">';
 
-				foreach($data['podtretKategori'] as $kategori){
-					echo            '<option value="' . $kategori['podtretkategoriId'] . '">#' . $kategori['nama'] . '</option>';
-				}
+													foreach($data['podtretKategori'] as $kategori){
+														if ($kategori['podtretKategoriId'] == $podtret['podtretKategoriId']) {
+															echo '<option selected value="' . $kategori['podtretKategoriId'] . '">#' . $kategori['nama'] . '</option>';
+														} else {
+															echo '<option value="' . $kategori['podtretKategoriId'] . '">#' . $kategori['nama'] . '</option>';
+														}
+													}
         
 				echo						'</select>
                       </div>
                       <div class="form-group mb-3">
-                        <label for="poster" class="form-label">Poster</label>
-                        <input class="form-control" type="file" id="poster">
+                        <label for="poster" class="form-label">Thumbnail</label>
+                        <input class="form-control" accept="image/jpeg, image/png, image/jpg" type="file" name="updateThumbnail-' . $podtret['podtretId'] . '">
+												<input type="hidden" class="form-control" name="defaultThumbnail-' . $podtret['podtretId'] . '"
+												value="' . $podtret['thumbnail'] . '">
                       </div>
                       <div class="form-group mb-3">
                         <label for="video" class="form-label">Video</label>
-                        <input class="form-control" type="file" id="video" value="">
+                        <input class="form-control" type="file" name="updateVideo-' . $podtret['podtretId'] . '">
+												<input type="hidden" accept="video/mp4" class="form-control" name="defaultVideo-' . $podtret['podtretId'] . '"
+												value="' . $podtret['video'] . '">
                       </div>
                       <div class="form-group mb-3">
                         <label for="audio" class="form-label">Audio</label>
-                        <input class="form-control" type="file" id="audio">
+                        <input class="form-control" type="file" name="updateAudio-' . $podtret['podtretId'] . '">
+												<input type="hidden" accept="audio/mp3" class="form-control" name="defaultAudio-' . $podtret['podtretId'] . '"
+												value="' . $podtret['audio'] . '">
                       </div>
                       <div class="form-group mb-3">
                         <label for="publish" class="form-label">Publish</label>
-                        <select class="form-select" aria-label="Default select example" id="publish">';
+                        <select class="form-select" aria-label="Default select example" name="updatePublish-' . $podtret['podtretId'] . '">';
 				if ($podtret['state'] == 1) {
-					echo            '<option selected>Yes</option>
+					echo            '<option value="1" selected>Yes</option>
 													 <option value="0">No</option>';
 				} else {
-					echo            '<option selected>No</option>
+					echo            '<option value="0" selected>No</option>
 													 <option value="1">Yes</option>';
 				}
         echo            '</select>
                       </div>
-                      <!-- <div class="form-group mb-3">
-                        <label for="poster">Poster</label>
-                        <div class="card">
-                          <div class="card-body">
-                            <input id="fancy-file-upload" type="file" name="files"
-                              accept=".jpg, .png, image/jpeg, image/png" id="poster" multiple>
-                          </div>
-                        </div>
-                      </div> -->
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                      <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
-              </div>';
+              </div>
+							</form>';
       }
 
     ?>
-		
-
-		<!-- Modal Delete -->
-		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="deleteModalLabel">Delete Podtret</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						Are you sure want to delete this Podtret?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-danger">Delete</button>
-					</div>
-				</div>
-			</div>
-		</div>
 
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>

@@ -23,7 +23,7 @@ class ElearningTest_model {
   }
 
   public function createTest($moduleId, $judul, $passingScore, $timeLimit, $endDate) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :moduleId, :judul, :passingScore, :timeLimit, default, :endDate, default)');
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :moduleId, :judul, :passingScore, :timeLimit, default, :endDate, default, default)');
     $this->db->bind('moduleId', $moduleId);
     $this->db->bind('judul', $judul);
     $this->db->bind('passingScore', $passingScore);

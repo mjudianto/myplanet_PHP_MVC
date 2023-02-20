@@ -22,6 +22,8 @@
 namespace PHPMailer\PHPMailer;
 
 require_once '../app/library/phpMailer/SMTP.php';
+require_once '../app/library/phpMailer/Exception.php';
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 /**

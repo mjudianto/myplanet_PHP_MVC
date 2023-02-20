@@ -42,7 +42,7 @@
             if(isset($data['question'])) {
               $i=0;
               foreach($data['question'] as $question) {
-                echo '<div id="question-' . $question['questionId'] . '" class="question-container">
+                echo '<div id="question-' . $i+1 . '" class="question-container">
                 <h6 class="mt-2 mb-4">' . $question['question'] . '</h6>
                 <div class="jawaban mb-4">';
                 foreach($data['choice'][$i] as $choice) {
@@ -117,8 +117,8 @@
     setTimeout(startPostTest.classList.add("d-none"), 0.2);
     }
 
-    var currentQuestion = <?= $data['question'][0]['questionId'] ?>;
-    var totalQuestions = <?= (int)$data['numberOfQuestion'] + (int)$data['question'][0]['questionId'] ?>;
+    var currentQuestion = 1;
+    var totalQuestions = <?= sizeof($data['question']) ?>;
 
     document.getElementById("question-" + currentQuestion).classList.add("active");
 

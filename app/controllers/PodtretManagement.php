@@ -13,47 +13,6 @@ class PodtretManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function upload(){
-    $target_dir = "podtret/poster/";
-    $file = $_FILES["poster"];
-    $file_name = basename($file["name"]);
-    $target_file = $target_dir . $file_name;
-    $upload_ok = 1;
-    $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    if (isset($_POST["submit"])) {
-      $check = getimagesize($file["tmp_name"]);
-      if ($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-      } else {
-        echo "File is not an image.";
-        $upload_ok = 0;
-      }
-    }
-
-    if (file_exists($target_file)) {
-      echo "Sorry, file already exists.";
-      $upload_ok = 0;
-    }
-
-    $allowed_types = ["jpg", "jpeg", "png", "gif"];
-    if (!in_array($image_file_type, $allowed_types)) {
-      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-      $upload_ok = 0;
-    }
-
-    if ($upload_ok == 0) {
-      echo "Sorry, your file was not uploaded.";
-    } else {
-      if (move_uploaded_file($file["tmp_name"], $target_file)) {
-        echo "The file " . htmlspecialchars($file_name) . " has been uploaded.";
-      } else {
-        echo "Sorry, there was an error uploading your file.";
-      }
-    }
-
-  }
-
   public function filterDate() {
     $model = $this->loadPodtretModel();
 
@@ -275,6 +234,41 @@ class PodtretManagement extends Controller {
     $this->view('admin/layouts/sidebar');
     $this->view('admin/podtret/podtretComment', $data);
     $this->view('admin/layouts/footer');
+  }
+
+  public function newPodtret() {
+    $model = $this->loadPodtretModel();
+
+    $judul = $_POST['newJudul'];
+    $kategori = $_POST['newKategori'];
+    $publish = $_POST['newPublish'];
+    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'] ?? null, 'podtretAssets/thumbnail');
+    $video = $this->saveVideo($_FILES['newVideo'] ?? null, 'podtretAssets/video');
+    $audio = $this->saveAudio($_FILES['newAudio'] ?? null, 'podtretAssets/audio');
+  
+    $model['podtret']->newPodtret($kategori, $judul, $thumbnail, $video, $audio, $publish);
+    header("Location:" . BASEURL . 'podtretmanagement/uploadPodtret');
+  }
+
+  public function updatePodtret() {
+    $model = $this->loadPodtretModel();
+
+    $podtretId = $_GET['podtretId'];
+    $judul = $_POST['updateJudul-' . $podtretId];
+    $kategori = $_POST['updateKategori-' . $podtretId];
+    $publish = $_POST['updatePublish-' . $podtretId];
+
+    $thumbnail = $this->saveThumbnail($_FILES['updateThumbnail-' . $podtretId] ?? null, 'podtretAssets/thumbnail');
+    $defaultThumbnail = $_POST['defaultThumbnail-' . $podtretId] ?? null;
+
+    $video = $this->saveVideo($_FILES['updateVideo-' . $podtretId] ?? null, 'podtretAssets/video');
+    $defaultVideo = $_POST['defaultVideo-' . $podtretId] ?? null;
+
+    $audio = $this->saveAudio($_FILES['updateAudio-' . $podtretId] ?? null, 'podtretAssets/audio');
+    $defaultAudio = $_POST['defaultAudio-' . $podtretId] ?? null;
+
+    $model['podtret']->updatePodtret($podtretId, $kategori, $judul, $thumbnail ?: $defaultThumbnail, $video ?: $defaultVideo, $audio ?: $defaultAudio, $publish);
+    header("Location:" . BASEURL . 'podtretmanagement/uploadPodtret');
   }
 
 }

@@ -25,106 +25,27 @@
     <section class="section-popular-content" id="popularContent">
       <div class="container">
         <div class="section-popular-ensight row mt-5">
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href="video-play-ensight.html"
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href="video-play.html"
-                    >Penerapan Tekhnologi Pada Transportasi, DR IR Berty
-                    Argiyantari MM CISCP</a
-                  >
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href=""
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href=""
-                    >Beyond Process Creative & inovative , Stanley Handiono</a
-                  >
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href=""
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href="">Forum K3 : Training APAR</a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href=""
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href=""
-                    >Leaders Innovation Forum : Manage it, Jayaprawirya Diah</a
-                  >
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href=""
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href=""
-                    >Leaders Innovation Forum : Manage People , Hendra
-                    Tanumihardja</a
-                  >
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card card-ensight">
-              <a href=""
-                ><img
-                  src="images/videoplaceholdit.png"
-                  class="card-img-top py-2 px-2"
-                  alt="..."
-              /></a>
-              <div class="card-body">
-                <h5 class="card-title-learning">
-                  <a href="">Ir Forum Ensight</a>
-                </h5>
-              </div>
-            </div>
-          </div>
+          <?php 
+            foreach($data['ensight'] as $ensight) {
+              echo '<div class="col-sm-6 col-md-4 col-lg-3">
+                      <div class="card card-ensight">
+                        <a href="' . BASEURL . 'ensight/ensightKonten?ensightId= . ' . encrypt($ensight['ensightId'])  .'"
+                          ><img
+                            src="' . $ensight['thumbnail'] . '"
+                            class="card-img-top py-2 px-2 img-fluid"
+                            alt="..."
+                        /></a>
+                        <div class="card-body">
+                          <h5 class="card-title-learning">
+                            <a href="video-play.html"
+                              >' . $ensight['judul'] . '</a
+                            >
+                          </h5>
+                        </div>
+                      </div>
+                    </div>';
+            }
+          ?>
         </div>
       </div>
     </section>

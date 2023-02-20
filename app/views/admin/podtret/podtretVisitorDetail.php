@@ -55,13 +55,12 @@
 						</div>
 						<div class="table-responsive">
 							<br>
-							<table id="tablePodtret" class="table align-middle" style="width:100%">
+							<table id="tablePodtret" class="table" style="width:100%;">
 
 								<thead class="table-light">
 									<tr>
 										<th>No</th>
 										<th>Judul</th>
-										<th>Thumbnail</th>
 										<th>Name</th>
 										<th>Visit</th>
 										<th>Timestamp</th>
@@ -74,10 +73,6 @@
 											echo '<tr>
 															<td>' . $i . '</td>
 															<td>' . $detail['judul'] . '</td>
-															<td><a href="#" data-bs-toggle="modal" data-bs-target="#modalPoster"><img
-																		src="' . $detail['thumbnail'] . '"
-																		style="width: 130px; display:block;" alt="edisi-pildun"></a>
-															</td>
 															<td>' . $detail['nama'] . '</td>
 															<td>' . $detail['visit'] . '</td>
 															<td>' . $detail['lastVisit'] . '</td>
@@ -91,7 +86,6 @@
 									<tr>
 										<th>No</th>
 										<th>Judul</th>
-										<th>Thumbnail</th>
 										<th>Name</th>
 										<th>Visit</th>
 										<th>Timestamp</th>

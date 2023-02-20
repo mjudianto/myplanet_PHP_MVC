@@ -332,7 +332,7 @@
     function loadUserCourseRecordDetail(courseId) {
 				var userId = <?= $_GET['userId'] ?>;
         $.ajax({
-          url: "<?= BASEURL ?>userManagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId,
+          url: "<?= BASEURL ?>usermanagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId,
           success: function(html) {
 						$('#lessonRecordContainer').html(html);
           }

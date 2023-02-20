@@ -327,6 +327,45 @@ class ElearningManagement extends Controller {
     }
 
   }
+
+  public function newTest() {
+    $numberOfQuestion = $_POST['questionCounter'];
+    $model = $this->loadElearningModel();
+
+    $testName = $_POST['testName'];
+    $passingScore = 75;
+    $timeLimit = 3600000;
+    $endDate = "2023-02-22 00:00:00";
+
+    for ($i=1 ; $i<=$numberOfQuestion ; $i++){
+      $question = $_POST['question-' . $i];
+
+      $answerId = $_POST['answer-' . $i];
+      $answer = $_POST['choice' . $i . '-' . $answerId];
+
+      $score = $_POST['score-' . $i];
+
+      $model['elearningTest']->createTest($_POST['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
+      $test =  $model['elearningTest']->getTestByJudul($_POST['moduleId'], $testName);
+
+      $model['question']->createQuestion($test['elearningTestId'], $question, $score);
+      $question = $model['question']->getSingelQuestion($test['elearningTestId'], $question);
+
+      $model['answer']->createAnswer($question['questionId'], $answer);
+      $answer = $model['answer']->getQuestionAnswer($question['questionId']);
+
+      for ($j=1 ; $j<=4 ; $j++){
+        if ($j == $answerId) {
+          $model['choice']->createChoice($question['questionId'], $_POST['choice' . $i . '-' . $j], $answer['answerId']);
+        } else {
+          $model['choice']->createChoice($question['questionId'], $_POST['choice' . $i . '-' . $j], 'null');
+        }
+      }
+    }
+
+    header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
+
+  }
   
 }
   

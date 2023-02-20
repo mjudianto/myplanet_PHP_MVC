@@ -117,9 +117,9 @@
 					<div class="menu-title">Management Ensight</div>
 				</a>
 				<ul>
-					<li> <a href="upload-ensight.html"><i class="bx bx-right-arrow-alt"></i>Upload Ensight</a>
+					<li> <a href="<?= BASEURL ?>ensightmanagement/uploadEnsight"><i class="bx bx-right-arrow-alt"></i>Upload Ensight</a>
 					</li>
-					<li> <a href="ensight-visitor.html"><i class="bx bx-right-arrow-alt"></i>Ensight Visitors</a>
+					<li> <a href="<?= BASEURL ?>ensightmanagement/ensightVisitor"><i class="bx bx-right-arrow-alt"></i>Ensight Visitors</a>
 					</li>
 				</ul>
 			</li>

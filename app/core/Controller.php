@@ -77,8 +77,36 @@ class Controller {
     return $model;
   }
 
-  // public function loadUserModel() {
-  //   $model['user'] = $this->model('user/User_model', 'User_model');
-  // }
+  public function saveFile($file, $allowedExtensions, $maxSize, $destinationDir, $destinationExtension) {
+    if (!$file) {
+      return null;
+    }
+    $fileType = pathinfo($file['name'], PATHINFO_EXTENSION);
+    if (!in_array($fileType, $allowedExtensions)) {
+        echo "Error: File only accepts " . implode(', ', $allowedExtensions) . " file types.";
+        return null;
+    }
+    if ($file['size'] > $maxSize) {
+        echo "Error: File size too large (maximum " . $maxSize / 1000000 . " MB).";
+        return null;
+    }
+    $filename = uniqid();
+    $destination = $destinationDir . '/' . basename($filename . $destinationExtension);
+    move_uploaded_file($file['tmp_name'], $destination);
+    $destination = '/public/' . $destination;
+    return $destination;
+  }
+  
+  public function saveThumbnail($thumbnail, $destinationDir) {
+      return $this->saveFile($thumbnail, ['jpg', 'png', 'jpeg'], 5000000, $destinationDir, 'png');
+  }
+  
+  public function saveVideo($video, $destinationDir) {
+      return $this->saveFile($video, ['mp4', 'webm', 'ogg'], 1000000000, $destinationDir, 'mp4');
+  }
+
+  public function saveAudio($audio, $destinationDir) {
+    return $this->saveFile($audio, ['mp3'], 500000000, $destinationDir, 'mp3');
+}
   
 }

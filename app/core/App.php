@@ -6,15 +6,14 @@ class App {
   protected $params = []; // default params kosong
   protected $admin = array(
     '', 'home', 'Home', 'admins', 'usermanagement', 'podtretmanagement', 'elearningmanagement',
-    'report', 'notificationmanagement'
+    'report', 'notificationmanagement', 'ensightmanagement',
   );
 
   public function __construct() {
     $url = $this -> parseURL();
     // var_dump($url[1]);
 
-    $needLogin = 'no';
-    if(isset($url[1])) in_array($url[1],$this->admin) ? $needLogin='no' : $needLogin='yes';
+    $needLogin = (isset($url[1]) && in_array($url[1], $this->admin)) ? 'no' : 'yes';
 
     // memanggil file controllers sesuai input
     if ( file_exists('../app/controllers/' . $url[1] . '.php') ) {

@@ -29,7 +29,7 @@ class Podtrets extends Controller {
   public function loadPodtret() {
     $model = $this->loadPodtretModel();
 
-    $podtrets = $model['podtret']->getAll();
+    $podtrets = $model['podtret']->getAllActivePodtret();
 
     if (isset($_SESSION['selectedPodtretKategori'])) {
       $kategoriId = $_SESSION['selectedPodtretKategori'];

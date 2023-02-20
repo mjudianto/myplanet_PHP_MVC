@@ -46,15 +46,16 @@ class Login extends Controller{
 
     // Set the SMTP settings
     $mail->isSMTP();
-    $mail->SMTPDebug  = 0;
-    $mail->Host       = "10.100.21.3";
-    $mail->Port       = "25";
-    $mail->SMTPSecure = false;
-    $mail->SMTPAutoTLS = false;
-    $mail->SMTPAuth   = false;
+        $mail->SMTPDebug  = 0;
+        $mail->Host       = "10.100.21.3";
+        $mail->Port       = 25;
+        $mail->SMTPSecure = false;
+        $mail->SMTPAutoTLS = false;
+        $mail->SMTPAuth   = false;
+        $mail->setFrom("admin.planet@enseval.com", "Planet Enseval -- no reply");
 
     // Set the email content
-    $mail->setFrom("admin.planet@enseval.com", "Planet Enseval -- no reply");
+    // $mail->setFrom("mathewjudianto0603@gmail.com", "Planet Enseval -- no reply");
     $mail->addAddress('nandaraditya80@gmail.com');
     $mail->Subject = 'Test email from PHPMailer';
     $mail->Body = 'This is a test email from PHPMailer.';

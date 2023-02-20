@@ -35,11 +35,15 @@
 					</div>
 				</div>
 				<div class="row">
+				<form action="<?= BASEURL ?>elearningmanagement/newTest" method="post">
+				<input type="hidden" name="courseId" value="<?= $_GET['courseId'] ?>">
+				<input type="hidden" name="moduleId" value="<?= $_GET['moduleId'] ?>">
+				<input type="hidden" id="questionCounter" name="questionCounter" value="1">
 					<div class="card">
 						<div class="card-body">
 							<div class="mb-4">
 								<label class="form-label">Title Post Test</label>
-								<input type="text" class="form-control is-invalid" placeholder="Title here...">
+								<input required name="testName" type="text" class="form-control is-invalid" placeholder="Title here...">
 								<div class="invalid-feedback">Please enter a title.</div>
 							</div>
 							<div class="question-one" id="wrapperQuestion">
@@ -47,360 +51,81 @@
 									<div class="card-body order-actions">
 										<div class="mb-3">
 											<label class="form-label">Question 1</label>
-											<input type="text" class="form-control bg-light-secondary"
+											<input required type="text" class="form-control bg-light-secondary" name="question-1"
 												placeholder="Input question here...">
 										</div>
 										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionOne"
+											<input required class="form-check-input me-2" type="radio" name="answer-1" value="1"
 												id="questionOne1">
-											<input type="text" class="form-control" for="questionOne1"
+											<input type="text" class="form-control" name="choice1-1"
 												placeholder="Answer here..">
 										</div>
 										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionOne"
+											<input required class="form-check-input me-2" type="radio" name="answer-1" value="2"
 												id="questionOne2">
-											<input type="text" class="form-control" for="questionOne2"
+											<input type="text" class="form-control" name="choice1-2"
 												placeholder="Answer here..">
 										</div>
 										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionOne"
+											<input required class="form-check-input me-2" type="radio" name="answer-1" value="3"
 												id="questionOne3">
-											<input type="text" class="form-control" for="questionOne3"
+											<input type="text" class="form-control" name="choice1-3"
 												placeholder="Answer here..">
 										</div>
 										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionOne"
+											<input class="form-check-input me-2" type="radio" name="answer-1" value="4"
 												id="questionOne4">
-											<input type="text" class="form-control" for="questionOne4"
+											<input required type="text" class="form-control" name="choice1-4"
 												placeholder="Answer here..">
+										</div>
+										<div class="mb-3" style="float: right; width: 11%;">
+											<label class="form-label">Score</label>
+											<input name="score-1" type="text" class="form-control bg-light-success"
+												placeholder="Input score...">
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="question-two" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
+								<div id="card-container"></div>
+
+								<!-- <div class="card mb-3" id="sectionEssay" style="display: none;">
 									<div class="card-body order-actions">
 										<div class="mb-3">
-											<label class="form-label">Question 2</label>
-											<input type="text" class="form-control bg-light-secondary"
+											<label class="form-label">Essay</label>
+											<input type="text" class="form-control"
 												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTwo"
-												id="questionTwo1">
-											<input type="text" class="form-control" for="questionTwo1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTwo"
-												id="questionTwo2">
-											<input type="text" class="form-control" for="questionTwo2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTwo"
-												id="questionTwo3">
-											<input type="text" class="form-control" for="questionTwo3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTwo"
-												id="questionTwo4">
-											<input type="text" class="form-control" for="questionTwo4"
-												placeholder="Answer here..">
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="question-three" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
+								<div id="card-essay"></div> -->
+
+
+								<div class="d-flex justify-content-end mb-3">
+									<button type="button" class="btn btn-outline-primary radius-10 ms-2"
+										id="newsectionbtn"><i class="bx bx-plus"></i>Add More</button>
+								</div>
+								<!-- <div class="card mb-3" id="sectionEssay">
 									<div class="card-body order-actions">
 										<div class="mb-3">
-											<label class="form-label">Question 3</label>
-											<input type="text" class="form-control bg-light-secondary"
+											<label class="form-label">Essay</label>
+											<input type="text" class="form-control"
 												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionThree"
-												id="questionThree1">
-											<input type="text" class="form-control" for="questionThree1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionThree"
-												id="questionThree2">
-											<input type="text" class="form-control" for="questionThree2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionThree"
-												id="questionThree3">
-											<input type="text" class="form-control" for="questionThree3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionThree"
-												id="questionThree4">
-											<input type="text" class="form-control" for="questionThree4"
-												placeholder="Answer here..">
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="question-four" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 4</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFour"
-												id="questionFour1">
-											<input type="text" class="form-control" for="questionFour1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFour"
-												id="questionFour2">
-											<input type="text" class="form-control" for="questionFour2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFour"
-												id="questionFour3">
-											<input type="text" class="form-control" for="questionFour3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFour"
-												id="questionFour4">
-											<input type="text" class="form-control" for="questionFour4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-five" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 5</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFive"
-												id="questionFive1">
-											<input type="text" class="form-control" for="questionFive1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFive"
-												id="questionFive2">
-											<input type="text" class="form-control" for="questionFive2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFive"
-												id="questionFive3">
-											<input type="text" class="form-control" for="questionFive3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionFive"
-												id="questionFive4">
-											<input type="text" class="form-control" for="questionFive4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-six" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 6</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSix"
-												id="questionSix1">
-											<input type="text" class="form-control" for="questionSix1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSix"
-												id="questionSix2">
-											<input type="text" class="form-control" for="questionSix2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSix"
-												id="questionSix3">
-											<input type="text" class="form-control" for="questionSix3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSix"
-												id="questionSix4">
-											<input type="text" class="form-control" for="questionSix4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-seven" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 7</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSeven"
-												id="questionSeven1">
-											<input type="text" class="form-control" for="questionSeven1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSeven"
-												id="questionSeven2">
-											<input type="text" class="form-control" for="questionSeven2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSeven"
-												id="questionSeven3">
-											<input type="text" class="form-control" for="questionSeven3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionSeven"
-												id="questionSeven4">
-											<input type="text" class="form-control" for="questionSeven4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-eight" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 8</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionEight"
-												id="questionEight1">
-											<input type="text" class="form-control" for="questionEight1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionEight"
-												id="questionEight2">
-											<input type="text" class="form-control" for="questionEight2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionEight"
-												id="questionEight3">
-											<input type="text" class="form-control" for="questionEight3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionEight"
-												id="questionEight4">
-											<input type="text" class="form-control" for="questionEight4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-nine" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 9</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionNine"
-												id="questionNine1">
-											<input type="text" class="form-control" for="questionNine1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionNine"
-												id="questionNine2">
-											<input type="text" class="form-control" for="questionNine2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionNine"
-												id="questionNine3">
-											<input type="text" class="form-control" for="questionNine3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionNine"
-												id="questionNine4">
-											<input type="text" class="form-control" for="questionNine4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="question-ten" id="wrapperQuestion">
-								<div class="card mb-3" id="sectionQuestion">
-									<div class="card-body order-actions">
-										<div class="mb-3">
-											<label class="form-label">Question 10</label>
-											<input type="text" class="form-control bg-light-secondary"
-												placeholder="Input question here...">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTen"
-												id="questionTen1">
-											<input type="text" class="form-control" for="questionTen1"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTen"
-												id="questionTen2">
-											<input type="text" class="form-control" for="questionTen2"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTen"
-												id="questionTen3">
-											<input type="text" class="form-control" for="questionTen3"
-												placeholder="Answer here..">
-										</div>
-										<div class="form-check d-flex align-items-center mb-2">
-											<input class="form-check-input me-2" type="radio" name="questionTen"
-												id="questionTen4">
-											<input type="text" class="form-control" for="questionTen4"
-												placeholder="Answer here..">
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- <button type="button" class="btn btn-outline-primary radius-10" id="newsectionbtn"
-								style="float: right;"><i class="bx bx-plus"></i>Add More</button> -->
-							<div class="d-flex justify-content-center">
-								<button type="button" class="btn btn-primary ms-2 radius-10">Submit</button>
+								<button type="button" class="btn btn-outline-warning radius-10" id="newEssayBtn"
+									onclick="addNewEssay()" style="float: right;"><i
+										class="fadeIn animated bx bx-message-alt-detail"></i>Add Essay</button> -->
+
+
+
 							</div>
 
 						</div>
-
 					</div>
+					<div class="d-flex justify-content-center">
+						<button type="submit" class="btn btn-primary ms-2 radius-10">Submit</button>
+					</div>
+				</form>
 
 
 				</div>
@@ -456,5 +181,5 @@
 			</div>
 		</div>
 		<!--end page wrapper -->
-
+		<script src="<?= BASEURL ?>admin/js/addMore.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
