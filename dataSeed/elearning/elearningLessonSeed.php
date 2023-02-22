@@ -88,13 +88,95 @@ class ElearningLesson_model {
 
   }
 
+  public function createTest($id, $moduleId, $judul, $start) {
+    $this->db->query('INSERT INTO elearningTest VALUES(:id, :moduleId, :judul, 75, 360000, :start, null, default, default)');
+
+    $this->db->bind('id', $id);
+    $this->db->bind('moduleId', $moduleId);
+    $this->db->bind('judul', $judul);
+    $this->db->bind('start', $start);
+
+    $this->db->execute();
+  }
+
+  public function createTestRecord($lessonId, $nik, $attempt) {
+    $this->db->query('select * from elearningTest where elearningTestId=:lessonId');
+    $this->db->bind('lessonId', $lessonId);
+    $data = $this->db->single() ?? null;
+    
+    // return $data;
+
+    $this->db->query('select * from user where nik=:nik');
+    $this->db->bind('nik', $nik);
+    $data2 = $this->db->single() ?? null;
+    
+    if ($data != null && $data2 != null) {
+      $this->db->query('SELECT * FROM userTestRecord WHERE elearningTestId=:lessonId AND userId=:userId');
+      $this->db->bind('lessonId', $lessonId);
+      $this->db->bind('userId', $data2['userId']);
+      $userRecord = $this->db->single() ?? null;
+
+      // return $userRecord['userId'];
+
+      if ($userRecord != null) {
+        if ($userRecord['attempt'] < $attempt){
+          $this->db->query('UPDATE userTestRecord SET attempt=:attempt where elearningTestId=:lessonId AND userId=:userId');
+          $this->db->bind('attempt', $attempt);
+          $this->db->bind('lessonId', $lessonId);
+          $this->db->bind('userId', $userRecord['userId']);
+
+          $this->db->execute();
+        }
+      } else {
+        $this->db->query('INSERT INTO userTestRecord VALUES(null, :lessonId, ' . $data2['userId'] . ', :attempt)');
+
+        $this->db->bind('lessonId', $lessonId);
+        $this->db->bind('attempt', $attempt);
+    
+        $this->db->execute();
+      }
+    }
+  }
+
+  public function createTestRecordDetail($lessonId, $nik, $attempt, $score, $pass, $finished) {
+    $this->db->query('select * from elearningTest where elearningTestId=:lessonId');
+    $this->db->bind('lessonId', $lessonId);
+    $data = $this->db->single() ?? null;
+    
+    // return $data;
+
+    $this->db->query('select * from user where nik=:nik');
+    $this->db->bind('nik', $nik);
+    $data2 = $this->db->single() ?? null;
+    
+    if ($data != null && $data2 != null) {
+      $this->db->query('SELECT * FROM userTestRecord WHERE elearningTestId=:lessonId AND userId=:userId');
+      $this->db->bind('lessonId', $lessonId);
+      $this->db->bind('userId', $data2['userId']);
+      $userRecord = $this->db->single() ?? null;
+
+      // return $userRecord['userId'];
+
+      if ($userRecord != null) {
+        $this->db->query('INSERT INTO userTestRecordDetail VALUES(null, :testRecordId, :attempt, :score, :pass, :finished)');
+        $this->db->bind('testRecordId', $userRecord['userTestRecordId']);
+        $this->db->bind('attempt', $attempt);
+        $this->db->bind('score', $score);
+        $this->db->bind('pass', $pass);
+        $this->db->bind('finished', $finished);
+
+        $this->db->execute();
+      }
+    }
+  }
+
 }
 
-$file = 'cleanLessonRecord.csv';
+$file = 'cleanTestRecord.csv';
 
 // Open the file for reading
 $fp = fopen($file, 'r', 'UTF-8');
-// $outputFile = fopen('cleanElearningLesson.csv', 'w');
+// $outputFile = fopen('cleanLessonRecord.csv', 'w');
 
 $lesson = new ElearningLesson_model;
 
@@ -104,6 +186,7 @@ while ($row = fgetcsv($fp)) {
   // $row[0] = "delete";  
   // $row[1] = "delete";  
   // $row[2] = "delete";  
+  // $row[3] = "delete";  
   // $row[4] = "delete";  
   // $row[5] = "delete";  
   // $row[6] = "delete";  
@@ -134,7 +217,17 @@ while ($row = fgetcsv($fp)) {
   //   $lesson->editElearningLesson($row[1], $row[2]);
   // }
   // echo $row[2];
-  $lesson->createLessonRecord($row[0], $row[1], $row[2], $row[3]);
+  // $lesson->createLessonRecord($row[0], $row[1], $row[2], $row[3]);
+
+  // $pattern = '/post test/i';
+
+  // if (preg_match($pattern, $row[1])) {
+  //   $lesson->createTest($row[0], $row[2], $row[1], $row[3]);
+  // }
+  if ($row[5] != '\N' && $row[4] != '\N') {
+    $lesson->createTestRecordDetail($row[1], $row[2], $row[3], $row[5], $row[7] == 'lulus' ? "Lulus" : "Gagal", $row[4]);
+  }
+
 }
 
 // your program code goes here

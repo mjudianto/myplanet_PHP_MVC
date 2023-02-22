@@ -60,11 +60,11 @@ class Podtrets extends Controller {
     foreach ($paginatePodtret as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
+                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' .$podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
                     alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-page-podtret">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '">' . $podtret['judul'] . '</a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
                   </h5>
                   <div class="row mt-3">
                     <div class="col-10">
@@ -73,13 +73,13 @@ class Podtrets extends Controller {
                       </p>
                     </div>
                     <div class="col d-none d-lg-block">
-                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '" class="btn-go-podtret">
+                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
                   <div class="d-flex mt-2">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
                     <a href=""><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ class Podtrets extends Controller {
     $model = $this->loadPodtretModel();
 
     $podtretId = $this->decrypt($_GET['podtretId']);
-    $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, $this->decrypt($_GET['views'])+1);
+    $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, (int)$_GET['views']+1);
     $data['podtret'] = $model['podtret']->getPodtretBy($podtretId);
     $data['likes'] = $model['podtretLike']->countLike($podtretId, 1);
 
@@ -132,7 +132,7 @@ class Podtrets extends Controller {
     if(is_bool($podtretRecord)){
       $model['podtretRecord']->createPodtretRecord($podtretId, $_SESSION['user']['userId']);
     } else {
-      $model['podtretRecord']->updatePodtretRecord($podtretId, $_SESSION['user']['userId'], $podtretRecord['views'] + 1);
+      $model['podtretRecord']->updatePodtretRecord($podtretId, $_SESSION['user']['userId'], (int)$podtretRecord['views'] + 1);
     }
 
     $this->view('layouts/navbar');

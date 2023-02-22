@@ -47,7 +47,7 @@ class Podtret_model {
                       right join userPodtretRecord on podtret.podtretId = userPodtretRecord.podtretId
                       join user on userPodtretRecord.userId = user.userId
                       where podtret.podtretId=:podtretId
-                      order by userPodtretRecord.views asc');
+                      order by userPodtretRecord.lastVisit desc');
     $this->db->bind('podtretId', $podtretId);
     return $this->db->resultSet();
   }
