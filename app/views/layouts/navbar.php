@@ -187,21 +187,26 @@
         <div class="modal-body">
           <?php 
             foreach($_SESSION['notification'] as $notification) {
-              echo '<div class="d-flex list-notification">
-                      <a href="e-learning-neopgeneral.html"><img src="images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
-                      <a href="e-learning-neopgeneral.html"></a>
-                      <div class="berita">
-                        <p>
-                          '
-                          . $notification['message'] .
-                          '
-                        </p>
-                        <p1>' . $notification['uploadDate'] . '</p1>
-                        <a href=""><i class="fa fa-trash fa-lg trash-notification"></i></a>
-                      </div>
-          
-                    </div>
-                    <hr />';
+              echo '<div class="row list-notification align-items-center">
+              <div class="col-10 d-flex">
+                <a href="e-learning-neopgeneral.html"><img src="images/img-notif.jpg" alt="" class="img-nav-submenu" /></a>
+                <a href="e-learning-neopgeneral.html"></a>
+                <div class="berita">
+                  <p>
+                    '
+                    . $notification['message'] .
+                    '
+                  </p>
+                  <p1>' . $notification['uploadDate'] . '</p1>
+                  
+                </div>
+              </div>
+              <div class="col-2">
+                <a href=""><i class="fa fa-trash fa-lg trash-notification"></i></a>
+              </div>
+  
+            </div>
+            <hr />';
             }
           ?>
           

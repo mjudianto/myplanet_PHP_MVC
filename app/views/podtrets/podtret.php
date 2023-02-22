@@ -2,29 +2,38 @@
 <body class="bg-podcast">
 
 <section>
-    <section class="section-popular-podtret" id="popular">
+    <section class="section-popular-podtret mt-5" id="popular">
       <div class="container">
         <div class="text-center">
           <img src="assets/Logo Podtret.png" al t="" width="300" />
         </div>
-        <div class="row">
-          <div class="col section-popular-heading">
-            <div class="nav-menu-podtret d-flex mt-4">
-              <div class="row">
-                <div class="col-lg-10 col-sm-12 text-center" id="kategoriContainer">
+        
+          <div class="section-popular-heading">
+            <div class="nav-menu-podtret d-flex mt-4 justify-content-center">
+              <div class="d-flex align-items-center text-center">
+                <div class="" id="kategoriContainer">
                 </div>
-                <div class="col-lg-2 col-sm-12">
-                  <form class="d-flex search-bar" role="search">
+                <div class="">
+                  <!-- <form class="d-flex search-bar" role="search">
                     <input class="form-control" type="search" placeholder="Search..." aria-label="Search" />
                     <button class="btn btn-search" type="submit">
                       <i class="fa fa-search"></i>
                     </button>
-                  </form>
+                  </form> -->
+                  <div class="position-relative ms-2 mt-2">
+								<input type="text" class="form-control ps-5" placeholder="Search" style="
+    border-radius: 20px;
+    height: 32px;
+"> <span class="position-absolute top-50 product-show translate-middle-y" style="
+    font-size: 18px;
+    left: 15px;
+    position: absolute;
+"><i class="fa fa-search"></i></span>
+							</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </div>
     </section>
 

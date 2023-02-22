@@ -21,13 +21,13 @@ class Elearning extends Controller {
 
     // Output the "All" button
     $curr = ($selectedKategoriId == 0) ? 'active' : '';
-    echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class="' . $curr . '">All</button></a>';
+    echo '<a onclick="filterKategori(0)" class="ms-2 mt-2 d-inline-block"><button class="px-3 py-1 ' . $curr . '">All</button></a>';
 
     // Output buttons for each category
     foreach ($elearningKategori as $kategori) {
       $curr = ($selectedKategoriId == $kategori['elearningKategoriId']) ? 'active' : '';
-      echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] .')" class="ms-2 d-inline-block">';
-      echo '<button class="' . $curr . '">' . $kategori['nama'] . '</button>';
+      echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] .')" class="ms-2 mt-2 d-inline-block">';
+      echo '<button class="px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button>';
       echo '</a>';
     } 
 

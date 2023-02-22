@@ -19,10 +19,10 @@ class Podtrets extends Controller {
 
     $curr = '';
     !isset($_SESSION['selectedPodtretKategori']) || isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == 0 ? $curr = 'active' : $curr = '';
-    echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class=' . $curr . '>All</button></a>';
+    echo '<a onclick="filterKategori(0)" class="ms-2 d-inline-block"><button class="px-3 py-1' . $curr . '">All</button></a>';
     foreach ($podtretKategori as $kategori) {
       isset($_SESSION['selectedPodtretKategori']) && $_SESSION['selectedPodtretKategori'] == $kategori['podtretKategoriId'] ? $curr = 'active' : $curr = '';
-      echo '<a onclick="filterKategori(' . $kategori['podtretKategoriId'] .')" class="ms-4 d-inline-block"><button class= "' . $curr . '">' . $kategori['nama'] . '</button></a>';
+      echo '<a onclick="filterKategori(' . $kategori['podtretKategoriId'] .')" class="ms-2 d-inline-block mt-2"><button class= "px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button></a>';
     } 
   }
 

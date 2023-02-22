@@ -143,7 +143,7 @@
 
 					<div class="top-menu ms-auto">
 						<ul class="navbar-nav align-items-center">
-							</li> -->
+							</li>
 
 							<li class="nav-item dropdown dropdown-large d-none">
 								<a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
@@ -458,7 +458,7 @@
 						</ul>
 					</div>
 					<div class="user-box dropdown">
-						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret px-3 py-2" href="#"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<img src="<?= BASEURL ?>admin/images/avatars/analog.jpeg" class="user-img" alt="user avatar">
 							<div class="user-info ps-3">
