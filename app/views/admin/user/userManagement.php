@@ -105,7 +105,7 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
-							<form action="<?= BASEURL ?>userManagement/addUser" method="post">
+							<form action="<?= BASEURL ?>usermanagement/addUser" method="post">
 								<div class="modal-body">
 									<div class="col-12 mb-3">
 										<label for="inputNIK" class="form-label">NIK</label>

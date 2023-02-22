@@ -37,13 +37,27 @@ class Podtrets extends Controller {
         $podtrets = $model['podtret']->filterPodtret($kategoriId);
       }
     }
+
+    $pageSize = ceil(sizeof($podtrets)/8);
+    $page = $_REQUEST['page'] ?? 1;
+    for ($i = 1 ; $i<=$page ; $i++) {
+      if (sizeof($podtrets) > 8) {
+        // Slice the first 8 values into a new array
+        $paginatePodtret = array_slice($podtrets, 0, 8);
+
+        // Remove the first 8 values from the original array
+        array_splice($podtrets, 0, 8);
+      } else {
+        $paginatePodtret = $podtrets;
+      }
+    }
     
     echo '<!-- Floating Button -->
           <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
             <img src="assets/ic-arrow-up.png" alt="" width="24" />
           </button>
           <!-- Floating Button -->';
-    foreach ($podtrets as $podtret) {
+    foreach ($paginatePodtret as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
                 <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $this->encrypt($podtret['views']) . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
@@ -72,6 +86,13 @@ class Podtrets extends Controller {
               </div>
             </div>';
       } 
+      echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page-1 . ')">&laquo;</a>';
+    for ($i=1 ; $i<=$pageSize ; $i++) {
+      $i == $page ? $active = 'active' : $active = "";
+      echo '<a class="' . $active . '" onclick="PaginatePodtret(' . $i . ')">' . $i . '</a>';
+    } 
+      echo '<a onclick="paginateCourse(' . $page+1 . ')">&raquo;</a>
+          </div>';
   }
 
   public function dateFormatAsString($date) {

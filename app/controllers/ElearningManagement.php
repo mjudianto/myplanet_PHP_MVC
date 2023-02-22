@@ -214,8 +214,8 @@ class ElearningManagement extends Controller {
         }
       
         // Generate a unique filename for the video
-        $filename = uniqid();
-        $destination = 'elearningAssets/videos/' .  basename($filename . 'mp4');
+        $fileName =  str_replace("." . pathinfo($konten['name'], PATHINFO_EXTENSION), "", $konten['name']) . '-' . uniqid() . '.mp4';
+        $destination = BASEURL . 'elearningAssets/videos/' .  $fileName;
       
         // Move the uploaded file to the uploads folder
         move_uploaded_file($konten['tmp_name'], $destination);
@@ -225,7 +225,7 @@ class ElearningManagement extends Controller {
         header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
       } else {
         // Generate a unique file name
-        $fileName = md5(uniqid()) . '.pdf';
+        $fileName = str_replace("." . pathinfo($konten['name'], PATHINFO_EXTENSION), "", $konten['name']) . '-' . md5(uniqid()) . '.pdf';
       
         // Set upload directory
         $uploadDir = 'elearningAssets/pdf/';
@@ -234,8 +234,8 @@ class ElearningManagement extends Controller {
         if (!file_exists($uploadDir)) {
           mkdir($uploadDir, 0777, true);
         }
-      
-        $destination = $uploadDir .  basename($fileName);
+        
+        $destination = BASEURL . $uploadDir . $fileName;
 
         // Save PDF file to upload directory
         move_uploaded_file($konten['tmp_name'], $uploadDir . $fileName);

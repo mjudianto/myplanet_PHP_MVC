@@ -112,14 +112,19 @@
                     <th scope="col" class="text-center">
                       Percobaan
                     </th>
+                    <th scope="col" class="text-center">
+                      Finish Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- <?= print_r($data['userRecord']) ?> -->
                   <?php foreach($data['userRecord'] as $record) {
                     echo '<tr class="table-secondary">
                     <th scope="row" class="text-center">' . $record['judul course'] . '</th>
                     <td class="text-center">' . $record['judul lesson'] . '</td>
                     <td class="text-center">' . $record['attempt'] . '</td>
+                    <td class="text-center">' . $record['finished'] . '</td>
                   </tr>';
                   } ?>
                 </tbody>

@@ -42,7 +42,7 @@
   <script>
     $( document ).ready(function() {
       loadKategori();
-      loadCourse();
+      loadPodtret();
     });
   </script>
 
@@ -53,7 +53,7 @@
           url: "<?= BASEURL ?>podtrets/filterKategori?kategoriId=" + id,
           success: function(html) {
             loadKategori();
-            loadCourse();
+            loadPodtret();
           }
         });
     }
@@ -67,7 +67,7 @@
         });
       }
 
-    function loadCourse() {
+    function loadPodtret() {
         $.ajax({
           url: "<?= BASEURL ?>podtrets/loadPodtret",
           success: function(html) {
@@ -75,6 +75,15 @@
           }
         });
       }
+
+    function PaginatePodtret(i) {
+      $.ajax({
+        url: "<?= BASEURL ?>podtrets/loadPodtret?page=" + i,
+        success: function(html) {
+          $('#podtretContainer').html(html);
+        }
+      });
+    }
   </script>
 
 </body>

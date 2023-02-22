@@ -27,8 +27,8 @@ class EnsightManagement extends Controller {
     $publish = $_POST['publish-' . $_GET['ensightId']];
 
     $ensightId = $_GET['ensightId'];
-    $thumbnail = $this->saveThumbnail($_FILES['updateThumbnail-' . $ensightId], 'ensightAssets/thumbnail' ?? null);
-    $video = $this->saveVideo($_FILES['updateVideo-' . $ensightId], 'ensightAssets/videos' ?? null);
+    $thumbnail = $this->saveThumbnail($_FILES['updateThumbnail-' . $ensightId] ?? null, 'ensightAssets/thumbnail' );
+    $video = $this->saveVideo($_FILES['updateVideo-' . $ensightId] ?? null, 'ensightAssets/videos' );
     $defaultVideo = $_POST['defaultVideo-' . $ensightId] ?? null;
     $defaultThumbnail = $_POST['defaultThumbnail-' . $ensightId] ?? null;
 
@@ -42,8 +42,8 @@ class EnsightManagement extends Controller {
     $judul = $_POST['newJudul'];
     $publish = $_POST['newPublish'];
     $deskripsi = $_POST['newDeskripsi'] ?? null;
-    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'], 'ensightAssets/thumbnail' ?? null);
-    $video = $this->saveVideo($_FILES['newVideo'], 'ensightAssets/videos' ?? null);
+    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'] ?? null, 'ensightAssets/thumbnail' );
+    $video = $this->saveVideo($_FILES['newVideo'] ?? null, 'ensightAssets/videos' );
 
     $ensightModel->createEnsight($judul, $thumbnail, $video, $publish, $publish, $deskripsi);
     header("Location:" . BASEURL . 'ensightmanagement/uploadEnsight');

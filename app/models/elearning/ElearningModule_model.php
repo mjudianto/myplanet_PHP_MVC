@@ -15,6 +15,12 @@ class ElearningModule_model {
     return $this->db->resultSet();
   }
 
+  public function getSpesificModule($moduleId) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningModuleId=:moduleId and state=1');
+    $this->db->bind('moduleId', $moduleId);
+    return $this->db->resultSet();
+  }
+
   public function getModuleBy($courseId) {
     $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningCourseId=:courseId and state=1');
     $this->db->bind('courseId', $courseId);

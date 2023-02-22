@@ -30,14 +30,14 @@ class Controller {
 
   public function encrypt($string) {
     list($ciphering, $iv_length, $options, $encryption_iv, $encryption_key) = $this->encryptionDetail();
-    $encryption = openssl_encrypt($string, $ciphering, $encryption_key, $options, $encryption_iv);
+    $encryption = openssl_encrypt($string ?? "", $ciphering, $encryption_key, $options, $encryption_iv);
 
     return $encryption;
   }
 
   public function decrypt($string) {
     list($ciphering, $iv_length, $options, $encryption_iv, $encryption_key) = $this->encryptionDetail();
-    $decryption = openssl_decrypt($string, $ciphering, $encryption_key, $options, $encryption_iv);
+    $decryption = openssl_decrypt($string ?? "", $ciphering, $encryption_key, $options, $encryption_iv);
 
     return $decryption;
   }

@@ -15,7 +15,7 @@ class UserManagement extends Controller {
   public function addUser() {
     $data['nik'] = $_POST['nik'];
     $data['nama'] = $_POST['name'];
-    $data['email'] = $_POST['email'];
+    $data['email'] = $_POST['email'] ?? null;
     $data['locationId'] = $_POST['location'];
     $data['department'] = $_POST['organization'];
 

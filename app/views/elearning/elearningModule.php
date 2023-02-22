@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col text-center section-popular-heading">
-        <h2>Neop General</h2>
+        <h2><?= $data['elearningCourse']['judul'] ?></h2>
       </div>
     </div>
   </div>
@@ -41,13 +41,7 @@
                         </a>
                         <p class="mt-3">' . $_SESSION['user']['nik'] . '</p>
                         <ul class="d-lg-flex list-nilai-test">
-
-                          <li class="percobaan-non-test">
-                            <p> My Attempts : 3</p>
-                          </li>
-
-
-                          <a href="' . BASEURL . 'elearning/elearningLesson?elearningCourseId=' . $_GET['elearningCourseId'] . '&elearningLessonId=' . encrypt($lesson['elearningLessonId']) . '"><button type="button" class="btn btn-start-resp-non-test">
+                          <a href="' . BASEURL . 'elearning/elearningLesson?elearningCourseId=' . $_GET['elearningCourseId'] . '&elearningLessonId=' . encrypt($lesson['elearningLessonId']) . '"><button style="" type="button" class="btn btn-start-resp-non-test">
                               Start
                             </button></a>
 

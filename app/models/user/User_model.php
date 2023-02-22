@@ -137,7 +137,7 @@ class User_model{
   }
 
   public function addUser($data) {
-    $query = "INSERT INTO " . $this->table . " VALUES (null, :nik, :pass, :nama, null, :email, :orgId, :locationId, CURRENT_TIMESTAMP(), default)";
+    $query = "INSERT INTO " . $this->table . " VALUES (null, :nik, :pass, :nama, null, :email, :orgId, :locationId, default, default, default, default)";
     $this->db->query($query);
 
     $this->db->bind('nik', $data['nik']);

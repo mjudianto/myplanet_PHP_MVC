@@ -41,7 +41,25 @@ class Elearning extends Controller {
     if (isset($_SESSION['selectedKategoriId'])) {
       $kategoriId = $_SESSION['selectedKategoriId'];
       if ($kategoriId != 0){
-        $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
+        if ($kategoriId == 5) {
+          $elearningCourse = $model['elearningCourse']->getSopCourse();
+        } else {
+          $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
+        }
+      }
+    }
+
+    $pageSize = ceil(sizeof($elearningCourse)/8);
+    $page = $_REQUEST['page'] ?? 1;
+    for ($i = 1 ; $i<=$page ; $i++) {
+      if (sizeof($elearningCourse) > 8) {
+        // Slice the first 8 values into a new array
+        $paginateCourse = array_slice($elearningCourse, 0, 8);
+
+        // Remove the first 8 values from the original array
+        array_splice($elearningCourse, 0, 8);
+      } else {
+        $paginateCourse = $elearningCourse;
       }
     }
 
@@ -50,17 +68,19 @@ class Elearning extends Controller {
             <img src="assets/ic-arrow-up.png" alt="" width="24" />
           </button>
           <!-- Floating Button -->';
-    foreach ($elearningCourse as $course) {
+    foreach ($paginateCourse as $course) {
       $lessonCount = $model['elearningCourse']->countLesson($course['elearningCourseId']);
       $testCount = $model['elearningCourse']->countTest($course['elearningCourseId']);
+      isset($course['thumbnail']) != '' ? $thumbnail = $course['thumbnail'] : $thumbnail = BASEURL . 'assets/noImage.jpeg';
+      isset($course['elearningModuleId']) != '' ? $moduleId = $course['elearningModuleId'] : $moduleId = '';
 
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '"><img src="' . $course['thumbnail'] .
+                <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '"><img src="' . $thumbnail .
                     '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-learning">
-                    <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '">' . $course['judul'] . '</a>
+                    <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '">' . $course['judul'] . '</a>
                   </h5>
                   <div class="row">
                     <div class="col">
@@ -70,7 +90,7 @@ class Elearning extends Controller {
                       </p>
                     </div>
                     <div class="col">
-                      <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '" class="btn-go">
+                      <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '" class="btn-go">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                       <!-- <a href="#" class="btn btn-go">Go</a> -->
@@ -80,13 +100,28 @@ class Elearning extends Controller {
               </div>
             </div>';
     } 
+    echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page-1 . ')">&laquo;</a>';
+    for ($i=1 ; $i<=$pageSize ; $i++) {
+      $i == $page ? $active = 'active' : $active = "";
+      echo '<a class="' . $active . '" onclick="paginateCourse(' . $i . ')">' . $i . '</a>';
+    } 
+      echo '<a onclick="paginateCourse(' . $page+1 . ')">&raquo;</a>
+          </div>';
   }
 
   public function elearningModule() {
     $model = $this->loadElearningModel();
 
     $courseId = $this->decrypt($_GET['elearningCourseId']);
-    $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
+    $moduleId = $this->decrypt($_GET['moduleId'] ?? null);
+
+    if ($moduleId != ''){
+      $data['elearningModule'] = $model['elearningModule']->getSpesificModule($moduleId);
+    } else {
+      $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
+    }
+
+    $data['elearningCourse'] = $model['elearningCourse']->getCourseDetail($courseId);
     $data['elearningLesson'] = [];
     $data['elearningTest'] = [];
     $data['testRecord'] = [];

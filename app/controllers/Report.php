@@ -12,6 +12,17 @@ class Report extends Controller {
     $this->view('admin/layouts/footer');
   }
 
+  public function lessonReport() {
+    $model = $this->loadElearningModel();
+
+    $data['lessonRecord'] = $model['userLessonRecord']->getAllRecord();
+    // $data['lessonRecord'] = array_slice($data['lessonRecord'], 0, 20000);
+
+    $this->view('admin/layouts/sidebar');
+    $this->view('admin/report/lessonReport', $data);
+    $this->view('admin/layouts/footer');
+  }
+
   public function filterDate() {
     $model = $this->loadElearningModel();
 

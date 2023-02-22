@@ -67,7 +67,7 @@
 					<ul>
 						<li> <a href="<?= BASEURL ?>report/testReport"><i class="bx bx-right-arrow-alt"></i>Data Post Test</a>
 						</li>
-						<li> <a href="report-attempt.html"><i class="bx bx-right-arrow-alt"></i>Report Attempt</a>
+						<li> <a href="<?= BASEURL ?>report/lessonReport"><i class="bx bx-right-arrow-alt"></i>Report Attempt</a>
 						</li>
 						<li> <a href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Report Course User</a>
 						</li>

@@ -33,7 +33,8 @@ class UserLessonRecord_model {
   }
 
   public function getCourseRecord($column, $value){
-    $this->db->query("SELECT userLessonRecord.userId, userLessonRecord.attempt, elearningLesson.judul as 'judul lesson', elearningCourse.judul as 'judul course'
+    $this->db->query("SELECT userLessonRecord.userId, userLessonRecord.attempt, elearningLesson.judul as 'judul lesson', elearningCourse.judul as 'judul course',
+    userLessonRecord.finished
     FROM userLessonRecord 
     left join elearningLesson 
     on userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
@@ -112,6 +113,33 @@ class UserLessonRecord_model {
     $this->db->query($query);
     $this->db->bind('courseId', $courseId);
     $this->db->bind('userId', $userId);
+
+    return $this->db->resultSet();
+  }
+
+  public function getAllRecord() {
+    $query = 'select elearningLesson.judul, 
+                userLessonRecord.userId, 
+                user.nik,
+                user.nama,
+                organization.organizationName,
+                location.locationName,
+                userLessonRecord.attempt,
+                userLessonRecord.finished
+              from elearningLesson
+                left join elearningModule on elearningLesson.elearningModuleId = elearningModule.elearningModuleId AND elearningModule.elearningCourseId != 19
+                right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
+                left join user on userLessonRecord.userId = user.userId
+                left join location on user.locationId = location.locationId
+                left join organization on user.organizationId = organization.organizationId
+              group by 
+                userLessonRecord.userId,
+                userLessonRecord.attempt,
+				        userLessonRecord.finished,
+                elearningLesson.judul,
+                user.nik';
+
+    $this->db->query($query);
 
     return $this->db->resultSet();
   }

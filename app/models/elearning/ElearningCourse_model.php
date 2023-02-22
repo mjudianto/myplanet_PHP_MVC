@@ -19,7 +19,7 @@ class ElearningCourse_model {
   public function getAllCourse($orgId, $userId) {
     $this->db->query('SELECT *
                       FROM ' . $this->table . '
-                      WHERE access_type = 0
+                      WHERE access_type = 0 and elearningCourseId != 19
                       UNION
                       SELECT ' . $this->table . '.*
                       FROM ' . $this->table . ' 
@@ -50,6 +50,11 @@ class ElearningCourse_model {
     $this->db->bind('kategoriId', $kategoriId);
     $this->db->bind('orgId', $orgId);
     $this->db->bind('userId', $userId);
+    return $this->db->resultSet();
+  }
+
+  public function getSopCourse() {
+    $this->db->query('SELECT * FROM elearningModule WHERE elearningCourseId=19 AND accessType=0');
     return $this->db->resultSet();
   }
 

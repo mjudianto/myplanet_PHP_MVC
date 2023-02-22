@@ -4289,3 +4289,30 @@ p {
 .like-button.active svg path {
   fill: #2196f3;
 }
+
+.pagination-page {
+  display: inline-block;
+  margin-top: 5vh;
+}
+
+.pagination-page a {
+  color: white;
+  font-weight: 900;
+  font-size: larger;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination-page a.active {
+  background-color: #0396a6;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination-page a:hover:not(.active) {
+  background-color: #ededed;
+  border-radius: 5px;
+  color: #0396a6;
+  cursor: pointer;
+}
