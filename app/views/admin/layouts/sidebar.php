@@ -9,6 +9,7 @@
 	<link rel="icon" href="<?= BASEURL ?>admin/images/logo-myplanet-2.png" type="image/png" />
 	<!--plugins-->
 	<link href="<?= BASEURL ?>admin/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/fancy-file-uploader/fancy_fileupload.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/highcharts/css/highcharts.css" rel="stylesheet" />

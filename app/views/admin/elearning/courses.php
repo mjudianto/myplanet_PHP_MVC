@@ -117,7 +117,7 @@
 					</div>
 				</div>
 				<!-- Modal Box Add New -->
-				<div class="modal fade" id="modalAddNewCourse" tabindex="-1" aria-labelledby="modalAddNewCourseLabel"
+				<!-- <div class="modal fade" id="modalAddNewCourse" tabindex="-1" aria-labelledby="modalAddNewCourseLabel"
 					aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -152,6 +152,148 @@
 												}
 											?>
                     </datalist>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="" class="form-label">Image Poster</label>
+									<div class="card">
+										<div class="card-body">
+											<input id="fancy-file-upload" type="file" name="files"
+												accept=".jpg, .png, image/jpeg, image/png" multiple>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="formDescription" class="form-label">Description</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="inputPublis" class="form-label">Publish</label>
+									<div class="d-flex align-items-center">
+										<div class="form-check me-2">
+											<input class="form-check-input" type="radio" name="flexRadioDefault"
+												id="flexRadioDefault1">
+											<label class="form-check-label" for="flexRadioDefault1">Yes</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="flexRadioDefault"
+												id="flexRadioDefault2" checked="">
+											<label class="form-check-label" for="flexRadioDefault2">No</label>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Confirm</button>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<!-- Modal Box Add New -->
+				<div class="modal fade" id="modalAddNewCourse" tabindex="-1" aria-labelledby="modalAddNewCourseLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modalAddNewCourseLabel">Add New Course</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="col-12 mb-3">
+									<label for="inputCourse" class="form-label">Judul Course</label>
+									<input type="text" class="form-control" id="inputCourse"
+										placeholder="Input Title Course">
+								</div>
+								<div class="col-12 mb-3">
+									<label class="form-label">Course Category</label>
+									<select class="form-select" id="selectCategoryAddNew">
+										<option value="" selected>Select Category</option>
+										<option value="general">General</option>
+										<option value="qasecurity">QA & Security</option>
+										<option value="technical">Technical</option>
+										<option value="softskill">Soft Skill</option>
+									</select>
+								</div>
+								<div class="col-12 mb-3">
+									<label class="form-label" for="select">Choose:</label>
+									<select class="form-select" id="selectSpesific" name="form_select">
+										<option value="all">All</option>
+										<option value="byOrganization">Spesific by Organization</option>
+										<option value="byName">Spesific by User</option>
+									</select>
+								</div>
+								<!-- <div id="orgName" class="col-12 mb-3" style="display:none;">
+									<label class="form-label" for="orgSelect">Choose Organization</label>
+									<input type="input" list="organization" id="orgName" placeholder="Search ..." class="inputSearch form-select">
+									<datalist id="organization">
+									<select class="checkbox-spesific" data-placeholder="Choose anything"
+											multiple="multiple">
+											<option value="hrd">Human Resource Development</option>
+											<option value="it">Information Technology</option>
+											<option value="finance">Finance</option>
+											<option value="marketing">Marketing</option>
+											<option value="operation">Operation</option>
+											<option value="production">Production</option>
+											<option value="quality">Quality</option>
+											<option value="sales">Sales</option>
+											<option value="supplychain">Supply Chain</option>
+										</select>
+									</datalist>
+								</div> -->
+								<div id="orgName" class="col-12 mb-3" style="display: none;">
+									<label class="form-label" for="orgSelect">Choose Organization</label>
+									<input type="text" list="organization" id="orgSelect" placeholder="Search ..." class="inputSearch form-select">
+									<datalist id="organization">
+									<?php 
+												foreach($data['organization'] as $organization) {
+													echo '<option value="' . explode('-',$organization['organizationName']) . '" />';
+												}
+											?>
+									</datalist>
+								</div>
+								<div id="userName" class="col-12 mb-3" style="display:none;">
+									<label class="form-label" for="userSelect">Choose User</label>
+									<input type="input" list="user" id="userSelect" placeholder="Search ..." class="inputSearch form-select">
+									<datalist id="user">
+									<select class="checkbox-spesific" data-placeholder="Choose anything"
+											multiple="multiple">
+											<?php 
+												foreach($data['user'] as $user) {
+													echo '<option value="' . $user['nama'] . '" />';
+												}
+											?>
+										</select>
+									</datalist>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="" class="form-label">Assign To User</label>
+									<!-- <div class="card" id="myCard"></div> -->
+									<!-- <div id="orgCard"></div> -->
+									<table class="table" id="orgTable">
+										<thead>
+											<tr>
+											<th>Organization</th>
+											<th>Action</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+								<div class="col-12 mb-3">
+									<label for="" class="form-label">Assign To User</label>
+									<!-- <div class="card" id="myCard"></div> -->
+									<!-- <div id="orgCard"></div> -->
+									<table class="table" id="userTable">
+										<thead>
+											<tr>
+											<th>User</th>
+											<th>Action</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
 								</div>
 								<div class="col-12 mb-3">
 									<label for="" class="form-label">Image Poster</label>

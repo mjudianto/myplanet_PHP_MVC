@@ -47,6 +47,7 @@ class ElearningManagement extends Controller {
     $courses = $model['elearningCourse']->getUserInCourse(0);
     $courses2 = $model['elearningCourse']->getUserInCourse(2);
     $user = $userModel->getAllUsers();
+    $organization = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
 
     $userCount = array_map(function ($course) use ($model, $userModel) {
       $courseId = $course['Course ID'];
@@ -66,6 +67,7 @@ class ElearningManagement extends Controller {
       'courses2' => $courses2,
       'userCount' => $userCount,
       'user' => $user,
+      'organization' => $organization,
     ];
 
     // var_dump($data['user'][0]);

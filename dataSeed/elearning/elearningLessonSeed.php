@@ -172,7 +172,7 @@ class ElearningLesson_model {
 
 }
 
-$file = 'cleanTestRecord.csv';
+$file = 'cleanLessonRecord.csv';
 
 // Open the file for reading
 $fp = fopen($file, 'r', 'UTF-8');
@@ -217,16 +217,16 @@ while ($row = fgetcsv($fp)) {
   //   $lesson->editElearningLesson($row[1], $row[2]);
   // }
   // echo $row[2];
-  // $lesson->createLessonRecord($row[0], $row[1], $row[2], $row[3]);
+  $lesson->createLessonRecord($row[0], $row[1], $row[2], $row[3]);
 
   // $pattern = '/post test/i';
 
   // if (preg_match($pattern, $row[1])) {
   //   $lesson->createTest($row[0], $row[2], $row[1], $row[3]);
   // }
-  if ($row[5] != '\N' && $row[4] != '\N') {
-    $lesson->createTestRecordDetail($row[1], $row[2], $row[3], $row[5], $row[7] == 'lulus' ? "Lulus" : "Gagal", $row[4]);
-  }
+  // if ($row[5] != '\N' && $row[4] != '\N') {
+  //   $lesson->createTestRecordDetail($row[1], $row[2], $row[3], $row[5], $row[7] == 'lulus' ? "Lulus" : "Gagal", $row[4]);
+  // }
 
 }
 

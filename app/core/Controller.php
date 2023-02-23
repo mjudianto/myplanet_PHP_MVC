@@ -78,7 +78,7 @@ class Controller {
   }
 
   public function saveFile($file, $allowedExtensions, $maxSize, $destinationDir, $destinationExtension) {
-    if (!$file) {
+    if (!isset($file)) {
       return null;
     }
     $fileType = pathinfo($file['name'], PATHINFO_EXTENSION);

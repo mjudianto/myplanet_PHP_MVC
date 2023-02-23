@@ -49,19 +49,22 @@ class Elearning extends Controller {
       }
     }
 
-    $pageSize = ceil(sizeof($elearningCourse)/8);
-    $page = $_REQUEST['page'] ?? 1;
-    for ($i = 1 ; $i<=$page ; $i++) {
-      if (sizeof($elearningCourse) > 8) {
-        // Slice the first 8 values into a new array
-        $paginateCourse = array_slice($elearningCourse, 0, 8);
+    // Define the number of items per page
+    $itemsPerPage = 8;
 
-        // Remove the first 8 values from the original array
-        array_splice($elearningCourse, 0, 8);
-      } else {
-        $paginateCourse = $elearningCourse;
-      }
-    }
+    // Calculate the total number of pages
+    $totalPages = ceil(sizeof($elearningCourse) / $itemsPerPage);
+
+    // Get the current page from the request parameter
+    $page = $_REQUEST['page'] ?? 1;
+
+    // Calculate the starting index and length of the slice
+    $startIndex = ($page - 1) * $itemsPerPage;
+    $sliceLength = min($itemsPerPage, sizeof($elearningCourse) - $startIndex);
+
+    // Slice the array based on the current page
+    $paginateCourse = array_slice($elearningCourse, $startIndex, $sliceLength);
+
 
     echo '<!-- Floating Button -->
           <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
@@ -101,7 +104,7 @@ class Elearning extends Controller {
             </div>';
     } 
     echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page-1 . ')">&laquo;</a>';
-    for ($i=1 ; $i<=$pageSize ; $i++) {
+    for ($i=1 ; $i<=$totalPages ; $i++) {
       $i == $page ? $active = 'active' : $active = "";
       echo '<a class="' . $active . '" onclick="paginateCourse(' . $i . ')">' . $i . '</a>';
     } 

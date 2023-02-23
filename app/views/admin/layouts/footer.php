@@ -5,6 +5,10 @@
 	<script src="<?= BASEURL ?>admin/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.ui.widget.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.fileupload.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.iframe-transport.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.fancy-fileupload.js"></script>
 	<!-- highcharts js -->
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/highcharts.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/highcharts-more.js"></script>
@@ -17,6 +21,7 @@
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/export-data.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/highcharts/js/accessibility.js"></script>
 	<script src="<?= BASEURL ?>admin/js/index3.js"></script>
+	<script src="<?= BASEURL ?>admin/js/assignCard.js"></script>
 	<script src="<?= BASEURL ?>admin/libraries/gijgo/js/gijgo.min.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/select2/js/select2.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>

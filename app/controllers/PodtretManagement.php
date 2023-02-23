@@ -242,10 +242,10 @@ class PodtretManagement extends Controller {
     $judul = $_POST['newJudul'];
     $kategori = $_POST['newKategori'];
     $publish = $_POST['newPublish'];
-    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'] ?? null, 'podtretAssets/thumbnail');
-    $video = $this->saveVideo($_FILES['newVideo'] ?? null, 'podtretAssets/video');
-    $audio = $this->saveAudio($_FILES['newAudio'] ?? null, 'podtretAssets/audio');
-  
+    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'], 'podtretAssets/thumbnail') ?? "";
+    $video = $this->saveVideo($_FILES['newVideo'], 'podtretAssets/video') ?? "";
+    $audio = $this->saveAudio($_FILES['newAudio'], 'podtretAssets/audio') ?? "";
+    
     $model['podtret']->newPodtret($kategori, $judul, $thumbnail, $video, $audio, $publish);
     header("Location:" . BASEURL . 'podtretmanagement/uploadPodtret');
   }

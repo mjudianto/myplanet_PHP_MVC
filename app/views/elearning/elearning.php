@@ -6,18 +6,19 @@
     <div class="text-center section-popular-heading">
       <h2 class="mb-4">E-Learning</h2>
       <div class="d-flex align-items-center justify-content-center">
-      <div class="nav-menu-learning justify-content-center" id="kategoriContainer">
-      </div>
-      <div class="position-relative ms-2 mt-2">
-              <input type="text" class="form-control ps-5" placeholder="Search" style="
-  border-radius: 20px;
-  height: 32px;
-"> <span class="position-absolute top-50 product-show translate-middle-y" style="
-  font-size: 18px;
-  left: 15px;
-  position: absolute;
-"><i class="fa fa-search"></i></span>
-            </div>
+        <div class="nav-menu-learning justify-content-center" id="kategoriContainer"></div>
+        <div class="position-relative ms-2 mt-2">
+          <input type="text" class="form-control ps-5" placeholder="Search" style="
+            border-radius: 20px;
+            height: 32px;"
+            id="search"
+            onkeyup="search(this.values)"> 
+            <span class="position-absolute top-50 product-show translate-middle-y" style="
+            font-size: 18px;
+            left: 15px;
+            position: absolute;
+          "><i class="fa fa-search"></i></span>
+        </div>
       </div>
     </div>
   
@@ -78,6 +79,15 @@
     function paginateCourse(i) {
       $.ajax({
         url: "<?= BASEURL ?>elearning/loadCourse?page=" + i,
+        success: function(html) {
+          $('#courseContainer').html(html);
+        }
+      });
+    }
+
+    function search(val) {
+      $.ajax({
+        url: "<?= BASEURL ?>elearning/loadCourse?search=" + val,
         success: function(html) {
           $('#courseContainer').html(html);
         }

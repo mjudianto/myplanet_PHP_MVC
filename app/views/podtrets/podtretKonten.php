@@ -142,5 +142,9 @@
           }
         });
       }
+
+      setInterval(function(){
+        loadComment();
+      }, 10000);
     </script>
 </body>
