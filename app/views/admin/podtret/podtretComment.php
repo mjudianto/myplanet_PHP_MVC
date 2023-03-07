@@ -54,7 +54,7 @@
 						</div>
 						<div class="table-responsive">
 							<br>
-							<table id="tablePodtret" class="table align-middle" style="width:100%">
+							<table id="podtretCommentTable" class="table align-middle" style="width:100%">
 
 								<thead class="table-light">
 									<tr>

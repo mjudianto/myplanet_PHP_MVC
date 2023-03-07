@@ -54,7 +54,7 @@
 						<div class="table-responsive">
 							<div id="printbar" style="float:right"></div>
 							<br>
-							<table id="detailCourse" class="table align-middle" style="width:100%">
+							<table id="testReportTable" class="table align-middle" style="width:100%">
 
 								<thead class="table-light">
 									<tr>
@@ -131,19 +131,7 @@
 		</div>
 		<!--end page wrapper -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-  <script>
-		$(document).ready(function () {
-			var table = $('#detailCourse').DataTable({
-				lengthChange: false,
-				buttons: ['csv', 'excel', 'pdf', 'print']
-			});
-
-			table.buttons().container()
-				.appendTo('#detailCourse_wrapper .col-md-6:eq(0)');
-		});
-	</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
   <script>
     function dateFilter() {

@@ -59,7 +59,7 @@
 						</div>
 						<div class="">
 							<br>
-							<table class="table align-middle" style="width:100%">
+							<table id="tableNotification" class="table align-middle" style="width:100%">
 
 								<thead class="table-light">
 									<tr>

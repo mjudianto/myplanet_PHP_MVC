@@ -111,19 +111,6 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-		<script>
-		$(document).ready(function () {
-			var table = $('#tableVisitorPodtret').DataTable({
-				dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
-				buttons: ['csv', 'excel', 'pdf', 'print']
-			});
-
-			table.buttons().container()
-    		.appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
-				
-		});
-	</script>
-
 	<script>
     function dateFilter() {
 			var data = document.getElementById("data").value;

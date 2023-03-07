@@ -1,3 +1,4 @@
+
 <!--start page wrapper -->
 <div class="page-wrapper">
 			<div class="page-content">
@@ -165,16 +166,13 @@
 								</div>
 								<div id="userName" class="col-6 mb-4" style="display:none; margin: auto; width:70%;">
 									<label class="form-label" for="userSelect">Choose User</label>
-									<input type="input" list="user" id="userSelect" placeholder="Search ..." class="inputSearch form-select">
-									<datalist id="user">
-									<select class="checkbox-spesific" data-placeholder="Choose anything"
-											multiple="multiple">
+									<input type="input" autocomplete="off" list="userDatalist" id="userSelect" placeholder="Search ..." class="inputSearch form-select">
+									<datalist id="userDatalist">
 											<?php 
 												foreach($data['user'] as $user) {
 													echo '<option value="' . $user['nama'] . '" />';
 												}
 											?>
-										</select>
 									</datalist>
 								</div>
 								<div class="col-12 mb-5" style="display: flex; justify-content: center;">
@@ -262,18 +260,3 @@
 			</div>
 		</div>
 		<!--end page wrapper -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
-
-
-    <script>
-		$(document).ready(function () {
-			var table = $('#tableCourse').DataTable({
-				dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
-				buttons: ['csv', 'excel', 'pdf', 'print']
-			});
-
-		});
-	</script>

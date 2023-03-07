@@ -12,15 +12,15 @@
 	<link href="<?= BASEURL ?>admin/plugins/fancy-file-uploader/fancy_fileupload.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-	<link href="<?= BASEURL ?>admin/plugins/highcharts/css/highcharts.css" rel="stylesheet" />
+	<link href="<?= BASEURL ?>admin/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
 	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
 	<!-- loader-->
 	<link href="<?= BASEURL ?>admin/css/pace.min.css" rel="stylesheet" />
 	<script src="<?= BASEURL ?>admin/js/pace.min.js"></script>
 	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-	<link href="<?= BASEURL ?>admin/css/bootstrap-extended.css" rel="stylesheet">	
+	<link href="<?= BASEURL ?>admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?= BASEURL ?>admin/css/bootstrap-extended.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 	<link href="<?= BASEURL ?>admin/css/app.css" rel="stylesheet">
 	<link href="<?= BASEURL ?>admin/css/icons.css" rel="stylesheet">
@@ -28,9 +28,7 @@
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/dark-theme.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/semi-dark.css" />
 	<link rel="stylesheet" href="<?= BASEURL ?>admin/css/header-colors.css" />
-	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css" />
-	<link href="<?= BASEURL ?>admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="<?= BASEURL ?>admin/libraries/gijgo/css/gijgo.min.css">
 	<title>My Planet Admin</title>
 
 </head>
