@@ -47,11 +47,11 @@ class ElearningManagement extends Controller {
     $courses = $model['elearningCourse']->getUserInCourse(0);
     $courses2 = $model['elearningCourse']->getUserInCourse(2);
     $user = $userModel->getAllUsers();
-    $organization = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
+    $department = $this->model('user/Department_model', 'Department_model')->getAllDepartment();
 
     $userCount = array_map(function ($course) use ($model, $userModel) {
       $courseId = $course['Course ID'];
-      $organizationCount = $model['elearningCourse']->getCourseAksesOrganizationId($courseId);
+      $organizationCount = $model['elearningCourse']->getCourseAksesDepartmentId($courseId);
       $courseAccess = $model['elearningCourse']->getCourseUserPrivateAkses($courseId);
 
       $organizationUser = array_sum(array_map(function ($org) use ($userModel) {
@@ -67,7 +67,7 @@ class ElearningManagement extends Controller {
       'courses2' => $courses2,
       'userCount' => $userCount,
       'user' => $user,
-      'organization' => $organization,
+      // 'department' => array_unique($department),
     ];
 
     // var_dump($data['user'][0]);
@@ -297,11 +297,20 @@ class ElearningManagement extends Controller {
       }
     }
     
+    if ($_GET['testId'] != '') {
+      $model['elearningTest']->updateTest($testName, $passingScore, $timeLimit, $endDate, $_GET['testId']);
+    }
 
     if ($uploaded) {
       if ( $xlsx = SimpleXLSX::parse('elearningAssets/test/' . $file_name )) {
-        $model['elearningTest']->createTest($_GET['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
-        $test =  $model['elearningTest']->getTestByJudul($_GET['moduleId'], $testName);
+        if ($_GET['moduleId'] != '') {
+          $model['elearningTest']->createTest($_GET['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
+          $test =  $model['elearningTest']->getTestByJudul($_GET['moduleId'], $testName);
+        } else {
+          $test =  $model['elearningTest']->getSingleTest($_GET['testId']);
+          $model['question']->resetQuestion($test['elearningTestId']);
+        }
+       
 
         foreach( $xlsx->rows() as $row ) {
           // Skip the first row
@@ -315,10 +324,13 @@ class ElearningManagement extends Controller {
           $answer = $model['answer']->getQuestionAnswer($question['questionId']);
 
           for ($i=1 ; $i<=4 ; $i++){
-            if ($row[$i] == $row[5]) {
-              $model['choice']->createChoice($question['questionId'], $row[$i], $answer['answerId']);
+            if ($row[$i] != '') {
+              if ($row[$i] == $row[5]) {
+                $model['choice']->createChoice($question['questionId'], $row[$i], $answer['answerId']);
+              } else {
+                $model['choice']->createChoice($question['questionId'], $row[$i], 'null');
+              }
             }
-            $model['choice']->createChoice($question['questionId'], $row[$i], 'null');
           }
         }
 
@@ -366,6 +378,24 @@ class ElearningManagement extends Controller {
     }
 
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
+
+  }
+
+  public function editPostTest() {
+    $model = $this->loadElearningModel();
+
+    $data['elearningTest'] = $model['elearningTest']->getSingleTest($_GET['testId']);
+
+    $this->view('admin/layouts/sidebar');
+    $this->view('admin/elearning/editPostTest', $data);
+    $this->view('admin/layouts/footer');
+  }
+
+  public function deletePostTest() {
+    $model = $this->loadElearningModel();
+    $model['elearningTest']->deleteTest($_GET['testId']);
+
+    header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
 
   }
   

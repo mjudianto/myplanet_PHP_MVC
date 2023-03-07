@@ -16,7 +16,7 @@ class Report extends Controller {
     $model = $this->loadElearningModel();
 
     $data['lessonRecord'] = $model['userLessonRecord']->getAllRecord();
-    // $data['lessonRecord'] = array_slice($data['lessonRecord'], 0, 20000);
+    $data['lessonRecord'] = array_slice($data['lessonRecord'], 0, 1000);
 
     $this->view('admin/layouts/sidebar');
     $this->view('admin/report/lessonReport', $data);

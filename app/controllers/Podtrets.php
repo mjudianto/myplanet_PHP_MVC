@@ -27,44 +27,39 @@ class Podtrets extends Controller {
   }
 
   public function loadPodtret() {
+    // Load the model
     $model = $this->loadPodtretModel();
 
+    // Get all active podtrets
     $podtrets = $model['podtret']->getAllActivePodtret();
 
+    // Filter podtrets by selected kategori, if any
     if (isset($_SESSION['selectedPodtretKategori'])) {
       $kategoriId = $_SESSION['selectedPodtretKategori'];
-      if ($kategoriId != 0){
+      if ($kategoriId != 0) {
         $podtrets = $model['podtret']->filterPodtret($kategoriId);
       }
     }
 
-    $pageSize = ceil(sizeof($podtrets)/8);
+    // Pagination
+    $pageSize = ceil(sizeof($podtrets) / 8); // 8 podtrets per page
     $page = $_REQUEST['page'] ?? 1;
-    for ($i = 1 ; $i<=$page ; $i++) {
-      if (sizeof($podtrets) > 8) {
-        // Slice the first 8 values into a new array
-        $paginatePodtret = array_slice($podtrets, 0, 8);
-
-        // Remove the first 8 values from the original array
-        array_splice($podtrets, 0, 8);
-      } else {
-        $paginatePodtret = $podtrets;
-      }
-    }
+    $paginatePodtret = array_slice($podtrets, ($page - 1) * 8, 8);
     
     echo '<!-- Floating Button -->
           <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
             <img src="assets/ic-arrow-up.png" alt="" width="24" />
           </button>
           <!-- Floating Button -->';
+
     foreach ($paginatePodtret as $podtret) {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-page-podtret" data-aos="fade-down" data-aos-duration="950">
-                <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' .$podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
+                <a href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' .$podtret['views'] . '"><img src="' . $podtret['thumbnail'] . '" class="card-img-top py-2 px-2"
                     alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-page-podtret">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
                   </h5>
                   <div class="row mt-3">
                     <div class="col-10">
@@ -73,24 +68,24 @@ class Podtrets extends Controller {
                       </p>
                     </div>
                     <div class="col d-none d-lg-block">
-                      <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
+                      <a href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '" class="btn-go-podtret">
                         <img src="assets/arrow_right_alt_FILL1_wght400_GRAD0_opsz48.svg" alt="" class="" />
                       </a>
                     </div>
                   </div>
                   <div class="d-flex mt-2">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
-                    <a href=""><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP4.png" alt="" class="btn-opsi-play-podtret me-2"></a>
+                    <a href="' . BASEURL . 'podtrets/podtretKonten?type=audio&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '"><img src="assets/Button Nonton MP3.png" alt="" class="btn-opsi-play-podtret"></a>
                   </div>
                 </div>
               </div>
             </div>';
       } 
       echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page-1 . ')">&laquo;</a>';
-    for ($i=1 ; $i<=$pageSize ; $i++) {
-      $i == $page ? $active = 'active' : $active = "";
-      echo '<a class="' . $active . '" onclick="PaginatePodtret(' . $i . ')">' . $i . '</a>';
-    } 
+      for ($i=1 ; $i<=$pageSize ; $i++) {
+        $i == $page ? $active = 'active' : $active = "";
+        echo '<a class="' . $active . '" onclick="PaginatePodtret(' . $i . ')">' . $i . '</a>';
+      } 
       echo '<a onclick="paginateCourse(' . $page+1 . ')">&raquo;</a>
           </div>';
   }
@@ -198,7 +193,7 @@ class Podtrets extends Controller {
                     <div class="d-flex user-reply-comment align-items-center mt-3">
                       <img src="/public/images/nanda.jpg" alt="" class="img-reply-comment" />
                       <h5 class="ms-3">
-                        Nanda Raditya
+                        ' . $reply['nama'] . '
                       </h5>
                       <p class="ms-2 mt-2">' . date('d M Y', strtotime($reply['uploadDate'])) . '</p>
                     </div>

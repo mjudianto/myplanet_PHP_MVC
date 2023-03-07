@@ -129,7 +129,7 @@
 
 
 				</div>
-        <form action="<?= BASEURL ?>elearningmanagement/importTest?moduleId=<?= $_GET['moduleId'] ?>" method="post" enctype="multipart/form-data" id="testImport">
+        <form action="<?= BASEURL ?>elearningmanagement/importTest?moduleId=<?= $_GET['moduleId'] ?>&testId=" method="post" enctype="multipart/form-data" id="testImport">
           <!-- Modal Box Add By Import -->
           <div class="modal fade" id="modalAddByImport" tabindex="-1" aria-labelledby="modalAddByImportLabel"
             aria-hidden="true">

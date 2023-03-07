@@ -70,8 +70,6 @@
 						</li>
 						<li> <a href="<?= BASEURL ?>report/lessonReport"><i class="bx bx-right-arrow-alt"></i>Report Attempt</a>
 						</li>
-						<li> <a href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Report Course User</a>
-						</li>
 
 				</li>
 			</ul>

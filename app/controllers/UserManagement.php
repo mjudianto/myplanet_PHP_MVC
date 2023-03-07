@@ -7,6 +7,9 @@ class UserManagement extends Controller {
     $data['location'] = $this->model('user/Location_model', 'Location_model')->getAllLocation();
     $data['organization'] = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
 
+    $data['user'] = array_slice($data['user'], 0, 1000);
+
+
     $this->view('admin/layouts/sidebar');
     $this->view('admin/user/userManagement', $data);
     $this->view('admin/layouts/footer');
@@ -28,14 +31,14 @@ class UserManagement extends Controller {
     $model = $this->loadElearningModel();
 
     $userId = $_GET['userId'];
-    $userOrganization = $_GET['userOrganization'];
+    $userdepartment = $_GET['userdepartment'];
 
     $data = [
       'user' => $this->model('user/User_model', 'User_model')->getUserBy('userId', $userId),
       'location' => $this->model('user/Location_model', 'Location_model')->getAllLocation(),
-      'userLesson' => $model['userLessonRecord']->userLessonRecord($userId, $userOrganization),
-      'userTest' => $model['userTestRecord']->userTestRecord($userId, $userOrganization),
-      'course' => $model['elearningCourse']->getPrivateCourse($userOrganization, $userId)
+      'userLesson' => $model['userLessonRecord']->userLessonRecord($userId, $userdepartment),
+      'userTest' => $model['userTestRecord']->userTestRecord($userId, $userdepartment),
+      'course' => $model['elearningCourse']->getPrivateCourse($userdepartment, $userId)
     ];
 
 
@@ -81,6 +84,8 @@ class UserManagement extends Controller {
             echo '</tr>';
         }
     }
+
+    // echo $courseId;
 
 
   }

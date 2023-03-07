@@ -57,7 +57,7 @@ class UserTestRecord_model {
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
                     FROM elearningCourseAkses
-                    WHERE organizationId = :orgId
+                    WHERE departmentId = :orgId
                     )
                 )
                 )
@@ -114,7 +114,7 @@ class UserTestRecord_model {
                 max(userTestRecordDetail.finished) as "time",
                 user.nik,
                 user.nama,
-                organization.organizationName,
+                department.departmentName,
                 location.locationName
               from elearningTest
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
@@ -123,7 +123,7 @@ class UserTestRecord_model {
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
                 left join user on userTestRecord.userId = user.userId
                 left join location on user.locationId = location.locationId
-                left join organization on user.organizationId = organization.organizationId
+                left join department on user.departmentId = department.departmentId
               group by 
                 userTestRecord.userId,
                 elearningTest.judul,
@@ -144,7 +144,7 @@ class UserTestRecord_model {
                 max(userTestRecordDetail.finished) as "time",
                 user.nik,
                 user.nama,
-                organization.organizationName,
+                department.departmentName,
                 location.locationName
               from elearningTest
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
@@ -152,7 +152,7 @@ class UserTestRecord_model {
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
                 left join user on userTestRecord.userId = user.userId
                 left join location on user.locationId = location.locationId
-                left join organization on user.organizationId = organization.organizationId
+                left join department on user.departmentId = department.departmentId
               group by 
                 userTestRecord.userId,
                 elearningTest.judul,

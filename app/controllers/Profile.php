@@ -24,12 +24,12 @@ class Profile extends Controller {
 
     if ($newPassword == $newPasswordConfirm) {
       if ( sha1($currentPassword) == $_SESSION['user']['password'] ) {
-        $this->model('user/User_model', 'User_model')->updateUserPassword($newPassword);
+        $this->model('user/User_model', 'User_model')->updateUserPassword($newPassword, $_GET['nik']);
         $_SESSION['user']['password'] = sha1($newPassword);
       }
     }
     
-    header("Location: " . BASEURL . 'profile');
+    header("Location: " . BASEURL . 'login');
     exit;
   }
 

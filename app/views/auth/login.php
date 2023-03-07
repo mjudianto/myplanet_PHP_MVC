@@ -15,8 +15,6 @@
     />
   </head>
   <?php 
-  // echo $_SESSION['page'];
-  // echo "Location: " . BASEURL . $_SESSION['page'];
   ?>
   <body class="body-login">
 
@@ -68,18 +66,9 @@
             </div>
             
             <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="exampleCheck1"
-              />
-              <label class="form-check-label" for="exampleCheck1"
-                >Remember Me</label
-              >
-              <!-- <a href="" data-bs-toggle="modal" data-bs-target="#forgotPassword" -->
-              <a href="<?= BASEURL ?>login/resetPassword"
-                >Forgot Password?</a
-              >
+              <!-- <a href="<?= BASEURL ?>login/resetPassword"> -->
+              <a href="" data-bs-toggle="modal" data-bs-target="#forgotPassword">
+              Forgot Password?</a>
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-sign text-center">
@@ -89,65 +78,66 @@
           </form>
         </div>
       </div>
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content modal-forget-pass">
-            <div class="modal-header">
-              <h5
-                class="modal-title"
-                id="exampleModalLabel"
-                style="color: #ffffff"
-              >
-                Forgot Password
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label
-                    for="recipient-name"
-                    class="col-form-label"
-                    style="color: #ffffff"
-                    >NIK</label
-                  >
-                  <input type="text" class="form-control" id="recipient-name" />
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-success">Submit</button>
+      
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content modal-forget-pass">
+              <div class="modal-header">
+                <h5
+                  class="modal-title"
+                  id="exampleModalLabel"
+                  style="color: #ffffff"
+                >
+                  Forgot Password
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label
+                      for="recipient-name"
+                      class="col-form-label"
+                      style="color: #ffffff"
+                      >NIK</label
+                    >
+                    <input type="text" class="form-control" id="recipient-name" />
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-success">Submit</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
-
-    <div
+    
+    <!-- reset password modal  -->
+    <form action="<?= BASEURL ?>login/resetPassword" method="post">
+      <div
         class="modal fade"
         id="forgotPassword"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content modal-forget-pass">
             <div class="modal-header">
@@ -174,7 +164,7 @@
                     style="color: #ffffff"
                     >NIK or Email</label
                   >
-                  <input type="text" class="form-control" id="recipient-name" placeholder="Input NIK or Email..."/>
+                  <input type="text" class="form-control" id="recipient-name" name="resetPasswordDetail" placeholder="Input NIK or Email..."/>
                 </div>
               </form>
             </div>
@@ -191,6 +181,10 @@
           </div>
         </div>
       </div>
+    </form>
+
+
+
     <script
       src="https://code.jquery.com/jquery-3.6.0.js"
       integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -204,6 +198,5 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script src="<?= BASEURL ?>js/floating-btn.js"></script>
   </body>
 </html>

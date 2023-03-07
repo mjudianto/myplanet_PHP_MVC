@@ -245,6 +245,22 @@ body {
   transition: all 0.2s ease;
 }
 
+.card-title-learning {
+  max-width: 20vw; /* Set maximum height for text container */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis !important; /* Add ellipsis to end of text */
+  white-space: nowrap; 
+  position: relative ;
+}
+
+.card-title-learning::after {
+  content: '...'; /* Add the ellipsis */
+  position: absolute; /* Set the position of the ellipsis to absolute */
+  bottom: 0; /* Align the ellipsis to the bottom of the container */
+  right: 0; /* Align the ellipsis to the right of the container */
+  color: black; /* Set the color of the ellipsis to black */
+}
+
 .card-title-learning a {
   text-decoration: none;
   color: #000000;

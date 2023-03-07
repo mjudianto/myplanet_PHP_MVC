@@ -61,10 +61,10 @@
                               <td>' . $user['email'] . '</td>
                               <td>' . $user['lastVisit'] . '</td>
                               <td>' . $user['locationName'] . '</td>
-                              <td>' . $user['organizationName'] . '</td>
+                              <td>' . $user['departmentName'] . '</td>
                               <td>
                                 <div class="order-actions">
-                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '&userOrganization=' . $user['organizationId'] . '"
+                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '&userdepartment=' . $user['departmentId'] . '"
                                     class="text-primary bg-light-primary border-0"><i
                                       class="bx bxs-edit"></i></a>
                                 </div>
@@ -137,12 +137,12 @@
 										</select>
 									</div>
 									<div class="col-12 mb-3">
-										<label for="" class="form-label">Organization Name</label>
-										<select class="form-select" id="selectLocationAddNew" name="organization">
-											<option value="" selected>Select Organization</option>
+										<label for="" class="form-label">department Name</label>
+										<select class="form-select" id="selectLocationAddNew" name="department">
+											<option value="" selected>Select department</option>
 											<?php 
-											foreach($data['organization'] as $organization) {
-												echo '<option  value="' . $organization['organizationId'] . '">' . $organization['organizationName'] . '</option>';
+											foreach($data['department'] as $department) {
+												echo '<option  value="' . $department['departmentId'] . '">' . $department['departmentName'] . '</option>';
 											}
 											?>
 										</select>

@@ -29,7 +29,7 @@ class Podtret_model {
   }
 
   public function filterPodtret($podtretKategoriId) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE podtretKategoriId=:podtretKategoriId');
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE podtretKategoriId=:podtretKategoriId ORDER BY ' . $this->table . '.uploadDate DESC');
     $this->db->bind('podtretKategoriId', $podtretKategoriId);
     return $this->db->resultSet();
   }

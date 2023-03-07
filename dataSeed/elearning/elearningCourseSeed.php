@@ -25,13 +25,53 @@ class ElearningCourse_model {
     $this->db->execute();
   }
 
+  public function createDummy($modName, $folderId) {
+    $this->db->query('INSERT INTO dummysop VALUES(null, :modName, :folderId)');
+    $this->db->bind('modName', $modName);
+    $this->db->bind('folderId', $folderId);
+    $this->db->execute();
+  }
+
+  public function createSopAkses($nik, $folderId) {
+    $this->db->query('SELECT * from user where nik=' . $nik);
+    $user = $this->db->single();
+    // return $user;
+
+    if (!is_bool($user)) {
+      $this->db->query('SELECT * from dummysop where folderId=' . $folderId);
+      $sop = $this->db->single();
+      // return $sop;
+
+      if (!is_bool($sop)) {
+        $moduleName = $sop['moduleName'];
+        $this->db->query('SELECT * from elearningModule where judul=:moduleName');
+        $this->db->bind('moduleName', $moduleName);
+        $module = $this->db->single();
+        // return $module;
+
+        if (!is_bool($module)) {
+          $userId = $user['userId'];
+          $moduleId = $module['elearningModuleId'];
+          $this->db->query('INSERT INTO userModuleAkses VALUES(null, :userId, :moduleId)');
+          $this->db->bind('userId', $userId);
+          $this->db->bind('moduleId', $moduleId);
+          $this->db->execute();
+        }
+
+      }
+    } else {
+      return;
+    }
+
+  }
+
 }
 
-$file = 'cleanElearningCourse.csv';
+$file = 'sopikAkses.csv';
 
 // Open the file for reading
 $fp = fopen($file, 'r', 'UTF-8');
-// $outputFile = fopen('cleanElearningCourse.csv', 'w');
+// $outputFile = fopen('cleansopikAkses.csv', 'w');
 
 $course = new ElearningCourse_model;
 
@@ -52,8 +92,13 @@ while ($row = fgetcsv($fp)) {
   // $row[16] = "delete";
   // $row[17] = "delete";
   // fputcsv($outputFile, $row);
-  $img = "https://myplanet.enseval.com/home/img/" . $row[3];
-  $course->createCourse((int)$row[1], $row[2], $img, $row[0]);
+  // $img = "https://myplanet.enseval.com/home/img/" . $row[3];
+  // $course->createCourse((int)$row[1], $row[2], $img, $row[0]);
+
+  // $row[5] != 0 ? $course->createDummy($row[3], $row[5]) : "";
+
+  $course->createSopAkses($row[2], $row[5]);
+  // print_r($sop);
 }
 echo ' /n success';
 

@@ -100,7 +100,7 @@
                         echo   '</td>
                                 <td>' . $record['time'] . '</td>
                                 <td>' . $record['locationName'] . '</td>
-                                <td>' . $record['organizationName'] . '</td>
+                                <td>' . $record['departmentName'] . '</td>
                               </tr>';
                         $i+=1;
                       }

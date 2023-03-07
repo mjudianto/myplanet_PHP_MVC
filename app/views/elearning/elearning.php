@@ -12,7 +12,7 @@
             border-radius: 20px;
             height: 32px;"
             id="search"
-            onkeyup="search(this.values)"> 
+            onkeyup="search(this.value)"> 
             <span class="position-absolute top-50 product-show translate-middle-y" style="
             font-size: 18px;
             left: 15px;
@@ -93,5 +93,7 @@
         }
       });
     }
+    
   </script>
 </body>
+

@@ -80,7 +80,7 @@
 															<td>' . $lesson['judul'] . '</td>
 															<td>' . $lesson['attempt'] . '</td>
 															<td>' . $lesson['finished'] . '</td>
-															<td>' . $lesson['organizationName'] . '</td>
+															<td>' . $lesson['departmentName'] . '</td>
 															<td>' . $lesson['locationName'] . '</td>
 					
 														</tr>';

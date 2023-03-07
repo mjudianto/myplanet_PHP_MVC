@@ -115,7 +115,7 @@
                                       </div>';
                             }
                             echo    '</td>
-                                    <td><button type="button" onclick="loadUserCourseRecordDetail(' . $lesson['courseId'] . ')"
+                                    <td><button type="button" value="' . $lesson['courseId'] . '" onclick="loadUserCourseRecordDetail(this.value)"
                                         class="btn btn-primary btn-sm radius-30 px-4"
                                         data-bs-toggle="modal" data-bs-target="#' . $lesson['courseId'] . '">View
                                         Details</button></td>
@@ -129,34 +129,6 @@
                                   </tr>';
                             
                             $i+=1;
-                          }
-                        } else {
-                          if ($data['userTest']) {
-                            foreach($data['userTest'] as $test){
-                              echo '<tr>
-                                      <td>
-                                        <h6 class="mb-0 font-14">' . $test['judul course'] . '</h6>
-                                      </td>
-                                      <td>' . $test['nama kategori'] . '</td>
-                                      <td>';
-                              echo    '<div
-                                        class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">
-                                        On Progress
-                                      </div>';
-                              echo    '</td>
-                                      <td><a href="detail-course-user.html" type="button"
-                                          class="btn btn-primary btn-sm radius-30 px-4"
-                                          data-bs-toggle="modal" data-bs-target="#' . $test['userId'] . '">View
-                                          Details</a></td>
-                                      <td>
-                                        <div class="d-flex order-actions">
-                                          <a href="javascript:;" class=""><i class="bx bxs-trash"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#modalDeleteCourse"></i></a>
-                                        </div>
-                                      </td>
-                                    </tr>';
-                            }
                           }
                         }
                       ?>

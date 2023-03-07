@@ -36,7 +36,7 @@
             <p class="ms-2 mb-0" id="demo"></p>
           </div>
         </div>
-        <form action="<?= BASEURL ?>/elearning/elearningTestSubmit?elearningTestId=<?= $data['elearningTest']['elearningTestId'] ?>" method="post" id="myForm">
+        <form action="<?= BASEURL ?>elearning/elearningTestSubmit?elearningTestId=<?= $data['elearningTest']['elearningTestId'] ?>" method="post" id="myForm">
           <div class="card-body text-start">
             <?php 
             if(isset($data['question'])) {
@@ -46,11 +46,11 @@
                 <h6 class="mt-2 mb-4">' . $question['question'] . '</h6>
                 <div class="jawaban mb-4">';
                 foreach($data['choice'][$i] as $choice) {
-                  echo '<div class="opsi">
+                  echo '<div class="opsi-primary">
                           <div class="form-check form-post-test">
                             <input class="form-check-input" value="' . $choice['answerId'] . '" type="radio" name="selectedChoice[' . $question['questionId'] . ']" id="selectedChoice">
                             <label class="form-check-label" for="opsiRadio1">'
-                              . $choice['answer'] . 
+                              . $choice['answer'] .   
                             '</label>
                           </div>
                         </div>';
@@ -175,6 +175,12 @@
       var qc = parseInt(document.getElementById("questionCounter").innerHTML);
       document.getElementById("questionCounter").innerHTML = qc-1;
     }
+
+    $(document).ready(function () {
+      $('.opsi-primary').click(function () {
+        $(this).find('input[type="radio"]').prop('checked', true);
+      });
+    });
     
   </script>
 </body>

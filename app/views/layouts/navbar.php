@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
-  
+
   <nav class="navbar navbar-expand-lg mt-3" style="width: 90%; margin:auto;">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
@@ -63,7 +63,7 @@
           </li>
           <li class="nav-item">
             <a
-            <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'podtret'): ?>
+            <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'podtrets'): ?>
             class="nav-link active"
             <?php else:  ?>
             class="nav-link"

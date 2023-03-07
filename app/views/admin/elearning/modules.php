@@ -67,12 +67,10 @@
                       echo  '<div class="card bg-light-success">
                               <div class="card-body text-center order-actions">
                                 <h6 class="text-center">' . $test['judul'] . '</h6>
-                                <a href="javascript:;" class="text-danger bg-light-danger border-0 ms-2"
-                                  data-bs-toggle="modal" data-bs-target="#modalDeleteLesson"
+                                <a href="' . BASEURL . 'elearningmanagement/deletePostTest?courseId=' . $_GET['courseId']  . '&testId=' . $test['elearningTestId'] . '" class="text-danger bg-light-danger border-0 ms-2"
                                   style="float: right; margin-top: -27px;"><i class="bx bxs-trash"></i></a>
-                                <a href="javascript:;" class="text-primary bg-light-primary border-0 ms-2"
-                                  style="float: right; margin-top: -27px;" data-bs-toggle="modal"
-                                  data-bs-target="#modalAddNewLesson"><i class="bx bxs-edit"></i></a>
+                                <a href="' . BASEURL . 'elearningmanagement/editPostTest?testId=' . $test['elearningTestId'] . '" class="text-primary bg-light-primary border-0 ms-2"
+                                  style="float: right; margin-top: -27px;"><i class="bx bxs-edit"></i></a>
                                 <a href="javascript:;" class="text-success bg-light-success border-0"
                                   style="float: right; margin-top: -27px;"><i class="lni lni-download"></i></a>
                               </div>

@@ -72,7 +72,7 @@ class UserLessonRecord_model {
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
                     FROM elearningCourseAkses
-                    WHERE organizationId = :orgId
+                    WHERE departmentId=:orgId
                     )
                   OR
                   elearningCourse.elearningCourseId IN 
@@ -122,7 +122,7 @@ class UserLessonRecord_model {
                 userLessonRecord.userId, 
                 user.nik,
                 user.nama,
-                organization.organizationName,
+                department.departmentName,
                 location.locationName,
                 userLessonRecord.attempt,
                 userLessonRecord.finished
@@ -131,7 +131,7 @@ class UserLessonRecord_model {
                 right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
                 left join user on userLessonRecord.userId = user.userId
                 left join location on user.locationId = location.locationId
-                left join organization on user.organizationId = organization.organizationId
+                left join department on user.departmentId = department.departmentId
               group by 
                 userLessonRecord.userId,
                 userLessonRecord.attempt,

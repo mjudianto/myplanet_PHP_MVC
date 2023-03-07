@@ -62,14 +62,16 @@ class User_model{
   public function getAllUsers() {
     $this->db->query('SELECT * FROM ' . $this->table . 
     ' LEFT JOIN location ON ' . $this->table . '.locationId=location.locationId 
-    LEFT JOIN organization ON ' . $this->table . '.organizationId=organization.organizationId');
+    LEFT JOIN department ON ' . $this->table . '.departmentId=department.departmentId
+    LEFT JOIN organization ON department.organizationId=organization.organizationId');
     return $this->db->resultSet();
   }
 
   public function getUserBy($column, $value) {
     $this->db->query('SELECT * FROM ' . $this->table . 
     ' LEFT JOIN location ON ' . $this->table . '.locationId=location.locationId
-    LEFT JOIN organization ON ' . $this->table . '.organizationId=organization.organizationId 
+    LEFT JOIN department ON ' . $this->table . '.departmentId=department.departmentId
+    LEFT JOIN organization ON department.organizationId=organization.organizationId 
     WHERE ' . $column . '=:value');
     $this->db->bind('value', $value);
     return $this->db->single();
@@ -78,7 +80,7 @@ class User_model{
   public function addUserLdap($data) {
     $query = "INSERT INTO " . $this->table . 
     " VALUES (null, :nik, :pass, :nama, :telp, :email, 
-    (SELECT organizationId from organization where organizationName=:orgname), 
+    (SELECT departmentId from department where departmentName=:orgname), 
     (SELECT locationId from location where locationName=:locationname), CURRENT_TIMESTAMP(), default)";
     $this->db->query($query);
 
@@ -87,8 +89,8 @@ class User_model{
     $this->db->bind('nama', $data['nama']);
     $this->db->bind('telp', $data['mobile']);
     $this->db->bind('email', $data['email']);
-    $this->db->bind('orgname', $data['department']);
-    $this->db->bind('locationname', $data['cabang']);
+    $this->db->bind('orgname', explode('-', $data['department'])[1]);
+    $this->db->bind('locationname', $data['cabang']); 
 
     $this->db->execute();
   }
@@ -116,12 +118,12 @@ class User_model{
     
   }
 
-  public function updateUserPassword($value){
-    $query = "UPDATE " . $this->table . " SET password=:value where nik=:nik";
+  public function updateUserPassword($password){
+    $query = "UPDATE " . $this->table . " SET password=:password where nik=:nik";
     $this->db->query($query);
 
     // $this->db->bind('column', $column);
-    $this->db->bind('value', sha1($value));
+    $this->db->bind('password', sha1($password));
     $this->db->bind('nik', $_SESSION['user']['nik']);
 
 
@@ -156,11 +158,33 @@ class User_model{
     return $this->db->single();
   }
 
-  public function countUserInOrganization($organizationId) {
-    $this->db->query('select count(*) as "totalUser" from user where organizationId=:organizationId');
+  public function countUserInOrganization($departmentId) {
+    $this->db->query('select count(*) as "totalUser" from user where departmentId=:departmentId');
 
-    $this->db->bind('organizationId', $organizationId);
+    $this->db->bind('departmentId', $departmentId);
     return $this->db->single();
+  }
+
+  public function setResetPasswordToken($token, $nik, $email, $time) {
+    $this->db->query('insert into passwordResetToken values(:token, :nik, :email, :time)');
+
+    $this->db->bind('token', $token);
+    $this->db->bind('nik', $nik);
+    $this->db->bind('email', $email);
+    $this->db->bind('time', $time);
+    $this->db->execute();
+  }
+
+  public function getTokenDetail($token) {
+    $this->db->query('select * from passwordResetToken where token=:token');
+    $this->db->bind('token', $token);
+    return $this->db->single();
+  }
+
+  public function deleteResetPasswordToken($token) {
+    $this->db->query('delete from passwordResetToken where token=:token');
+    $this->db->bind('token', $token);
+    $this->db->execute();
   }
 
   

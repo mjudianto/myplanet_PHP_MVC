@@ -40,4 +40,23 @@ class ElearningTest_model {
     return $this->db->single();
   }
 
+  public function updateTest($judul, $passingScore, $timeLimit, $endDate, $testId) {
+    $this->db->query('UPDATE ' . $this->table . ' SET judul=:judul, passingScore=:passingScore, timeLimit=:timeLimit, endDate=:endDate where elearningTestId=:testId');
+    $this->db->bind('judul', $judul);
+    $this->db->bind('passingScore', $passingScore);
+    $this->db->bind('timeLimit', $timeLimit);
+    $this->db->bind('endDate', $endDate);
+    $this->db->bind('testId', $testId);
+
+    $this->db->execute();
+  }
+
+  public function deleteTest($testId) {
+    $this->db->query('DELETE FROM ' . $this->table . ' where elearningTestId=:testId');
+
+    $this->db->bind('testId', $testId);
+
+    $this->db->execute();
+  }
+
 }

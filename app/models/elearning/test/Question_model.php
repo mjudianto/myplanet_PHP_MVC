@@ -31,4 +31,10 @@ class Question_model {
     return $this->db->single();
   }
 
+  public function resetQuestion($testId) {
+    $this->db->query('DELETE FROM ' . $this->table . ' WHERE elearningTestId=:testId');
+    $this->db->bind('testId', $testId);
+    $this->db->execute();
+  }
+
 }
