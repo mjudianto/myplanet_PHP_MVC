@@ -59,7 +59,8 @@ class Login extends Controller{
         $token = bin2hex(random_bytes(32));
         $expiration_time = time() + 300; // 5 minutes from now
         $reset_link = BASEURL . "login/resetPasswordLink?token=" . $token;
-        $expiration_time = date('H:i:s', $expiration_time);
+        $expiration_time = date('Y-m-d H:i:s', $expiration_time);
+        
         // var_dump($expiration_time);
 
         $userModel->setResetPasswordToken($token, $user['nik'] , $user['email'], $expiration_time);

@@ -59,7 +59,13 @@ class Podtrets extends Controller {
                     alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-page-podtret">
-                    <a href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
+                    <a 
+                    style="display: block;
+                    width: 15vw;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;"
+                    href="' . BASEURL . 'podtrets/podtretKonten?type=video&podtretId=' . $this->encrypt($podtret['podtretId']) . '&views=' . $podtret['views'] . '">' . $podtret['judul'] . '</a>
                   </h5>
                   <div class="row mt-3">
                     <div class="col-10">

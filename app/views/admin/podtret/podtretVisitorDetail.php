@@ -55,7 +55,7 @@
 						</div>
 						<div class="table-responsive">
 							<br>
-							<table id="tablePodtret" class="table" style="width:100%;">
+							<table id="tablePodtretVisitorDetail" class="table" style="width:100%;">
 
 								<thead class="table-light">
 									<tr>

@@ -72,6 +72,13 @@
 			});
 
 			table.buttons().container().appendTo('#tableVisitorPodtret_wrapper .col-md-6:eq(0)');
+
+			var table = $('#tablePodtretVisitorDetail').DataTable({
+			dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
+			buttons: ['csv', 'excel', 'pdf', 'print']
+			});
+
+			table.buttons().container().appendTo('#tablePodtretVisitorDetail_wrapper .col-md-6:eq(0)');
 				
 			var table = $('#podtretCommentTable').DataTable({
 			dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',

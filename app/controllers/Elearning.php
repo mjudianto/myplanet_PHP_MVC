@@ -120,7 +120,13 @@ class Elearning extends Controller {
                     '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-learning">
-                    <a id="judul" href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '">' . $course['judul'] . '</a>
+                    <a
+                    style="display: block;
+                    width: 15vw;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;" 
+                    id="judul" href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '">' . $course['judul'] . '</a>
                   </h5>
                   <div class="row">
                     <div class="col">
