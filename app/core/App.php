@@ -32,10 +32,10 @@ class App {
       $this->controller = 'Login';
     }
 
-    if (isset($_SESSION['user']) && !isset($_SESSION['user']['empnik']) && $needEmployeeAccess == 'yes') {
-      session_destroy();
-      $this->controller = 'Login';
-    }
+    // if (isset($_SESSION['user']) && !isset($_SESSION['user']['empnik']) && $needEmployeeAccess == 'yes') {
+    //   session_destroy();
+    //   $this->controller = 'Login';
+    // }
 
     require_once '../app/controllers/' . $this->controller . '.php';
     $this->controller = new $this->controller;

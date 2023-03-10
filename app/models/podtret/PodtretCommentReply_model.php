@@ -25,7 +25,7 @@ class PodtretCommentReply_model {
         LEFT JOIN podtretComment 
         ON ' . $this->table . '.podtretCommentId = podtretComment.podtretCommentId
         LEFT JOIN user 
-        ON podtretComment.userNik = user.nik
+        ON podtretComment.userNik = user.userNik
         WHERE ' . $this->table . '.' . $column . '=:value 
         ORDER BY ' . $this->table . '.uploadDate ASC');
 

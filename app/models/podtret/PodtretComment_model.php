@@ -22,7 +22,7 @@ class PodtretComment_model {
     $this->db->query('SELECT podtretComment.podtretCommentId, podtretComment.comment, podtretComment.uploadDate
         FROM ' . $this->table . ' 
         LEFT JOIN user 
-        ON ' . $this->table . '.userNik = user.nik
+        ON ' . $this->table . '.userNik = user.userNik
         WHERE podtretId=:podtretId 
         ORDER BY ' . $this->table . '.uploadDate DESC');
 
