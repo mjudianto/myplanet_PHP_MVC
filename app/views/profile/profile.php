@@ -1,7 +1,7 @@
 <body class="body-profile">
 
   <div class="container profile-page">
-    <h2>Hello <?php echo $_SESSION['user']['nama'] ?>!</h2>
+    <h2>Hello <?=  isset($_SESSION['user']['EmpName']) ? $_SESSION['user']['EmpName'] : $_SESSION['user']['nama']; ?>!</h2>
     <p>Welcome back, glad to see you again.</p>
     <div class="card card-profile mt-5">
       <div class="row">
@@ -9,9 +9,9 @@
           <img src="images/image-profile.jpg" alt="" class="py-4 ms-2 avatar-large" />
         </div>
         <div class="col card-title-profile align-self-lg-center flex-column flex-lg-row mt-4 ps-4">
-          <a href=""><?php echo $_SESSION['user']['nama'] ?></a>
-          <p class="mt-2"><?php echo $_SESSION['user']['departmentName'] ?></p>
-          <p1><?php echo $_SESSION['user']['locationName'] ?>, Indonesia</p1>
+          <a href=""><?= isset($_SESSION['user']['EmpName']) ? $_SESSION['user']['EmpName'] : $_SESSION['user']['nama']; ?></a>
+          <p class="mt-2"><?= isset($_SESSION['user']['orgname']) ? $_SESSION['user']['orgname'] : $_SESSION['user']['userNik']; ?></p>
+          <p1><?=  isset($_SESSION['user']['LocationName']) ? $_SESSION['user']['LocationName'] : $_SESSION['user']['userNik']; ?>, Indonesia</p1>
           <!-- <a href="<?php BASEURL ?>profile/changeProfile"><button type="button" class="btn btn-edit" style="float: right">
               <img src="assets/edit.svg" alt="" width="20" class="me-1" />
               Edit Profile
@@ -62,35 +62,35 @@
             <div class="d-flex nama-user ms-4 mt-3">
               <img src="assets/user-info.png" alt="" width="25" height="25" />
               <h5 class="ms-3">
-                <?= $_SESSION['user']['nama'] ?> <br />
+                <?= isset($_SESSION['user']['EmpName']) ? $_SESSION['user']['EmpName'] : $_SESSION['user']['nama']; ?> <br />
                 <span> Name</span>
               </h5>
             </div>
             <div class="d-flex nama-user ms-4 mt-3">
               <img src="assets/nik.png" alt="" width="25" height="25" />
               <h5 class="ms-3">
-                <?= $_SESSION['user']['nik'] ?> <br />
+                <?= isset($_SESSION['user']['empnik']) ? $_SESSION['user']['empnik'] : $_SESSION['user']['userNik']; ?> <br />
                 <span> NIK</span>
               </h5>
             </div>
             <div class="d-flex nama-user ms-4 mt-3">
               <img src="assets/telp.png" alt="" width="25" height="25" />
               <h5 class="ms-3">
-                <?= $_SESSION['user']['phone'] ?> <br />
+                <?= isset($_SESSION['user']['PhoneNumberEmployee']) ? $_SESSION['user']['PhoneNumberEmployee'] : $_SESSION['user']['userNik']; ?> <br />
                 <span> Phone</span>
               </h5>
             </div>
             <div class="d-flex nama-user ms-4 mt-3">
               <img src="assets/gmail-abu.png" alt="" width="25" height="25" />
               <h5 class="ms-3">
-                <?= $_SESSION['user']['email'] ?> <br />
+                <?= isset($_SESSION['user']['EmailEmployee']) ? $_SESSION['user']['EmailEmployee'] : $_SESSION['user']['userNik']; ?> <br />
                 <span> Mail</span>
               </h5>
             </div>
             <div class="d-flex nama-user ms-4 mt-3">
               <img src="assets/organization.png" alt="" width="25" height="25" />
               <h5 class="ms-3"> 
-                <?= $_SESSION['user']['organizationName'] ?> - <?= $_SESSION['user']['departmentName'] ?> <br />
+                <?= isset($_SESSION['user']['orgname']) ? $_SESSION['user']['orgname'] : $_SESSION['user']['userNik']; ?><br />
                 <span> Organization Name</span>
               </h5>
             </div>
@@ -237,7 +237,7 @@
               <div class="text-center">
                 <img src="assets/logo-2.png" alt="" class="mb-4" width="150">
               </div>
-              <form class="" method="post" action="<?php BASEURL ?>profile/changePassword?nik=<?= $_SESSION['user']['nik'] ?>">
+              <form class="" method="post" action="<?php BASEURL ?>profile/changePassword?nik=<?= isset($_SESSION['user']['empnik']) ? trim($_SESSION['user']['empnik']) : $_SESSION['user']['userNik']; ?>">
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label">Current Password</label>
                   <input type="password" class="form-control" id="currentPassword" name="currentPassword" style="border-radius: 10px">
@@ -350,7 +350,7 @@
           <div class="profile-user d-flex col-lg-10">
             <a href=""><img src="images/image-profile.jpg" alt="" class="img-user"></a>
             <a href="">
-              <p class="ms-3"><?php echo $_SESSION['user']['nama'] ?><br> <span>UI/UX Designer</span></p>
+              <p class="ms-3"><?php echo $_SESSION['user']['EmpName'] ?><br> <span>UI/UX Designer</span></p>
             </a>
           </div>
           <div class="mb-3">

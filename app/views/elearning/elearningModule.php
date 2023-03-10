@@ -39,7 +39,7 @@
                         <a href="">
                           <h3>' . $lesson['judul'] . '</h3>
                         </a>
-                        <p class="mt-3">' . $_SESSION['user']['nik'] . '</p>
+                        <p class="mt-3">' . $_SESSION['user']['empnik'] . '</p>
                         <ul class="d-lg-flex list-nilai-test">
                           <a href="' . BASEURL . 'elearning/elearningLesson?elearningCourseId=' . $_GET['elearningCourseId'] . '&elearningLessonId=' . encrypt($lesson['elearningLessonId']) . '"><button style="" type="button" class="btn btn-start-resp-non-test">
                               Start
@@ -64,7 +64,7 @@
                           <a href="">
                             <h3>' . $test['judul'] . '</h3>
                           </a>
-                          <p class="ms-auto mt-2 nik-post-test">'. $_SESSION['user']['nik'] . '</p>
+                          <p class="ms-auto mt-2 empnik-post-test">'. $_SESSION['user']['empnik'] . '</p>
                         </div>
                         <!-- CODINGAN LAMA -->
                         <ul class="d-lg-flex list-nilai-test">

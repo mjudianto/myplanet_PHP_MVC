@@ -16,7 +16,7 @@
   <div class="container mt-4">
     <div class="container text-center video-learning">
       <h3><?php echo $data['elearningTest']['judul']; ?></h3>
-      <h5><?php echo $_SESSION['user']['nik']; ?></h5>
+      <h5><?php echo $_SESSION['user']['empnik']; ?></h5>
 
       <div class="card transition mt-4" id="startPostTest" style="height: 450px;">
         <!-- <img src="images/post test.png" class="card-img-top" style="width: 350px;" alt="..."> -->

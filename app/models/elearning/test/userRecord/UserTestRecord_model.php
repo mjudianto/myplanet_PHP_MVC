@@ -10,31 +10,31 @@ class UserTestRecord_model {
     $this->db = new Database;
   }
 
-  public function createUserRecord($testId, $userId) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :testId, :userId, DEFAULT)');
+  public function createUserRecord($testId, $userNik) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :testId, :userNik, DEFAULT)');
     $this->db->bind('testId', $testId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->execute();
 
-    $this->getUserTestRecord($testId, $userId);
+    $this->getUserTestRecord($testId, $userNik);
   }
 
-  public function getUserTestRecord($testId, $userId) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningTestId=:testId AND userId=:userId');
+  public function getUserTestRecord($testId, $userNik) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningTestId=:testId AND userNik=:userNik');
     $this->db->bind('testId', $testId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     return $this->db->single();
   }
 
-  public function updateUserAttempt($testId, $userId, $attempt) {
-    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt WHERE elearningTestId=:testId AND userId=:userId');
+  public function updateUserAttempt($testId, $userNik, $attempt) {
+    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt WHERE elearningTestId=:testId AND userNik=:userNik');
     $this->db->bind('testId', $testId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('attempt', $attempt);
     $this->db->execute();
   }
 
-  public function userTestRecord($userId, $orgId) {
+  public function userTestRecord($userNik, $orgId) {
     $query = 'SELECT DISTINCT
                 elearningKategori.nama AS "nama kategori", 
                 elearningCourse.judul AS "judul course", 
@@ -50,7 +50,7 @@ class UserTestRecord_model {
                   ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
                 LEFT JOIN userTestRecord 
                   ON userTestRecord.elearningTestId = elearningTest.elearningTestId
-                  AND userTestRecord.userId=:userId
+                  AND userTestRecord.userNik=:userNik
               WHERE
                 (elearningCourse.access_type = 0 OR
                 (elearningCourse.access_type = 2 AND 
@@ -66,13 +66,13 @@ class UserTestRecord_model {
                 elearningCourse.judul;';
 
     $this->db->query($query);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('orgId', $orgId);
 
     return $this->db->resultSet();
   }
 
-  public function userTestRecordDetail($userId, $courseId) {
+  public function userTestRecordDetail($userNik, $courseId) {
     $query = 'SELECT 
                 elearningTest.judul AS "judul test", 
                 COALESCE(userTestRecord.attempt, 0) AS attempt, 
@@ -83,7 +83,7 @@ class UserTestRecord_model {
                     FROM userTestRecordDetail
                     RIGHT JOIN userTestRecord ON userTestRecordDetail.userTestRecordID=userTestRecord.userTestRecordId
                     WHERE score = ( SELECT MAX(score) FROM userTestRecordDetail WHERE userTestRecordId=userTestRecord.userTestRecordId)
-                    AND userTestRecord.userID = :userId
+                    AND userTestRecord.userNik = :userNik
                     LIMIT 1
                 ) AS status
               FROM 
@@ -91,7 +91,7 @@ class UserTestRecord_model {
                 INNER JOIN elearningModule ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId AND elearningCourse.elearningCourseId = :courseId
                 INNER JOIN elearningTest ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
                 LEFT JOIN userTestRecord
-                ON userTestRecord.elearningTestId = elearningTest.elearningTestId AND userTestRecord.userId = :userId
+                ON userTestRecord.elearningTestId = elearningTest.elearningTestId AND userTestRecord.userNik = :userNik
                 LEFT JOIN userTestRecordDetail
                 ON userTestRecordDetail.userTestRecordId = userTestRecord.userTestRecordId
               GROUP BY 
@@ -100,14 +100,14 @@ class UserTestRecord_model {
 
     $this->db->query($query);
     $this->db->bind('courseId', $courseId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
 
     return $this->db->resultSet();
   }
 
   public function getAllUserRecord($courseId) {
     $query = 'select elearningTest.judul, 
-                userTestRecord.userId, 
+                userTestRecord.userNik, 
                 max(userTestRecordDetail.attemptNumber) as "totalAttempt",
                 max(userTestRecordDetail.score) as "score",
                 max(userTestRecordDetail.status) as "status",
@@ -121,11 +121,11 @@ class UserTestRecord_model {
                 right join elearningCourse on elearningModule.elearningCourseId = elearningCourse.elearningCourseId and elearningCourse.elearningCourseId=:courseId
                 left join userTestRecord on elearningTest.elearningTestId = userTestRecord.elearningTestId
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
-                left join user on userTestRecord.userId = user.userId
+                left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join department on user.departmentId = department.departmentId
               group by 
-                userTestRecord.userId,
+                userTestRecord.userNik,
                 elearningTest.judul,
                 user.nik';
 
@@ -137,7 +137,7 @@ class UserTestRecord_model {
 
   public function getAllRecord() {
     $query = 'select elearningTest.judul, 
-                userTestRecord.userId, 
+                userTestRecord.userNik, 
                 max(userTestRecordDetail.attemptNumber) as "totalAttempt",
                 max(userTestRecordDetail.score) as "score",
                 max(userTestRecordDetail.status) as "status",
@@ -150,11 +150,11 @@ class UserTestRecord_model {
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
                 left join userTestRecord on elearningTest.elearningTestId = userTestRecord.elearningTestId
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
-                left join user on userTestRecord.userId = user.userId
+                left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join department on user.departmentId = department.departmentId
               group by 
-                userTestRecord.userId,
+                userTestRecord.userNik,
                 elearningTest.judul,
                 user.nik';
 
@@ -163,18 +163,18 @@ class UserTestRecord_model {
     return $this->db->resultSet();
   }
 
-  public function getTestRecord($userId, $moduleId) {
+  public function getTestRecord($userNik, $moduleId) {
     $query = 'select max(userTestRecordDetail.score) as "score", max(userTestRecordDetail.status) as "status", 
               max(userTestRecordDetail.attemptNumber) as "attempt", max(userTestRecordDetail.finished) as "finished"
               from elearningTest
               left join userTestRecord on elearningTest.elearningTestId=userTestRecord.elearningTestId
               left join userTestRecordDetail on userTestRecord.userTestRecordId=userTestRecordDetail.userTestRecordId
-              where userTestRecord.userId=:userId and elearningTest.elearningModuleId=:moduleId
+              where userTestRecord.userNik=:userNik and elearningTest.elearningModuleId=:moduleId
               group by
               elearningTest.elearningTestId;';
 
     $this->db->query($query);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('moduleId', $moduleId);
 
     return $this->db->resultSet();

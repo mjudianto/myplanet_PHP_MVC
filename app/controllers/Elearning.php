@@ -35,26 +35,40 @@ class Elearning extends Controller {
 
   public function loadCourse() {
     $model = $this->loadElearningModel();
+    $organizationModel = $this->model('user/Organization_model', 'Organization_model');
+    $companyModel = $this->model('user/Company_model', 'Company_model');
+    $jobModel = $this->model('user/Job_model', 'Job_model');
 
     function sortByUploadDateDesc($a, $b) {
       return strtotime($b["uploadDate"]) - strtotime($a["uploadDate"]);
     }
+
+    $userNik = $_SESSION['user']['empnik'];
+
+    $organizationName = explode('-', $_SESSION['user']['orgname'])[1];
+    $organizationId = $organizationModel->getSpesificOrganization(trim($organizationName));
+
+    $companyName = explode('-', $_SESSION['user']['orgname'])[0];
+    $companyId = $companyModel->getSpesificCompany($companyName);
+
+    $jobName = $_SESSION['user']['Jobtitle'];
+    $jobId = $jobModel->getSpesificJob($jobName);
     
     if (isset($_SESSION['selectedKategoriId'])) {
         $kategoriId = $_SESSION['selectedKategoriId'];
         if ($kategoriId != 0) {
             if ($kategoriId == 5) {
-                $elearningCourse = $model['elearningCourse']->getSopCourse($_SESSION['user']['userId']);
+                $elearningCourse = $model['elearningCourse']->getSopCourse($userNik);
             } else {
-                $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
+                $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $organizationId, $userNik);
                 usort($elearningCourse, "sortByUploadDateDesc");
             }
         } else {
-            $elearningCourse = $model['elearningCourse']->getAllCourse($_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
+            $elearningCourse = $model['elearningCourse']->getAllCourse($organizationId, $userNik, $companyId, $jobId);
             usort($elearningCourse, "sortByUploadDateDesc");
         }
     } else {
-        $elearningCourse = $model['elearningCourse']->getAllCourse($_SESSION['user']['organizationId'], $_SESSION['user']['userId']);
+        $elearningCourse = $model['elearningCourse']->getAllCourse($organizationId, $userNik, $companyId, $jobId);
         usort($elearningCourse, "sortByUploadDateDesc");
     }
 
@@ -160,6 +174,7 @@ class Elearning extends Controller {
   public function elearningModule() {
     // Load e-learning model
     $model = $this->loadElearningModel();
+    $userNik = $_SESSION['user']['empnik'];
 
     // Decrypt e-learning course ID and module ID from GET parameter
     $courseId = $this->decrypt($_GET['elearningCourseId']);
@@ -189,7 +204,7 @@ class Elearning extends Controller {
     array_push($data['elearningTest'], $test);
 
     // Get user's test record for the module and store it in an array
-    $testRecord = $model['userTestRecord']->getTestRecord($_SESSION['user']['userId'], $moduleId);
+    $testRecord = $model['userTestRecord']->getTestRecord($userNik, $moduleId);
     $data['testRecord'][] = $testRecord;
     }
 
@@ -213,15 +228,17 @@ class Elearning extends Controller {
 
   public function updateUserLessonAttempt($lessonId) {
     $model = $this->loadElearningModel();
+    $userNik = $_SESSION['user']['empnik'];
 
-    $userId = $_SESSION['user']['userId'];
-    $userRecord = $model['userLessonRecord']->getUserLessonRecord($lessonId, $userId);
+
+    
+    $userRecord = $model['userLessonRecord']->getUserLessonRecord($lessonId, $userNik);
 
     if (!$userRecord) {
-      $model['userLessonRecord']->createUserRecord($lessonId, $userId);
+      $model['userLessonRecord']->createUserRecord($lessonId, $userNik);
     } else {
       $attempt = $userRecord['attempt'] + 1;
-      $model['userLessonRecord']->updateUserAttempt($lessonId, $userId, $attempt);
+      $model['userLessonRecord']->updateUserAttempt($lessonId, $userNik, $attempt);
     }
 
   }
@@ -229,15 +246,16 @@ class Elearning extends Controller {
   public function elearningTest() {
     $model = $this->loadElearningModel();
 
-    $userId = $_SESSION['user']['userId'];
+    $userNik = $_SESSION['user']['empnik'];
+    
     $elearningTestId = $this->decrypt($_GET['elearningTestId']);
 
     $test = $model['elearningTest']->getSingleTest($elearningTestId);
 
-    $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
+    $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
     if (!$userTestRecord) {
-      $model['userTestRecord']->createUserRecord($elearningTestId, $userId);
-      $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
+      $model['userTestRecord']->createUserRecord($elearningTestId, $userNik);
+      $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
       $model['userTestMaxAttempt']->createTestMaxAttempt($userTestRecord['userTestRecordId']);
     } else {
       $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecord['userTestRecordId']);
@@ -272,7 +290,8 @@ class Elearning extends Controller {
   public function elearningTestSubmit() {
     $model = $this->loadElearningModel();
 
-    $userId = $_SESSION['user']['userId'];
+    $userNik = $_SESSION['user']['empnik'];
+    
     $elearningTestId = $_GET['elearningTestId'];
 
     $elearningTest = $model['elearningTest']->getSingleTest($elearningTestId);
@@ -300,11 +319,11 @@ class Elearning extends Controller {
     }
     
     $status = $score >= $elearningTest['passingScore'] ? "Lulus" : 'Gagal';
-    $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userId);
+    $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
     $attempt = $userTestRecord['attempt'] + 1;
     
     $model['userTestRecordDetail']->createTestRecordDetail($userTestRecord['userTestRecordId'], $attempt, $status, $score);
-    $model['userTestRecord']->updateUserAttempt($elearningTestId, $userId, $attempt);
+    $model['userTestRecord']->updateUserAttempt($elearningTestId, $userNik, $attempt);
     
     $data = [
       'elearningTest' => $elearningTest,

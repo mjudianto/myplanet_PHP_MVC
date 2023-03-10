@@ -123,17 +123,19 @@ class Podtrets extends Controller {
 
   public function podtretKonten() {
     $model = $this->loadPodtretModel();
+    $userNik = $_SESSION['user']['empnik'] ?? $_SESSION['user']['userNik'];
+
 
     $podtretId = $this->decrypt($_GET['podtretId']);
     $data['podtret'] = $model['podtret']->updatePodtretViews($podtretId, (int)$_GET['views']+1);
     $data['podtret'] = $model['podtret']->getPodtretBy($podtretId);
     $data['likes'] = $model['podtretLike']->countLike($podtretId, 1);
 
-    $podtretRecord = $model['podtretRecord']->checkUserRecord($podtretId, $_SESSION['user']['userId']);
+    $podtretRecord = $model['podtretRecord']->checkUserRecord($podtretId, $userNik);
     if(is_bool($podtretRecord)){
-      $model['podtretRecord']->createPodtretRecord($podtretId, $_SESSION['user']['userId']);
+      $model['podtretRecord']->createPodtretRecord($podtretId, $userNik);
     } else {
-      $model['podtretRecord']->updatePodtretRecord($podtretId, $_SESSION['user']['userId'], (int)$podtretRecord['views'] + 1);
+      $model['podtretRecord']->updatePodtretRecord($podtretId, $userNik, (int)$podtretRecord['views'] + 1);
     }
 
     $this->view('layouts/navbar');
@@ -145,11 +147,11 @@ class Podtrets extends Controller {
     $model = $this->loadPodtretModel();
 
     $podtretId = $_REQUEST["podtretId"];
-    $userId = $_SESSION['user']['userId'];
+    $userNik = $_SESSION['user']['empnik'] ?? $_SESSION['user']['userNik'];
 
-    $userLike = $model['podtretLike']->checkUserLike('podtretId', 'userId', $podtretId, $userId);
+    $userLike = $model['podtretLike']->checkUserLike('podtretId', 'userNik', $podtretId, $userNik);
     if(!$userLike) {
-      $model['podtretLike']->createLike($podtretId, $userId);
+      $model['podtretLike']->createLike($podtretId, $userNik);
     } else {
       $userLike['likeState'] == 1 ? $newLikeState = 0 : $newLikeState = 1;
       $model['podtretLike']->updateLike('podtretLikeId', $userLike['podtretLikeId'], $newLikeState);
@@ -162,32 +164,35 @@ class Podtrets extends Controller {
 
   public function addComment() {
     $model = $this->loadPodtretModel();
+    $userNik = $_SESSION['user']['empnik'] ?? $_SESSION['user']['userNik'];
 
     $podtretId = $_REQUEST["podtretId"];
     $comment = $_REQUEST['comment'];
-    $model['podtretComment']->createComment($podtretId, $_SESSION['user']['userId'], $comment);
+    $model['podtretComment']->createComment($podtretId, $userNik, $comment);
   }
 
   public function addReply() {
     $model = $this->loadPodtretModel();
 
+    $userNik = $_SESSION['user']['empnik'] ?? $_SESSION['user']['userNik'];
+
     $commentId = $_REQUEST["commentId"];
     $comment = $_REQUEST['comment'];
-    $model['podtretCommentReply']->createComment($commentId, $_SESSION['user']['userId'], $comment);
+    $model['podtretCommentReply']->createComment($commentId, $userNik, $comment);
   }
 
   public function loadComment() {
     $model = $this->loadPodtretModel();
 
     $podtretId = $_REQUEST["podtretId"];
-    $comments = $model['podtretComment']->getAllComment('podtretId', $podtretId);
+    $comments = $model['podtretComment']->getAllComment($podtretId);
     foreach($comments as $comment){
       $commentsReply = $model['podtretCommentReply']->getAllComment('podtretCommentId', $comment['podtretCommentId']);
       echo '<div class="section-comment mb-4">
               <div class="d-flex user-comment align-items-center">
                 <img src="/public/images/image-profile.jpg" alt="" class="img-comment" />
                 <h5 class="ms-3">' .
-                  $comment['nama'] .
+                  // $comment['nama'] .
                 '</h5>
                 <p class="ms-2 mt-2">' . date('d M Y', strtotime($comment['uploadDate'])) . '</p>
               </div>
@@ -199,7 +204,6 @@ class Podtrets extends Controller {
                     <div class="d-flex user-reply-comment align-items-center mt-3">
                       <img src="/public/images/nanda.jpg" alt="" class="img-reply-comment" />
                       <h5 class="ms-3">
-                        ' . $reply['nama'] . '
                       </h5>
                       <p class="ms-2 mt-2">' . date('d M Y', strtotime($reply['uploadDate'])) . '</p>
                     </div>

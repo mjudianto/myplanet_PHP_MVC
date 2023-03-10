@@ -47,7 +47,6 @@ class ElearningManagement extends Controller {
     $courses = $model['elearningCourse']->getUserInCourse(0);
     $courses2 = $model['elearningCourse']->getUserInCourse(2);
     $user = $userModel->getAllUsers();
-    $department = $this->model('user/Department_model', 'Department_model')->getAllDepartment();
 
     $userCount = array_map(function ($course) use ($model, $userModel) {
       $courseId = $course['Course ID'];
@@ -58,16 +57,21 @@ class ElearningManagement extends Controller {
           return (int)$userModel->countUserInOrganization($org['organizationId']);
       }, $organizationCount));
   
-      return $organizationUser + (int)$courseAccess['totalUser'];
+      return $organizationUser + (int)$courseAccess;
     }, $courses2);
-  
+
+    $company = $this->model('user/Company_model', 'Company_model')->getAllCompany();
+    $organization = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
+    $location = $this->model('user/Location_model', 'Location_model')->getAllLocation();
 
     $data = [
       'courses' => $courses,
       'courses2' => $courses2,
       'userCount' => $userCount,
       'user' => $user,
-      // 'department' => array_unique($department),
+      'company' => $company,
+      'organization' => $organization,
+      'location' => $location,
     ];
 
     // var_dump($data['user'][0]);
@@ -397,6 +401,10 @@ class ElearningManagement extends Controller {
 
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
 
+  }
+
+  public function newCourseAkses() {
+    print_r($_POST['selectedUser']);
   }
   
 }

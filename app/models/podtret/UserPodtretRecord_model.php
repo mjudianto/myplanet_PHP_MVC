@@ -17,28 +17,28 @@ class UserPodtretRecord_model {
     return $this->db->single();
   }
   
-  public function createPodtretRecord($podtretId, $userId) {
+  public function createPodtretRecord($podtretId, $userNik) {
     $this->db->query('INSERT INTO ' . $this->table . 
-                    ' VALUES (null, :podtretId, :userId, default, default)');
+                    ' VALUES (null, :podtretId, :userNik, default, default)');
     $this->db->bind('podtretId', $podtretId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->execute();
   }
 
-  public function updatePodtretRecord($podtretId, $userId, $views){
+  public function updatePodtretRecord($podtretId, $userNik, $views){
     $this->db->query('UPDATE ' . $this->table . 
-                    ' SET views=:views WHERE podtretId=:podtretId AND userId=:userId');
+                    ' SET views=:views WHERE podtretId=:podtretId AND userNik=:userNik');
     $this->db->bind('podtretId', $podtretId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('views', $views);
     $this->db->execute();
   }
 
-  public function checkUserRecord($podtretId, $userId) {
+  public function checkUserRecord($podtretId, $userNik) {
     $this->db->query('SELECT * FROM ' . $this->table . 
-                    ' WHERE podtretId=:podtretId AND userId=:userId');
+                    ' WHERE podtretId=:podtretId AND userNik=:userNik');
     $this->db->bind('podtretId', $podtretId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     return $this->db->single();
   }
 
@@ -46,7 +46,7 @@ class UserPodtretRecord_model {
     $this->db->query('select user.nik, user.nama, podtretComment.comment, podtret.judul, podtretComment.uploadDate
                       from podtretComment 
                       left join podtret on podtretComment.podtretId = podtret.podtretId
-                      left join user on podtretComment.userId = user.userId
+                      left join user on podtretComment.userNik = user.userNik
                       order by podtretComment.uploadDate desc');
     return $this->db->resultSet();
   }
@@ -56,7 +56,7 @@ class UserPodtretRecord_model {
                       from commentReply
                       left join podtretComment on commentReply.podtretCommentId=podtretComment.podtretCommentId
                       left join podtret on podtretComment.podtretId = podtret.podtretId
-                      left join user on commentReply.userId = user.userId
+                      left join user on commentReply.userNik = user.userNik
                       order by commentReply.uploadDate desc');
     return $this->db->resultSet();
   }

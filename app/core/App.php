@@ -9,11 +9,16 @@ class App {
     'report', 'notificationmanagement', 'ensightmanagement',
   );
 
+  protected $employeeAccessOnly = array(
+    'elearning'
+  );
+
   public function __construct() {
     $url = $this -> parseURL();
     // var_dump($url[1]);
 
     $needLogin = (isset($url[1]) && in_array($url[1], $this->admin)) ? 'no' : 'yes';
+    $needEmployeeAccess = (isset($url[1]) && in_array($url[1], $this->employeeAccessOnly)) ? 'yes' : 'no';
 
     // memanggil file controllers sesuai input
     if ( file_exists('../app/controllers/' . $url[1] . '.php') ) {
@@ -24,6 +29,11 @@ class App {
     }
 
     if (!isset($_SESSION['user']) && $needLogin == 'yes') {
+      $this->controller = 'Login';
+    }
+
+    if (isset($_SESSION['user']) && !isset($_SESSION['user']['empnik']) && $needEmployeeAccess == 'yes') {
+      session_destroy();
       $this->controller = 'Login';
     }
 

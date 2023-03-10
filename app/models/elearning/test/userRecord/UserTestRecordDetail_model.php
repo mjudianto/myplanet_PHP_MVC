@@ -27,7 +27,7 @@ class UserTestRecordDetail_model {
   }
   
 
-  public function getCourseRecord($column, $value){
+  public function getCourseRecord($userNik){
     $this->db->query("SELECT userTestRecordDetail.attemptNumber, elearningTest.judul as 'judul test', elearningCourse.judul as 'judul course', userTestRecordDetail.score, userTestRecordDetail.status
     FROM userTestRecordDetail
     left join userTestRecord 
@@ -38,9 +38,9 @@ class UserTestRecordDetail_model {
     on elearningTest.elearningModuleId = elearningModule.elearningModuleId
     left join elearningCourse
     on elearningModule.elearningCourseId = elearningCourse.elearningCourseId
-    where userTestRecord." . $column . "=:value
+    where userTestRecord.userNik=:userNik
     order by userTestRecordDetail.finished DESC");
-    $this->db->bind('value', $value);
+    $this->db->bind('userNik', $userNik);
     return $this->db->resultSet();
   }
 

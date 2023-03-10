@@ -21,74 +21,88 @@ class ElearningCourse_model {
     return $this->db->single();
   }
   
-  public function getAllCourse($orgId, $userId) {
+  public function getAllCourse($orgId, $nik, $companyId, $jobId) {
     $this->db->query('SELECT *
                       FROM ' . $this->table . '
                       WHERE access_type = 0 and elearningCourseId != 19
                       UNION
                       SELECT ' . $this->table . '.*
                       FROM ' . $this->table . ' 
-                      JOIN elearningCourseAkses ON ' . $this->table . '.elearningCourseId = elearningCourseAkses.elearningCourseId
-                      WHERE elearningCourseAkses.departmentId = :orgId
+                      JOIN companyCourseAkses ON ' . $this->table . '.elearningCourseId = companyCourseAkses.elearningCourseId
+                      WHERE companyCourseAkses.companyId = :companyId
                       AND ' . $this->table . '.access_type = 2
                       UNION
                       SELECT ' . $this->table . '.*
                       FROM ' . $this->table . ' 
-                      JOIN userElearningCourseAkses ON ' . $this->table . '.elearningCourseId = userElearningCourseAkses.elearningCourseId
-                      WHERE userElearningCourseAkses.userId = :userId
+                      JOIN organizationCourseAkses ON ' . $this->table . '.elearningCourseId = organizationCourseAkses.elearningCourseId
+                      WHERE organizationCourseAkses.organizationId = :orgId
+                      AND ' . $this->table . '.access_type = 2
+                      UNION
+                      SELECT ' . $this->table . '.*
+                      FROM ' . $this->table . ' 
+                      JOIN jobCourseAkses ON ' . $this->table . '.elearningCourseId = jobCourseAkses.elearningCourseId
+                      WHERE jobCourseAkses.jobId = :jobId
+                      AND ' . $this->table . '.access_type = 2
+                      UNION
+                      SELECT ' . $this->table . '.*
+                      FROM ' . $this->table . ' 
+                      JOIN userCourseAkses ON ' . $this->table . '.elearningCourseId = userCourseAkses.elearningCourseId
+                      WHERE userCourseAkses.userNik = :nik
                       AND ' . $this->table . '.access_type = 2');
 
     $this->db->bind('orgId', $orgId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('nik', $nik);
+    $this->db->bind('companyId', $companyId);
+    $this->db->bind('jobId', $jobId);
     return $this->db->resultSet();
   }
 
-  public function getCourseBy($kategoriId, $orgId, $userId) {
+  public function getCourseBy($kategoriId, $orgId, $nik) {
     $this->db->query("SELECT elearningCourse.elearningCourseId, elearningCourse.elearningKategoriId, elearningCourse.judul, elearningCourse.thumbnail, elearningCourse.uploadDate
                       FROM " . $this->table . "
                       JOIN elearningKategori ON " . $this->table . ".elearningKategoriId = elearningKategori.elearningKategoriId
-                      LEFT JOIN elearningCourseAkses ON " . $this->table . ".elearningCourseId = elearningCourseAkses.elearningCourseId
-                      LEFT JOIN userElearningCourseAkses ON " . $this->table . ".elearningCourseId = userElearningCourseAkses.elearningCourseId
+                      LEFT JOIN organizationCourseAkses ON " . $this->table . ".elearningCourseId = organizationCourseAkses.elearningCourseId
+                      LEFT JOIN userCourseAkses ON " . $this->table . ".elearningCourseId = userCourseAkses.elearningCourseId
                       WHERE " . $this->table . ".elearningKategoriId = :kategoriId
-                      AND (" . $this->table . ".Access_Type = 0 OR (" . $this->table . ".Access_Type = 2 AND elearningCourseAkses.departmentId = :orgId) OR (" . $this->table . ".Access_Type = 2 AND userElearningCourseAkses.userId=:userId) )");
+                      AND (" . $this->table . ".Access_Type = 0 OR (" . $this->table . ".Access_Type = 2 AND organizationCourseAkses.organizationId = :orgId) OR (" . $this->table . ".Access_Type = 2 AND userCourseAkses.userNik=:nik) )");
 
     $this->db->bind('kategoriId', $kategoriId);
     $this->db->bind('orgId', $orgId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('nik', $nik);
     return $this->db->resultSet();
   }
 
-  public function getSopCourse($userId) {
+  public function getSopCourse($nik) {
     $this->db->query('SELECT * FROM elearningModule 
                       where elearningCourseId=19 AND accessType=0
                       UNION
                       SELECT elearningModule.* FROM elearningModule
                       right join userModuleAkses on userModuleAkses.moduleId=elearningModule.elearningModuleId
-                      WHERE elearningModule.elearningCourseId=19 AND elearningModule.accessType=2 AND userModuleAkses.userId=:userId');
+                      WHERE elearningModule.elearningCourseId=19 AND elearningModule.accessType=2 AND userModuleAkses.userNik=:nik');
     
-    $this->db->bind('userId', $userId);
+    $this->db->bind('nik', $nik);
     return $this->db->resultSet();
   }
 
-  public function getPrivateCourse($orgId, $userId) {
+  public function getPrivateCourse($orgId, $nik) {
     $this->db->query('SELECT *
                       FROM ' . $this->table . '
                       WHERE access_type = 2
                       AND elearningCourseId NOT IN (
                       SELECT ' . $this->table . '.elearningCourseId
                       FROM ' . $this->table . ' 
-                      JOIN elearningCourseAkses ON ' . $this->table . '.elearningCourseId = elearningCourseAkses.elearningCourseId
-                      WHERE elearningCourseAkses.departmentId = :orgId
+                      JOIN organizationCourseAkses ON ' . $this->table . '.elearningCourseId = organizationCourseAkses.elearningCourseId
+                      WHERE organizationCourseAkses.organizationId = :orgId
                       AND ' . $this->table . '.access_type = 2 )
                       AND elearningCourseId NOT IN (
                       SELECT ' . $this->table . '.elearningCourseId
                       FROM ' . $this->table . ' 
-                      JOIN userElearningCourseAkses ON ' . $this->table . '.elearningCourseId = userElearningCourseAkses.elearningCourseId
-                      WHERE userElearningCourseAkses.userId = :userId
+                      JOIN userCourseAkses ON ' . $this->table . '.elearningCourseId = userCourseAkses.elearningCourseId
+                      WHERE userCourseAkses.userNik = :nik
                       AND ' . $this->table . '.access_type = 2)');
 
     $this->db->bind('orgId', $orgId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('nik', $nik);
     return $this->db->resultSet();
   }
 
@@ -116,7 +130,7 @@ class ElearningCourse_model {
   }
 
   public function getCourseAksesDepartmentId($courseId) {
-    $this->db->query('select departmentId from elearningCourseAkses
+    $this->db->query('select organizationId from organizationCourseAkses
                       where elearningCourseId=:courseId');
 
     $this->db->bind('courseId', $courseId);
@@ -124,10 +138,24 @@ class ElearningCourse_model {
   }
 
   public function getCourseUserPrivateAkses($courseId) {
-    $this->db->query('select count(*) as "totalUser" from userElearningCourseAkses where elearningCourseId=:courseId');
-
+    $this->db->query('select count(*) as "totalUser" from companyCourseAkses where elearningCourseId=:courseId');
     $this->db->bind('courseId', $courseId);
-    return $this->db->single();
+    $companyAkses = $this->db->single()['totalUser'];
+
+    $this->db->query('select count(*) as "totalUser" from organizationCourseAkses where elearningCourseId=:courseId');
+    $this->db->bind('courseId', $courseId);
+    $organizationAkses = $this->db->single()['totalUser'];
+
+    $this->db->query('select count(*) as "totalUser" from jobCourseAkses where elearningCourseId=:courseId');
+    $this->db->bind('courseId', $courseId);
+    $jobAkses = $this->db->single()['totalUser'];
+
+    $this->db->query('select count(*) as "totalUser" from userCourseAkses where elearningCourseId=:courseId');
+    $this->db->bind('courseId', $courseId);
+    $userAkses = $this->db->single()['totalUser'];
+
+    $total = intval($companyAkses) + intval($organizationAkses) + intval($jobAkses) + intval($userAkses);
+    return $total;
   }
 
   public function countLesson($courseId) {

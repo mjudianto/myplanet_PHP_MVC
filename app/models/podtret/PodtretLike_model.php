@@ -10,10 +10,10 @@ class PodtretLike_model {
     $this->db = new Database;
   }
   
-  public function createLike($podtretId, $userId) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :podtretId, :userId, DEFAULT)');
+  public function createLike($podtretId, $userNik) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(NULL, :podtretId, :userNik, DEFAULT)');
     $this->db->bind('podtretId', $podtretId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->execute();
   }
 

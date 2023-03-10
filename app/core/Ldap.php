@@ -21,7 +21,7 @@ class Ldap {
     $this->connect();
 
     if ( !ldap_bind($this->connection, $this->ldap_dn, $this->ldap_pass) ) {
-      return false;
+      return null;
     }
 
     $filter = "(sAMAccountName=" . $this->ldap_user . ")";
@@ -31,12 +31,12 @@ class Ldap {
     for ($i=0; $i<$entry["count"]; $i++) {
       $user_detail = [
           "nik" => $entry[$i]['employeenumber'][0],
-          "username" => $entry[$i]['samaccountname'][0],
-          "nama"  => $entry[$i]['displayname'][0],
-          "email"  => $entry[$i]['userprincipalname'][0],
-          "mobile"  => $entry[$i]['mobile'][0],
-          "department"  => $entry[$i]['department'][0],
-          "cabang"  => strtoupper($entry[$i]['physicaldeliveryofficename'][0]),
+          // "username" => $entry[$i]['samaccountname'][0],
+          // "nama"  => $entry[$i]['displayname'][0],
+          // "email"  => $entry[$i]['userprincipalname'][0],
+          // "mobile"  => $entry[$i]['mobile'][0],
+          // "department"  => $entry[$i]['department'][0],
+          // "cabang"  => strtoupper($entry[$i]['physicaldeliveryofficename'][0]),
       ];
     }
 

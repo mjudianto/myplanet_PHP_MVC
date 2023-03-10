@@ -195,14 +195,6 @@
                             <input type="text" class="form-control" name="lessonName-' . $module['elearningModuleId'] . '" placeholder="Lesson Name">
                           </div>
                           <div class="mb-3">
-                            <label for="lessonType" class="form-label">Lesson Type</label>
-                            <select class="form-select" aria-label="Default select example" name="type">
-                              <option selected>Open this select menu</option>
-                              <option value="1">Video</option>
-                              <option value="2">PDF</option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
                             <label for="formFile" class="form-label">Lesson File</label>
                             <input class="form-control" type="file" id="formFile" name="konten-' . $module['elearningModuleId'] . '" id="konten">
                           </div>
@@ -215,6 +207,138 @@
                     </div>
                   </div>
                   </form>';
+            
+            echo '<!-- Modal Box Edit Course -->
+            <div class="modal fade" id="modalEditCourse" tabindex="-1" aria-labelledby="modalEditCourseLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditCourseLabel">Edit Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-12 mb-3">
+                      <label for="inputCourse" class="form-label">Judul Course</label>
+                      <input type="text" class="form-control" id="inputCourse"
+                        placeholder="Input Title Course">
+                    </div>
+                    <div class="col-12 mb-3">
+                      <label class="form-label">Course Category</label>
+                      <select class="form-select" id="selectCategoryAddNew">
+                        <option value="" selected>Select Category</option>
+                        <option value="general">General</option>
+                        <option value="qasecurity">QA & Security</option>
+                        <option value="technical">Technical</option>
+                        <option value="softskill">Soft Skill</option>
+                      </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                      <label class="form-label" for="select">Choose Access</label>
+                      <!-- <select class="form-select" id="test" name="form_select"
+                        onchange="showDiv("hidden_spesific", this)">
+                        <option value="0">All</option>
+                        <option value="1">Spesific</option>
+                      </select> -->
+                      <select class="form-select" id="selectSpesific" name="form_select">
+                        <option value="all">All</option>
+                        <option value="byOrganization">Spesific by Organization</option>
+                        <option value="byName">Spesific by User</option>
+                      </select>
+                    </div>
+                    <div id="orgName" class="col-12 mb-3" style="display:none;">
+                      <div class="mb-3">
+                        <label class="form-label">Choose Organization</label>
+                        <select class="checkbox-spesific" data-placeholder="Choose anything"
+                          multiple="multiple">
+                          <option value="hrd">Human Resource Development</option>
+                          <option value="it">Information Technology</option>
+                          <option value="finance">Finance</option>
+                          <option value="marketing">Marketing</option>
+                          <option value="operation">Operation</option>
+                          <option value="production">Production</option>
+                          <option value="quality">Quality</option>
+                          <option value="sales">Sales</option>
+                          <option value="supplychain">Supply Chain</option>
+                        </select>
+                      </div>
+    
+                    </div>
+                    <div id="userName" class="col-12 mb-3" style="display:none;">
+                      <div class="mb-3">
+                        <label class="form-label">Choose User</label>
+                        <select class="checkbox-spesific" data-placeholder="Choose anything"
+                          multiple="multiple">
+                          <option value="nanda">Nanda Raditya</option>
+                          <option value="dwi">Dwi Prasetyo</option>
+                          <option value="dewi">Dewi Sartika</option>
+                          <option value="siti">Siti Nuraini</option>
+                          <option value="susi">Susi Susanti</option>
+                          <option value="sari">Sari Sari</option>
+                          <option value="siti">Siti Nuraini</option>
+                          <option value="susi">Susi Susanti</option>
+                          <option value="sari">Sari Sari</option>
+                          <option value="siti">Siti Nuraini</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- <div class="col-12 mb-3" id="hidden_spesific">
+                      <div class="card store-metrics p-3">
+                        <div class="mb-3">
+                          <label class="form-label">Choose Organization</label>
+                          <select class="checkbox-spesific" data-placeholder="Choose anything"
+                            multiple="multiple">
+                            <option value="hrd">Human Resource Development</option>
+                            <option value="it">Information Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="operation">Operation</option>
+                            <option value="production">Production</option>
+                            <option value="quality">Quality</option>
+                            <option value="sales">Sales</option>
+                            <option value="supplychain">Supply Chain</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="col-12 mb-3">
+                      <label for="" class="form-label">Image Poster</label>
+                      <div class="card">
+                        <div class="card-body">
+                          <input id="fancy-file-upload" type="file" name="files"
+                            accept=".jpg, .png, image/jpeg, image/png" multiple>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                      <label for="formDescription" class="form-label">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                    </div>
+                    <div class="col-12 mb-3">
+                      <label for="inputPublis" class="form-label">Publish</label>
+                      <div class="d-flex align-items-center">
+                        <div class="form-check me-2">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault"
+                            id="flexRadioDefault1">
+                          <label class="form-check-label" for="flexRadioDefault1">Yes</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault"
+                            id="flexRadioDefault2" checked="">
+                          <label class="form-check-label" for="flexRadioDefault2">No</label>
+                        </div>
+                      </div>
+                    </div>
+    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                  </div>
+                </div>
+              </div>
+            </div>';
 
           }
         ?>

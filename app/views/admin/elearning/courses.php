@@ -117,10 +117,11 @@
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal Box Add New -->
 				<div class="modal fade" id="modalAddNewCourse" tabindex="-1" aria-labelledby="modalAddNewCourseLabel"
 					aria-hidden="true">
-					<div class="modal-dialog modal-xl">
+					<div class="modal-dialog modal-xl modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="modalAddNewCourseLabel">Add New Course</h5>
@@ -128,13 +129,13 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<div class="col-12 mb-4" style="display: flex; justify-content: center;">
-									<div class="row me-5">
+								<div class="row">
+									<div class="col-lg-4 col-md-12 col-sm-12 mb-3">
 										<label for="inputCourse" class="form-label">Judul Course</label>
 										<input type="text" class="form-control" id="inputCourse"
 											placeholder="Input Title Course">
 									</div>
-									<div class="row me-5">
+									<div class="col-lg-4 col-md-12 col-sm-12 mb-3">
 										<label class="form-label">Course Category</label>
 										<select class="form-select" id="selectCategoryAddNew">
 											<option value="" selected>Select Category</option>
@@ -144,60 +145,82 @@
 											<option value="softskill">Soft Skill</option>
 										</select>
 									</div>
-									<div class="row">
-										<label class="form-label" for="select">Choose:</label>
+									<div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+										<label class="form-label" for="select">Choose Access</label>
 										<select class="form-select" id="selectSpesific" name="form_select">
 											<option value="all">All</option>
-											<option value="byOrganization">Spesific by Organization</option>
-											<option value="byName">Spesific by User</option>
+											<option value="spesificBy">Spesific</option>
 										</select>
 									</div>
 								</div>
-								<div id="orgName" class="col-6 mb-4" style="display: none; margin: auto; width:70%;">
-									<label class="form-label" for="orgSelect">Choose Organization</label>
-									<input type="text" list="organization" id="orgSelect" placeholder="Search ..." class="inputSearch form-select">
-									<datalist id="organization">
-									<?php 
-												foreach($data['organization'] as $organization) {
-													echo '<option value="' . $organization['organizationName'] . '" />';
-												}
-											?>
-									</datalist>
-								</div>
-								<div id="userName" class="col-6 mb-4" style="display:none; margin: auto; width:70%;">
-									<label class="form-label" for="userSelect">Choose User</label>
-									<input type="input" autocomplete="off" list="userDatalist" id="userSelect" placeholder="Search ..." class="inputSearch form-select">
-									<datalist id="userDatalist">
-											<?php 
-												foreach($data['user'] as $user) {
-													echo '<option value="' . $user['nama'] . '" />';
-												}
-											?>
-									</datalist>
-								</div>
-								<div class="col-12 mb-5" style="display: flex; justify-content: center;">
-									<div class="row" style="flex-basis: 50%;">
-										<label for="" class="form-label" style="text-align: center;">Assign To Organization</label>
-										<table class="table" id="orgTable" style="text-align: center; margin: auto; width:80%;">
-											<thead>
-												<th>Organization</th>
-												<th>Action</th>
-											</thead>
-											<tbody></tbody>
-										</table>
+								<div class="row" id="spesificChoose" style="display: none;">
+									<div id="orgName" class="col-lg-4 col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label class="form-label">Choose Company</label>
+											<select class="checkbox-spesific" data-placeholder="Choose anything"
+												multiple="multiple">
+												<?php 
+													foreach ($data['company'] as $company) {
+														echo '<option value="' . $company['companyId'] . '">' . $company['companyName'] . '</option>';
+													}
+												?>
+											</select>
+										</div>
+
 									</div>
-									<div class="row" style="flex-basis:50%;">
-										<label for="" class="form-label" style="text-align: center;">Assign To User</label>
-										<table class="table" id="userTable" style="text-align: center; margin: auto; width:80%;">
-											<thead>
-												<th>User</th>
-												<th>Action</th>
-											</thead>
-											<tbody></tbody>
-										</table>
+									<div id="userName" class="col-lg-4 col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label class="form-label">Choose User</label>
+											<select class="checkbox-spesific" data-placeholder="Choose anything"
+												multiple="multiple">
+												<?php 
+													foreach($data['user'] as $user) {
+														echo '<option value="' . $user['userId'] . '">' . $user['nama'] . '</option>';
+													}
+												?>
+											</select>
+										</div>
+									</div>
+									<div id="departmentName" class="col-lg-4 col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label class="form-label">Choose Organization</label>
+											<select class="checkbox-spesific" data-placeholder="Choose anything"
+												multiple="multiple">
+												<?php 
+													foreach ($data['organization'] as $organization) {
+														echo '<option value="' . $organization['organizationId'] . '">' . $organization['organizationName'] . '</option>';
+													}
+												?>
+											</select>
+										</div>
+									</div>
+									<div id="locationName" class="col-lg-6 col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label class="form-label">Choose Location</label>
+											<select class="checkbox-spesific" data-placeholder="Choose anything"
+												multiple="multiple">
+												<?php 
+													foreach ($data['location'] as $location) {
+														echo '<option value="pusat">Pusat</option>';
+													}
+												?>	
+											</select>
+										</div>
+									</div>
+									<div id="jobTitle" class="col-lg-6 col-md-12 col-sm-12">
+										<div class="mb-3">
+											<label class="form-label">Choose Job Title</label>
+											<select class="checkbox-spesific" data-placeholder="Choose anything"
+												multiple="multiple">
+												<option value="sekertaris">Sekertaris</option>
+												<option value="staff">Staff</option>
+												<option value="manager">Manager</option>
+												<option value="director">Director</option>
+												<option value="assman">Assistant Manager</option>
+											</select>
+										</div>
 									</div>
 								</div>
-								
 								<div class="col-12 mb-3">
 									<label for="" class="form-label">Image Poster</label>
 									<div class="card">
@@ -256,7 +279,8 @@
 						</div>
 					</div>
 				</div>
-
+				
+				
 			</div>
-		</div>
-		<!--end page wrapper -->
+</div>
+<!--end page wrapper -->

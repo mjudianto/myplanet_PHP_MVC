@@ -11,17 +11,17 @@ class Login extends Controller{
   public function createUserSession($user) {
     $notificationModel =  $this->model('user/Notification_model', 'Notification_model');
     $_SESSION['user'] = $user;
-    $_SESSION['notification'] = $notificationModel->getUserNotification($user['userId'], $user['organizationId']);
+    // $_SESSION['notification'] = $notificationModel->getUserNotification($user['userNik'], $user['organizationId']);
+    $_SESSION['notification'] = [];
     $_SESSION['notificationCount'] = sizeof($_SESSION['notification']);
   }
-
 
   public function auth() {
     $userModel = $this->model('user/User_model', 'User_model');
     $user = $userModel->userAuth($_POST['nik'], $_POST['password']);
     // var_dump($user);
     
-    if ($user == false) {
+    if ($user == null) {
       $_SESSION['falseLoginInfo'] = true;
       header("Location: " . BASEURL . 'login');
       exit;
@@ -30,6 +30,7 @@ class Login extends Controller{
       $userModel->updateLastVisit($user);
       $this->createUserSession($user);
       isset($_SESSION['page']) ? header("Location: " . BASEURL . $_SESSION['page']) : header("Location: " . BASEURL);
+      // print_r($user);
       exit;
     }
   }

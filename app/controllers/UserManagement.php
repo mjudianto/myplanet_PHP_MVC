@@ -7,8 +7,10 @@ class UserManagement extends Controller {
     $data['location'] = $this->model('user/Location_model', 'Location_model')->getAllLocation();
     $data['organization'] = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
 
-    $data['user'] = array_slice($data['user'], 0, 1000);
+    // $data['user'] = array_slice($data['user'], 0, 1000);
+    // $user = array($user);
 
+    // echo sha1(123);
 
     $this->view('admin/layouts/sidebar');
     $this->view('admin/user/userManagement', $data);

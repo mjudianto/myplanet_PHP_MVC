@@ -2,7 +2,7 @@
     <div class="container mt-3">
       <div class="container text-center video-learning">
         <h3><?= $data['elearningLesson']['judul'] ?></h3>
-        <h5>NIK : <?= $_SESSION['user']['nik'] ?></h5>
+        <h5>nik : <?= $_SESSION['user']['empnik'] ?></h5>
 
         <?php 
           $filType = explode('.', $data['elearningLesson']['konten']);

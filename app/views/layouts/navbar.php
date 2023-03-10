@@ -46,7 +46,7 @@
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'elearning'): ?>
             class="nav-link active" 
             <?php endif; ?>
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if (isset($_SESSION['user']['empnik'])): ?>
               class="nav-link"
             href="<?= BASEURL ?>elearning">E-Learning</a>
             <?php endif; ?>
@@ -56,7 +56,7 @@
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'leadershipfestival'): ?>
             class="nav-link active" 
             <?php endif; ?>
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if (isset($_SESSION['user']['empnik'])): ?>
               class="nav-link"
             href="<?= BASEURL ?>">Leadership-Festival</a>
             <?php endif; ?>
@@ -85,7 +85,7 @@
             <?php if (isset($_SESSION['page']) && $_SESSION['page'] == 'community'): ?>
             class="nav-link active" 
             <?php endif; ?>
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if (isset($_SESSION['user']['empnik'])): ?>
             class="nav-link"
             href="<?= BASEURL ?>community">Community</a>
             <?php endif; ?>
@@ -141,16 +141,10 @@
                 <div class="user-info">
                   <a href="profile.html"><img src="<?= BASEURL ?>images/image-profile.jpg" alt="" class="img-nav-submenu"></a>
                   <a href="<?= BASEURL ?>profile">
-                    <h3><?php echo $_SESSION['user']['nama'] ?></h3>
+                    <h3><?php isset($_SESSION['user']['EmpName']) ? $nama = $_SESSION['user']['EmpName'] : $nama = $_SESSION['user']['nama']; echo $nama ?></h3>
                   </a>
                 </div>
                 <hr>
-                <a href="<?= BASEURL ?>profile/changeProfile" class="sub-menu-link">
-                  <i class="fa fa-user"></i>
-                  <!-- <img src="assets/user-info.png" alt="" /> -->
-                  <p>Edit Profile</p>
-                  <span>></span>
-                </a>
                 <a href="" class="sub-menu-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <i class="fa fa-bell">
                     <?php if(!empty($_SESSION['notification'])) {echo '<span class="badge-not"></span>';} ?>

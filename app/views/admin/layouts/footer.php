@@ -6,7 +6,7 @@
 	<script src="<?= BASEURL ?>admin/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/datatable/js/jquery.dataTables.min.js"></script>
-	<script src="<?= BASEURL ?>admin/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<script src="<?= BASEURL ?>admin/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>	
 	<script src="<?= BASEURL ?>admin/js/index3.js"></script>
 	<script src="<?= BASEURL ?>admin/libraries/gijgo/js/gijgo.min.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.ui.widget.js"></script>
@@ -15,6 +15,8 @@
 	<script src="<?= BASEURL ?>admin/plugins/fancy-file-uploader/jquery.fancy-fileupload.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/Drag-And-Drop/dist/imageuploadify.min.js"></script>
 	<script src="<?= BASEURL ?>admin/plugins/select2/js/select2.min.js"></script>
+	<script src="<?= BASEURL ?>admin/js/app.js"></script>
+
 	
 	<script>
 		$(document).ready(function () {
@@ -36,7 +38,6 @@
 	</script>
 	
 	<script>
-
 		$(document).ready(function () {
 			var table = $('#tableCourse').DataTable({
 				dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
@@ -140,6 +141,7 @@
 			allowClear: Boolean($(this).data('allow-clear')),
 		});
 	</script>
+
 	<script>
 		$('#fancy-file-upload').FancyFileUpload({
 			params: {
@@ -148,28 +150,22 @@
 			maxfilesize: 1000000
 		});
 	</script>
+
 	<script>
 		$(document).ready(function () {
 			$('#image-uploadify').imageuploadify();
 		})
-		const selectOption = document.getElementById("selectSpesific");
-		selectOption.addEventListener("change", function () {
-			const selectedOption = this.value;
-			if (selectedOption === "all") {
-				document.getElementById("orgName").style.display = "none";
-				document.getElementById("userName").style.display = "none";
-			}
-			else if (selectedOption === "byOrganization") {
-				document.getElementById("orgName").style.display = "block";
-				document.getElementById("userName").style.display = "none";
-			} else if (selectedOption === "byName") {
-				document.getElementById("orgName").style.display = "none";
-				document.getElementById("userName").style.display = "block";
+		
+		const select = document.getElementById('selectSpesific');
+		const spesificChoose = document.getElementById('spesificChoose');
+		select.addEventListener('change', () => {
+			if (select.value === 'spesificBy') {
+				spesificChoose.style.display = 'flex';
+			} else {
+				spesificChoose.style.display = 'none';
 			}
 		});
 	</script>
-	<script src="<?= BASEURL ?>admin/js/app.js"></script>
-
 
 
 	<script>

@@ -3,8 +3,9 @@
 class Profile extends Controller {
 
   public function index() {
-    $data['userRecord'] = $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
-    $data['userTestRecord'] = $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model')->getCourseRecord('userId', $_SESSION['user']['userId']);
+    isset($_SESSION['user']['empnik']) ? $nik = $_SESSION['user']['empnik'] : $nik = $_SESSION['user']['userNik'];
+    $data['userRecord'] = $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model')->getCourseRecord($nik);
+    $data['userTestRecord'] = $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model')->getCourseRecord($nik);
 
     $this->view('layouts/navbar');
     $this->view('profile/profile', $data);
@@ -25,7 +26,7 @@ class Profile extends Controller {
     if ($newPassword == $newPasswordConfirm) {
       if ( sha1($currentPassword) == $_SESSION['user']['password'] ) {
         $this->model('user/User_model', 'User_model')->updateUserPassword($newPassword, $_GET['nik']);
-        $_SESSION['user']['password'] = sha1($newPassword);
+        session_destroy();
       }
     }
     

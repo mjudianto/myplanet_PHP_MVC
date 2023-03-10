@@ -56,15 +56,15 @@
                                   <img src="' . BASEURL . 'admin/images/avatars/analog.jpeg" class="radius-10" alt="">
                                 </div>
                               </td>
-                              <td>' . $user['nik'] . '</td>
-                              <td><a href="detail-user.html" class="text-decoration-none text-black">' . $user['nama'] . '</a></td>
-                              <td>' . $user['email'] . '</td>
-                              <td>' . $user['lastVisit'] . '</td>
-                              <td>' . $user['locationName'] . '</td>
-                              <td>' . $user['departmentName'] . '</td>
+                              <td>' . $user['empnik'] . '</td>
+                              <td><a href="detail-user.html" class="text-decoration-none text-black">' . $user['EmpName'] . '</a></td>
+                              <td>' . $user['EmailEmployee'] . '</td>
+                              <td></td>
+                              <td>' . $user['LocationName'] . '</td>
+                              <td>' . $user['orgname'] . '</td>
                               <td>
                                 <div class="order-actions">
-                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userId'] . '&userdepartment=' . $user['departmentId'] . '"
+                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['empnik'] . '&userdepartment=' . $user['orgname'] . '"
                                     class="text-primary bg-light-primary border-0"><i
                                       class="bx bxs-edit"></i></a>
                                 </div>

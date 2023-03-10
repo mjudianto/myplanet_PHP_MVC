@@ -10,30 +10,30 @@ class UserLessonRecord_model {
     $this->db = new Database;
   }
 
-  public function createUserRecord($lessonId, $userId) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :lessonId, :userId, DEFAULT, DEFAULT)');
+  public function createUserRecord($lessonId, $userNik) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :lessonId, :userNik, DEFAULT, DEFAULT)');
     $this->db->bind('lessonId', $lessonId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->execute();
   }
 
-  public function updateUserAttempt($lessonId, $userId, $attempt) {
-    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt, finished=default WHERE elearningLessonId=:lessonId AND userId=:userId');
+  public function updateUserAttempt($lessonId, $userNik, $attempt) {
+    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt, finished=default WHERE elearningLessonId=:lessonId AND userNik=:userNik');
     $this->db->bind('lessonId', $lessonId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('attempt', $attempt);
     $this->db->execute();
   }
   
-  public function getUserLessonRecord($lessonId, $userId) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningLessonId=:lessonId AND userId=:userId');
+  public function getUserLessonRecord($lessonId, $userNik) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningLessonId=:lessonId AND userNik=:userNik');
     $this->db->bind('lessonId', $lessonId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     return $this->db->single();
   }
 
-  public function getCourseRecord($column, $value){
-    $this->db->query("SELECT userLessonRecord.userId, userLessonRecord.attempt, elearningLesson.judul as 'judul lesson', elearningCourse.judul as 'judul course',
+  public function getCourseRecord($userNik){
+    $this->db->query("SELECT userLessonRecord.userNik, userLessonRecord.attempt, elearningLesson.judul as 'judul lesson', elearningCourse.judul as 'judul course',
     userLessonRecord.finished
     FROM userLessonRecord 
     left join elearningLesson 
@@ -42,13 +42,13 @@ class UserLessonRecord_model {
     on elearningLesson.elearningModuleId = elearningModule.elearningModuleId
     left join elearningCourse
     on elearningModule.elearningCourseId = elearningCourse.elearningCourseId
-    where userLessonRecord." . $column . "=:value
+    where userLessonRecord.userNik=:userNik
     order by userLessonRecord.finished DESC");
-    $this->db->bind('value', $value);
+    $this->db->bind('userNik', $userNik);
     return $this->db->resultSet();
   }
 
-  public function userLessonRecord($userId, $orgId) {
+  public function userLessonRecord($userNik, $orgId) {
     $query = 'SELECT DISTINCT
                 elearningKategori.nama AS "nama kategori", 
                 elearningCourse.judul AS "judul course", 
@@ -65,7 +65,7 @@ class UserLessonRecord_model {
                   ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
                 LEFT JOIN userLessonRecord 
                   ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
-                  AND userLessonRecord.userId=:userId
+                  AND userLessonRecord.userNik=:userNik
               WHERE
                 (elearningCourse.access_type = 0 OR
                 (elearningCourse.access_type = 2 AND 
@@ -78,7 +78,7 @@ class UserLessonRecord_model {
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
                     FROM userElearningCourseAkses
-                    WHERE userId = :userId
+                    WHERE userNik = :userNik
                     )
                 )
                 )
@@ -88,13 +88,13 @@ class UserLessonRecord_model {
                 elearningCourse.elearningCourseId';
 
     $this->db->query($query);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('orgId', $orgId);
 
     return $this->db->resultSet();
   }
 
-  public function userLessonRecordDetail($userId, $courseId) {
+  public function userLessonRecordDetail($userNik, $courseId) {
     $query = 'SELECT
                 elearningLesson.judul AS "judul lesson",
                 COALESCE(userLessonRecord.attempt, 0) AS attempt,
@@ -104,7 +104,7 @@ class UserLessonRecord_model {
                 INNER JOIN elearningModule ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId AND elearningCourse.elearningCourseId = :courseId
                 INNER JOIN elearningLesson ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
                 LEFT JOIN userLessonRecord
-                ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId AND userLessonRecord.userId = :userId
+                ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId AND userLessonRecord.userNik = :userNik
               GROUP BY
                 elearningLesson.judul,
                 COALESCE(userLessonRecord.attempt, 0),
@@ -112,14 +112,14 @@ class UserLessonRecord_model {
 
     $this->db->query($query);
     $this->db->bind('courseId', $courseId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
 
     return $this->db->resultSet();
   }
 
   public function getAllRecord() {
     $query = 'select elearningLesson.judul, 
-                userLessonRecord.userId, 
+                userLessonRecord.userNik, 
                 user.nik,
                 user.nama,
                 department.departmentName,
@@ -129,11 +129,11 @@ class UserLessonRecord_model {
               from elearningLesson
                 left join elearningModule on elearningLesson.elearningModuleId = elearningModule.elearningModuleId AND elearningModule.elearningCourseId != 19
                 right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
-                left join user on userLessonRecord.userId = user.userId
+                left join user on userLessonRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join department on user.departmentId = department.departmentId
               group by 
-                userLessonRecord.userId,
+                userLessonRecord.userNik,
                 userLessonRecord.attempt,
 				        userLessonRecord.finished,
                 elearningLesson.judul,
