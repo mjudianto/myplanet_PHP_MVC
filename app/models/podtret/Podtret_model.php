@@ -45,7 +45,7 @@ class Podtret_model {
     $this->db->query('select podtret.judul, podtret.thumbnail as "thumbnail", user.nama, userPodtretRecord.views as "visit", userPodtretRecord.lastVisit as "lastVisit"
                       from podtret
                       right join userPodtretRecord on podtret.podtretId = userPodtretRecord.podtretId
-                      join user on userPodtretRecord.empNik = user.empNik
+                      join user on userPodtretRecord.userNik = user.userNik
                       where podtret.podtretId=:podtretId
                       order by userPodtretRecord.lastVisit desc');
     $this->db->bind('podtretId', $podtretId);

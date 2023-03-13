@@ -56,8 +56,8 @@ class UserTestRecord_model {
                 (elearningCourse.access_type = 2 AND 
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
-                    FROM elearningCourseAkses
-                    WHERE departmentId = :orgId
+                    FROM organizationCourseAkses
+                    WHERE organizationId = :orgId
                     )
                 )
                 )
@@ -112,9 +112,9 @@ class UserTestRecord_model {
                 max(userTestRecordDetail.score) as "score",
                 max(userTestRecordDetail.status) as "status",
                 max(userTestRecordDetail.finished) as "time",
-                user.nik,
+                user.userNik,
                 user.nama,
-                department.departmentName,
+                organization.organizationName,
                 location.locationName
               from elearningTest
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
@@ -123,11 +123,11 @@ class UserTestRecord_model {
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
                 left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
-                left join department on user.departmentId = department.departmentId
+                left join organization on user.organizationId = organization.organizationId
               group by 
                 userTestRecord.userNik,
                 elearningTest.judul,
-                user.nik';
+                user.userNik';
 
     $this->db->query($query);
     $this->db->bind('courseId', $courseId);
@@ -142,9 +142,9 @@ class UserTestRecord_model {
                 max(userTestRecordDetail.score) as "score",
                 max(userTestRecordDetail.status) as "status",
                 max(userTestRecordDetail.finished) as "time",
-                user.nik,
+                user.userNik,
                 user.nama,
-                department.departmentName,
+                organization.organizationName,
                 location.locationName
               from elearningTest
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
@@ -152,11 +152,11 @@ class UserTestRecord_model {
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
                 left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
-                left join department on user.departmentId = department.departmentId
+                left join organization on user.organizationId = organization.organizationId
               group by 
                 userTestRecord.userNik,
                 elearningTest.judul,
-                user.nik';
+                user.userNik';
 
     $this->db->query($query);
 

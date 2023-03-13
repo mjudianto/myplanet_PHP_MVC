@@ -59,7 +59,7 @@
 								<thead class="table-light">
 									<tr>
 										<th>No</th>
-										<th>NIK</th>
+										<th>nik</th>
 										<th>Nama</th>
 										<th>Post Test</th>
 										<th>Total Attempt</th>
@@ -74,10 +74,10 @@
                   <?php 
                   $i=1;
                     foreach($data['testRecord'] as $record) {
-                      if ($record['nik'] != '') {
+                      if ($record['userNik'] != '') {
                         echo '<tr>
                                 <td>' . $i . '</td>
-                                <td>' . $record['nik'] . '</td>
+                                <td>' . $record['userNik'] . '</td>
                                 <td>' . $record['nama'] . '</td>
                                 <td>' . $record['judul'] . '</td>
                                 <td>' . $record['totalAttempt'] . '</td>
@@ -99,7 +99,7 @@
                         echo   '</td>
                                 <td>' . $record['time'] . '</td>
                                 <td>' . $record['locationName'] . '</td>
-                                <td>' . $record['departmentName'] . '</td>
+                                <td>' . $record['organizationName'] . '</td>
                               </tr>';
                         $i+=1;
                       }
@@ -111,7 +111,7 @@
 								<tfoot class="table-light">
 									<tr>
 										<th>No</th>
-										<th>NIK</th>
+										<th>userNik</th>
 										<th>Nama</th>
 										<th>Post Test</th>
 										<th>Total Attempt</th>

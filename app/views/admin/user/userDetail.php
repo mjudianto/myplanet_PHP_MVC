@@ -28,17 +28,17 @@
 										class="rounded-circle p-1" width="110">
 									<div class="mt-3">
 										<h4><?= $data['user']['nama'] ?></h4>
-										<p class="text-secondary mb-1"><?= $data['user']['organizationName'] ?></p>
-										<p class="text-muted font-size-sm"><?= $data['user']['locationName'] ?></p>
-										<button class="btn btn-outline-primary" data-bs-toggle="modal"s
-											data-bs-target="#modalEdit">Edit</button>
+										<p class="text-secondary mb-1"><?= $data['user']['companyName'] ?> - <?= $data['user']['organizationName'] ?></p>
+										<p class="text-muted font-size-sm"><?= $data['user']['companyName'] ?> - <?= $data['user']['locationName'] ?></p>
+										<!-- <button class="btn btn-outline-primary" data-bs-toggle="modal"s
+											data-bs-target="#modalEdit">Edit</button> -->
 									</div>
 								</div>
 								<hr class="my-4">
 								<ul class="list-group list-group-flush">
 									<li
 										class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-										<h6 class="mb-0"><i class="bx bx-news me-2"></i><?= $data['user']['nik'] ?></h6>
+										<h6 class="mb-0"><i class="bx bx-news me-2"></i><?= $data['user']['userNik'] ?></h6>
 										<span class="text-secondary">NIK</span>
 									</li>
 									<li
@@ -46,15 +46,10 @@
 										<h6 class="mb-0"><i class="bx bx-user me-2"></i><?= $data['user']['nama'] ?></h6>
 										<span class="text-secondary">Name</span>
 									</li>
-									<li
-										class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-										<h6 class="mb-0"><i class="bx bx-envelope me-2"></i><?= $data['user']['email'] ?></h6>
-										<span class="text-secondary">Mail</span>
-									</li>
 									</li>
 									<li
 										class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-										<h6 class="mb-0"><i class="bx bx-sitemap me-2"></i><?= $data['user']['organizationName'] ?>
+										<h6 class="mb-0"><i class="bx bx-sitemap me-2"></i><?= $data['user']['companyName'] ?> - <?= $data['user']['organizationName'] ?>
 										</h6>
 										<span class="text-secondary">Organization Name</span>
 									</li>
@@ -117,7 +112,7 @@
                             echo    '</td>
                                     <td><button type="button" value="' . $lesson['courseId'] . '" onclick="loadUserCourseRecordDetail(this.value)"
                                         class="btn btn-primary btn-sm radius-30 px-4"
-                                        data-bs-toggle="modal" data-bs-target="#' . $lesson['courseId'] . '">View
+                                        data-bs-toggle="modal" data-bs-target="#courseDetail-' . $lesson['courseId'] . '">View
                                         Details</button></td>
                                     <td>
                                       <div class="d-flex order-actions">
@@ -180,9 +175,9 @@
         <?php 
             foreach($data['userLesson'] as $lesson){
               echo '<!-- Modal View Detail Course -->
-                    <div class="modal fade" id="' . $lesson['courseId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
+                    <div class="modal fade" id="courseDetail-' . $lesson['courseId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
                       aria-hidden="true">
-                      <div class="modal-dialog" style="max-width: 735px;">
+                      <div class="modal-dialog modal-dialog-scrollable" style="max-width: 735px;">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="modalViewDetailLabel">' . $lesson['judul course'] . '</h5>
@@ -201,7 +196,7 @@
                                     <th>Time</th>
                                   </tr>
                                 </thead>
-                                <tbody id="lessonRecordContainer">';
+                                <tbody id="lessonRecordContainer-' . $lesson['courseId'] . '">';
               echo              '</tbody>
                               </table>
                             </div>
@@ -217,7 +212,7 @@
         ?>
 
 				<!-- Modal BOX Edit Data -->
-				<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel"
+				<!-- <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel"
 					aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -229,16 +224,11 @@
 							<div class="modal-body">
 								<div class="col-12 mb-3">
 									<label for="inputNIK" class="form-label">NIK</label>
-									<input type="text" value="<?= $data['user']['nik'] ?>" class="form-control" id="inputNIK" placeholder="Input NIK...">
+									<input type="text" value="<?= $data['user']['userNik'] ?>" class="form-control" id="inputNIK" placeholder="Input NIK...">
 								</div>
 								<div class="col-12 mb-3">
 									<label for="inputName" class="form-label">Name</label>
 									<input type="text" value="<?= $data['user']['nama'] ?>" class="form-control" id="inputName" placeholder="Input name...">
-								</div>
-								<div class="col-12 mb-3">
-									<label for="inputEmail" class="form-label">Email</label>
-									<input type="email" value="<?= $data['user']['email'] ?>" class="form-control" id="inputEmail"
-										placeholder="Input email...">
 								</div>
 								<div class="col-12 mb-3">
 									<label for="inputPassword" class="form-label">Password</label>
@@ -263,7 +253,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- Modal Delete -->
 				<div class="modal fade" id="modalDeleteCourse" tabindex="-1" aria-labelledby="modalDeleteCourseLabel"
@@ -306,7 +296,7 @@
         $.ajax({
           url: "<?= BASEURL ?>usermanagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId,
           success: function(html) {
-						$('#lessonRecordContainer').html(html);
+						$('#lessonRecordContainer-' + courseId).html(html);
           }
         });
       }

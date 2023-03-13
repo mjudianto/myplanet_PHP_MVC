@@ -192,7 +192,7 @@ class Podtrets extends Controller {
               <div class="d-flex user-comment align-items-center">
                 <img src="/public/images/image-profile.jpg" alt="" class="img-comment" />
                 <h5 class="ms-3">' .
-                  // $comment['nama'] .
+                  $comment['nama'] .
                 '</h5>
                 <p class="ms-2 mt-2">' . date('d M Y', strtotime($comment['uploadDate'])) . '</p>
               </div>
@@ -203,8 +203,9 @@ class Podtrets extends Controller {
                   <div class="section-comment ms-5">
                     <div class="d-flex user-reply-comment align-items-center mt-3">
                       <img src="/public/images/nanda.jpg" alt="" class="img-reply-comment" />
-                      <h5 class="ms-3">
-                      </h5>
+                      <h5 class="ms-3">' .
+                        $reply['nama'] .
+                      '</h5>
                       <p class="ms-2 mt-2">' . date('d M Y', strtotime($reply['uploadDate'])) . '</p>
                     </div>
                     <p class="mt-1">' . $reply['comment'] . '</p>
@@ -216,9 +217,9 @@ class Podtrets extends Controller {
                   aria-expanded="false" aria-controls="' . $comment['podtretCommentId'] . '" id="hideBtnReply">
                   Reply
                 </button>
-              </p>
-
-              <div class="collapse" id="' . $comment['podtretCommentId'] . '">
+              </p>' .
+                // $comment['nama'] .
+              '<div class="collapse" id="' . $comment['podtretCommentId'] . '">
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="Comments" aria-label="Comments"
                     aria-describedby="button-addon2" id=reply-' . $comment['podtretCommentId'] . '>

@@ -3,7 +3,7 @@
 include_once '../app/core/Database.php';
 
 class UserElearningCourseAkses_Model {
-  private $table = 'userElearningCourseAkses';
+  private $table = 'userCourseAkses';
   private $db;
 
   public function __construct() {

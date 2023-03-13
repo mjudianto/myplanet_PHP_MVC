@@ -73,7 +73,7 @@
                     foreach($data['comment'] as $comment) {
                       echo '<tr>
                               <td>' . $i . '</td>
-                              <td>' . $comment['nik'] . '</td>
+                              <td>' . $comment['userNik'] . '</td>
                               <td>' . $comment['nama'] . '</td>
                               <td>' . $comment['comment'] . '</td>
                               <td>' . $comment['judul'] . '</td>
@@ -95,7 +95,7 @@
                     foreach($data['reply'] as $reply) {
                       echo '<tr>
                               <td>' . $i . '</td>
-                              <td>' . $reply['nik'] . '</td>
+                              <td>' . $reply['userNik'] . '</td>
                               <td>' . $reply['nama'] . '</td>
                               <td>' . $reply['comment'] . '</td>
                               <td>' . $reply['judul'] . '</td>
@@ -119,7 +119,7 @@
 								<tfoot class="table-light">
 									<tr>
 										<th>No</th>
-										<th>NIK</th>
+										<th>userNik</th>
 										<th>Nama</th>
 										<th>Comment</th>
 										<th>Judul Podtret</th>

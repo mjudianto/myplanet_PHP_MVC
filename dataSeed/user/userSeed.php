@@ -85,13 +85,13 @@ class Location_model {
     $this->company = new Company_model;
   }
 
-  private function checkLocationExist($locationName) {
+  public function checkLocationExist($locationName) {
     $this->db->query('SELECT * FROM ' . $this->table . ' WHERE locationName=:locationName');
     $this->db->bind('locationName', $locationName);
     $location = $this->db->single();
 
     if (!is_bool($location)) {
-      return $location['locationName'];
+      return $location['locationId'];
     } else {
       return null;
     }
@@ -162,13 +162,13 @@ class Organization_model {
     $this->company = new Company_model;
   }
 
-  private function checkorganizationExist($organizationName) {
+  public function checkorganizationExist($organizationName) {
     $this->db->query('SELECT * FROM ' . $this->table . ' WHERE organizationName=:organizationName');
     $this->db->bind('organizationName', $organizationName);
     $organization = $this->db->single();
 
     if (!is_bool($organization)) {
-      return $organization['organizationId'];
+      return $organization;
     } else {
       return null;
     }
@@ -196,6 +196,23 @@ class Organization_model {
     $this->db->bind('companyId', $params['companyId']);
 
     $this->db->execute();
+  }
+
+  public function selectOrganizationCompany($organizationName, $companyId) {
+    // if ($this->checkorganizationExist($organizationName) !== null) {
+    //   return false;
+    // }
+
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE organizationName=:organizationName AND companyId=:companyId');
+    $this->db->bind('organizationName', $organizationName);
+    $this->db->bind('companyId', $companyId);
+    $organization = $this->db->single();
+
+    if (!is_bool($organization)) {
+      return $organization['organizationId'];
+    } else {
+      return null;
+    }
   }
 }
 
@@ -302,9 +319,15 @@ function jobSeed() {
 class User_model {
   private $table = 'user';
   private $db;
+  private $company;
+  private $organization;
+  private $location;
 
   public function __construct() {
     $this->db = new Database;
+    $this->company = new Company_model;
+    $this->organization = new Organization_model;
+    $this->location = new Location_model;
   }
 
   private function checkuserExist($userNik) {
@@ -319,21 +342,35 @@ class User_model {
     }
   }
 
-  public function createuser($userNik, $nama, $password, $createdDate) {
+  public function createuser($userNik, $nama, $password, $createdDate, $locationName, $companyName, $organizationName) {
     if ($this->checkuserExist($userNik) !== null) {
       return false;
     }
+
+    $locationId = $this->location->checkLocationExist($locationName);
+    // return $locationId;
+
+    $companyId = $this->company->checkCompanyExist($companyName);
+    // return $companyId;
+
+    $organizationId = $this->organization->selectOrganizationCompany($organizationName, $companyId);
+    // return $organizationName;
+
+    if ($organizationId != null) {
+      $sql = 'INSERT INTO ' . $this->table . ' VALUES(:userNik, :nama, :password, null, default, default, :createdDate, :locationId, :organizationId)';
+
+      $this->db->query($sql);
+  
+      $this->db->bind('userNik', $userNik);
+      $this->db->bind('nama', $nama);
+      $this->db->bind('password', sha1($password));
+      $this->db->bind('createdDate', $createdDate);
+      $this->db->bind('locationId', $locationId);
+      $this->db->bind('organizationId', $organizationId);
+  
+      $this->db->execute();
+    }
     
-    $sql = 'INSERT INTO ' . $this->table . ' VALUES(:userNik, :nama, :password, null, default, default, :createdDate)';
-
-    $this->db->query($sql);
-
-    $this->db->bind('userNik', $userNik);
-    $this->db->bind('nama', $nama);
-    $this->db->bind('password', sha1($password));
-    $this->db->bind('createdDate', $createdDate);
-
-    $this->db->execute();
   }
 }
 
@@ -346,14 +383,46 @@ function userSeed() {
 
   while ($row = fgetcsv($fp)) {
 
+    $location = explode('-', $row[5]);
+    if (count($location) > 1) {
+      $locationName = trim($location[1]);
+    } else {
+      $locationName = trim($location[0]);
+    }
+
+    $organization = explode('-', $row[4]);
+    if (count($organization) > 1) {
+      $companyName = $organization[0];
+      $organizationName = trim($organization[1]);
+    } else {
+      $companyName = null;
+      $organizationName = trim($organization[0]);
+    }
+
+    $organizationName = trim(str_replace($locationName, '', $organizationName));
+
     $userNik = $row[0];
     $password = $row[1];
     $nama = $row[2];
     $createdDate = $row[6];
 
+
     if ($userNik != null) {
-      $userModel->createUser($userNik, $nama, $password, $createdDate);
+      if (strpos($organizationName, "@") === false) {
+        // echo $companyName;
+        $user = $userModel->createUser($userNik, $nama, $password, $createdDate, $locationName, $companyName, $organizationName);
+        echo $user;
+      }
     }
+
+    // $userNik = $row[0];
+    // $password = $row[1];
+    // $nama = $row[2];
+    // $createdDate = $row[6];
+
+    // if ($userNik != null) {
+    //   $userModel->createUser($userNik, $nama, $password, $createdDate);
+    // }
   }
 
   fclose($fp);

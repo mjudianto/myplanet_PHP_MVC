@@ -20,12 +20,12 @@ class PodtretCommentReply_model {
 
   public function getAllComment($column, $value) {
     $this->db->query('SELECT 
-        commentReply.comment, commentReply.uploadDate
+        commentReply.comment, commentReply.uploadDate, user.nama
         FROM ' . $this->table . ' 
         LEFT JOIN podtretComment 
         ON ' . $this->table . '.podtretCommentId = podtretComment.podtretCommentId
         LEFT JOIN user 
-        ON podtretComment.userNik = user.userNik
+        ON ' . $this->table . '.userNik = user.userNik
         WHERE ' . $this->table . '.' . $column . '=:value 
         ORDER BY ' . $this->table . '.uploadDate ASC');
 

@@ -14,20 +14,29 @@ class User_model{
   }
   
   public function getAllUsers() {
-    $data = file_get_contents('https://guard.enseval.com/for_api/read.php?userNik=all');
-    $data = json_decode($data, true);
-    return $data['data'];
+    $sql = 'SELECT * FROM ' . $this->table . ' 
+    left join organization on organization.organizationId=user.organizationId
+    left join location on location.locationId=user.locationId
+    left join company on organization.companyId=company.companyId';
+    $this->db->query($sql);
+
+    $user = $this->db->resultSet();
+    return $user;
   }
 
   public function getHrisUser($userNik) {
-    $user = file_get_contents('https://guard.enseval.com/for_api/read.php?userNik=' . $userNik);
+    $user = file_get_contents('https://guard.enseval.com/for_api/read.php?nik=' . $userNik);
 
     $user = json_decode($user, true);
     return $user;
   }
 
   public function getPlanetUser($userNik) {
-    $sql = 'SELECT * FROM ' . $this->table . ' WHERE userNik=:userNik';
+    $sql = 'SELECT * FROM ' . $this->table . '
+    left join organization on organization.organizationId=user.organizationId
+    left join location on location.locationId=user.locationId
+    left join company on organization.companyId=company.companyId
+    WHERE userNik=:userNik';
     $this->db->query($sql);
 
     $this->db->bind('userNik', $userNik);
@@ -44,7 +53,7 @@ class User_model{
     if ($user != null) {
       if ($user['password'] == sha1($password)) {
         $user = $this->getHrisUser(trim($userNik));
-        if (!$user['empnik'] == "") { return $user; }
+        if ($user['empnik'] != "") { return $user; }
         else { 
           $user = $this->getPlanetUser($userNik); 
           return $user; 
@@ -105,8 +114,10 @@ class User_model{
   public function updateLastVisit($user) {
     $query = "UPDATE " . $this->table . " SET lastVisit=CURRENT_TIMESTAMP() where userNik=:userNik";
     $this->db->query($query);
+    
+    $userNik = $user['empnik'] ?? $user['nik'];
 
-    $this->db->bind('userNik', $user['userNik']);
+    $this->db->bind('userNik', $user['empnik']);
     $this->db->execute();
   }
 

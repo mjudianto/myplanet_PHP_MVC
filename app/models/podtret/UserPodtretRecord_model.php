@@ -43,7 +43,7 @@ class UserPodtretRecord_model {
   }
 
   public function getUserCommentRecord() {
-    $this->db->query('select user.nik, user.nama, podtretComment.comment, podtret.judul, podtretComment.uploadDate
+    $this->db->query('select user.userNik, user.nama, podtretComment.comment, podtret.judul, podtretComment.uploadDate
                       from podtretComment 
                       left join podtret on podtretComment.podtretId = podtret.podtretId
                       left join user on podtretComment.userNik = user.userNik
@@ -52,7 +52,7 @@ class UserPodtretRecord_model {
   }
 
   public function getUserReplyRecord() {
-    $this->db->query('select user.nik, user.nama, commentReply.comment, podtret.judul, commentReply.uploadDate
+    $this->db->query('select user.userNik, user.nama, commentReply.comment, podtret.judul, commentReply.uploadDate
                       from commentReply
                       left join podtretComment on commentReply.podtretCommentId=podtretComment.podtretCommentId
                       left join podtret on podtretComment.podtretId = podtret.podtretId

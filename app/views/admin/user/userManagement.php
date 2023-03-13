@@ -31,14 +31,14 @@
 						<div class="table-responsive">
 							<div id="printbar" style="float:right"></div>
 							<br>
-							<table id="tableUser" class="table mb-0 align-middle" style="width:100%">
+							<table id="tableUser" class="table mb-0 align-middle" style="width:100%;">
 								<thead class="table-light">
 									<tr>
 										<th>No</th>
 										<th>Picture</th>
 										<th>NIK</th>
 										<th>Name</th>
-										<th>Email</th>
+										<!-- <th>Email</th> -->
 										<th>Last Visit</th>
 										<th>Location</th>
 										<th>Org Name</th>
@@ -56,15 +56,14 @@
                                   <img src="' . BASEURL . 'admin/images/avatars/analog.jpeg" class="radius-10" alt="">
                                 </div>
                               </td>
-                              <td>' . $user['empnik'] . '</td>
-                              <td><a href="detail-user.html" class="text-decoration-none text-black">' . $user['EmpName'] . '</a></td>
-                              <td>' . $user['EmailEmployee'] . '</td>
-                              <td></td>
-                              <td>' . $user['LocationName'] . '</td>
-                              <td>' . $user['orgname'] . '</td>
+                              <td>' . $user['userNik'] . '</td>
+                              <td><a href="detail-user.html" class="text-decoration-none text-black">' . $user['nama'] . '</a></td>
+                              <td>' . $user['lastVisit'] . '</td>
+                              <td>' . $user['companyName'] . ' - ' . $user['locationName'] . '</td>
+                              <td>' . $user['companyName'] . ' - ' . $user['organizationName'] . '</td>
                               <td>
                                 <div class="order-actions">
-                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['empnik'] . '&userdepartment=' . $user['orgname'] . '"
+                                  <a href="' . BASEURL . 'usermanagement/userdetail?userId=' . $user['userNik'] . '&organizationId=' . $user['organizationId'] . '"
                                     class="text-primary bg-light-primary border-0"><i
                                       class="bx bxs-edit"></i></a>
                                 </div>
@@ -81,7 +80,7 @@
 										<th>Picture</th>
 										<th>NIK</th>
 										<th>Name</th>
-										<th>Email</th>
+										<!-- <th>Email</th> -->
 										<th>Last Visit</th>
 										<th>Location</th>
 										<th>Org Name</th>
@@ -98,7 +97,7 @@
 				<!-- Modal Box Add New -->
 				<div class="modal fade" id="modalAddNew" tabindex="-1" aria-labelledby="modalAddNewLabel"
 					aria-hidden="true">
-					<div class="modal-dialog">
+					<div class="modal-dialog ">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title" id="modalAddNewLabel">User Registration</h5>
@@ -109,7 +108,7 @@
 								<div class="modal-body">
 									<div class="col-12 mb-3">
 										<label for="inputNIK" class="form-label">NIK</label>
-										<input type="text" name="nik" class="form-control" id="inputNIK" placeholder="Input NIK...">
+										<input type="text" name="userNik" class="form-control" id="inputNIK" placeholder="Input NIK...">
 									</div>
 									<div class="col-12 mb-3">
 										<label for="inputName" class="form-label">Name</label>

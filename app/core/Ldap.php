@@ -30,7 +30,7 @@ class Ldap {
 
     for ($i=0; $i<$entry["count"]; $i++) {
       $user_detail = [
-          "nik" => $entry[$i]['employeenumber'][0],
+          "userNik" => $entry[$i]['employeenumber'][0],
           // "username" => $entry[$i]['samaccountname'][0],
           // "nama"  => $entry[$i]['displayname'][0],
           // "email"  => $entry[$i]['userprincipalname'][0],

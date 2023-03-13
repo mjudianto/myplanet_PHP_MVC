@@ -19,7 +19,7 @@ class PodtretComment_model {
   }
 
   public function getAllComment($podtretId) {
-    $this->db->query('SELECT podtretComment.podtretCommentId, podtretComment.comment, podtretComment.uploadDate
+    $this->db->query('SELECT podtretComment.podtretCommentId, podtretComment.comment, podtretComment.uploadDate, user.nama
         FROM ' . $this->table . ' 
         LEFT JOIN user 
         ON ' . $this->table . '.userNik = user.userNik

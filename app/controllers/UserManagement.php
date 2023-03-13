@@ -33,14 +33,15 @@ class UserManagement extends Controller {
     $model = $this->loadElearningModel();
 
     $userId = $_GET['userId'];
-    $userdepartment = $_GET['userdepartment'];
+    $organization = $_GET['organizationId'];
+    $user = $this->model('user/User_model', 'User_model')->getPlanetUser($userId);
 
     $data = [
-      'user' => $this->model('user/User_model', 'User_model')->getUserBy('userId', $userId),
+      'user' => $user,
       'location' => $this->model('user/Location_model', 'Location_model')->getAllLocation(),
-      'userLesson' => $model['userLessonRecord']->userLessonRecord($userId, $userdepartment),
-      'userTest' => $model['userTestRecord']->userTestRecord($userId, $userdepartment),
-      'course' => $model['elearningCourse']->getPrivateCourse($userdepartment, $userId)
+      'userLesson' => $model['userLessonRecord']->userLessonRecord($userId, $organization, $user['companyId']),
+      'userTest' => $model['userTestRecord']->userTestRecord($userId, $organization),
+      'course' => $model['elearningCourse']->getPrivateCourse($organization, $userId)
     ];
 
 

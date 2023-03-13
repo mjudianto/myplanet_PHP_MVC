@@ -48,7 +48,7 @@ class UserLessonRecord_model {
     return $this->db->resultSet();
   }
 
-  public function userLessonRecord($userNik, $orgId) {
+  public function userLessonRecord($userNik, $orgId, $companyId) {
     $query = 'SELECT DISTINCT
                 elearningKategori.nama AS "nama kategori", 
                 elearningCourse.judul AS "judul course", 
@@ -71,13 +71,19 @@ class UserLessonRecord_model {
                 (elearningCourse.access_type = 2 AND 
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
-                    FROM elearningCourseAkses
-                    WHERE departmentId=:orgId
+                    FROM companyCourseAkses
+                    WHERE companyId=:companyId
                     )
                   OR
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
-                    FROM userElearningCourseAkses
+                    FROM organizationCourseAkses
+                    WHERE organizationId = :orgId
+                    )
+                  OR
+                  elearningCourse.elearningCourseId IN 
+                    (SELECT elearningCourseId
+                    FROM userCourseAkses
                     WHERE userNik = :userNik
                     )
                 )
@@ -90,6 +96,8 @@ class UserLessonRecord_model {
     $this->db->query($query);
     $this->db->bind('userNik', $userNik);
     $this->db->bind('orgId', $orgId);
+    $this->db->bind('companyId', $companyId);
+    // $this->db->bind('locId', $locId);
 
     return $this->db->resultSet();
   }
@@ -120,9 +128,9 @@ class UserLessonRecord_model {
   public function getAllRecord() {
     $query = 'select elearningLesson.judul, 
                 userLessonRecord.userNik, 
-                user.nik,
+                user.userNik,
                 user.nama,
-                department.departmentName,
+                organization.organizationName,
                 location.locationName,
                 userLessonRecord.attempt,
                 userLessonRecord.finished
@@ -131,13 +139,13 @@ class UserLessonRecord_model {
                 right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
                 left join user on userLessonRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
-                left join department on user.departmentId = department.departmentId
+                left join organization on user.organizationId = organization.organizationId
               group by 
                 userLessonRecord.userNik,
                 userLessonRecord.attempt,
 				        userLessonRecord.finished,
                 elearningLesson.judul,
-                user.nik';
+                user.userNik';
 
     $this->db->query($query);
 
