@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-class Ensight extends Controller {
+class Ensight extends Controller
+{
 
-  public function index() {
+  public function index()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
 
     $data['ensight'] = $ensightModel->getActiveEnsight();
@@ -12,7 +14,8 @@ class Ensight extends Controller {
     $this->view('layouts/page_footer');
   }
 
-  public function ensightKonten() {
+  public function ensightKonten()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
     $userEnsightRecordModel = $this->model('ensight/userRecord/UserEnsightRecord_model', 'UserEnsightRecord_model');
 
@@ -25,15 +28,14 @@ class Ensight extends Controller {
       $userEnsightRecordModel->createUserRecord($ensightId, $userId);
     } else {
       $userRecord = $userEnsightRecordModel->getUserRecord($ensightId, $userId);
-      $userEnsightRecordModel->updateUserRecordViews($ensightId, $userId, $userRecord['views']+1);
+      $userEnsightRecordModel->updateUserRecordViews($ensightId, $userId, $userRecord['views'] + 1);
     }
 
-    $ensightModel->updateEnsightViews($ensightId, $data['ensight']['views']+1);
+    $ensightModel->updateEnsightViews($ensightId, $data['ensight']['views'] + 1);
     $data['ensight']['views'] += 1;
 
     $this->view('layouts/navbar');
-    $this->view('ensight/ensightKonten', $data); 
+    $this->view('ensight/ensightKonten', $data);
     $this->view('layouts/page_footer');
   }
-
 }

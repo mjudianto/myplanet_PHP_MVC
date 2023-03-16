@@ -3250,3 +3250,15 @@ input::placeholder {
 #showThree {
   border: 1px solid blue;
 }
+
+.order-actions-single a {
+  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  padding: 6px 6px 3px 6px;
+  background: #f1f1f1;
+  border: 1px solid #eeecec;
+  text-align: center;
+  border-radius: 20%;
+  color: #2b2a2a;
+}

@@ -55,7 +55,7 @@
 
 			var table = $('#lessonReportTable').DataTable({
 			dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
-			buttons: ['csv', 'excel', 'pdf', 'print']
+			buttons: ['csv', 'excel', 'pdf', 'print'],
 			});
 
 			table.buttons().container().appendTo('#lessonReportTable_wrapper .col-md-6:eq(0)');
@@ -108,13 +108,6 @@
 			});
 
 			table.buttons().container().appendTo('#tableVisitorEnsight_wrapper .col-md-6:eq(0)');
-			
-			var table = $('#tableVisitorEnsight').DataTable({
-			dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
-			buttons: ['csv', 'excel', 'pdf', 'print']
-			});
-
-			table.buttons().container().appendTo('#tableVisitorEnsight_wrapper .col-md-6:eq(0)');
 
 			var table = $('#tableNotification').DataTable({
 			dom: '<"row top"<"col-lg-4 col-md-4 col-sm-12 mb-2"B><"col-lg-4 col-md-4 col-sm-12 mb-2"l><"col-lg-4 col-md-4 col-sm-12 mb-2"f>>rtip',
@@ -140,6 +133,13 @@
 			placeholder: $(this).data('placeholder'),
 			allowClear: Boolean($(this).data('allow-clear')),
 		});
+		$('.checkbox-spesific').select2({
+			dropdownParent: $('#modalEditCourse'),
+			theme: 'bootstrap4',
+			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+			placeholder: $(this).data('placeholder'),
+			allowClear: Boolean($(this).data('allow-clear')),
+		});
 	</script>
 
 	<script>
@@ -156,7 +156,7 @@
 			$('#image-uploadify').imageuploadify();
 		})
 		
-		const select = document.getElementById('selectSpesific');
+		const select = document.getElementById('spesificSelected');
 		const spesificChoose = document.getElementById('spesificChoose');
 		select.addEventListener('change', () => {
 			if (select.value === 'spesificBy') {
@@ -185,6 +185,24 @@
 					rightIcon: '<img src="<?= BASEURL ?>admin/images/icons/calendar-days.svg" />'
 				}
 			})
+		});
+	</script>
+	<script>
+		$('#selectedCourseId').select2({
+			dropdownParent: $('#modalAddNewAssignment'),
+			theme: 'bootstrap4',
+			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+			placeholder: $(this).data('placeholder'),
+			allowClear: Boolean($(this).data('allow-clear')),
+		});
+	</script>
+	<script>
+		$('#selectCategoryAddNew').select2({
+			dropdownParent: $('#modalEditCourse'),
+			theme: 'bootstrap4',
+			width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+			placeholder: $(this).data('placeholder'),
+			allowClear: Boolean($(this).data('allow-clear')),
 		});
 	</script>
 

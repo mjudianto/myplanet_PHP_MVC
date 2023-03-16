@@ -1,22 +1,28 @@
-<?php 
+<?php
 
-class Elearning extends Controller {
+class Elearning extends Controller
+{
 
-  public function index() {
+  public function index()
+  {
     $this->view('layouts/navbar');
     $this->view('elearning/elearning');
     $this->view('layouts/page_footer');
   }
 
-  public function filterKategori() {
+  public function filterKategori()
+  {
     $_SESSION['selectedKategoriId'] = $_REQUEST['kategoriId'];
   }
 
-  public function loadKategori() {
+  // This function loads all e-learning categories and outputs corresponding filter buttons
+  public function loadKategori()
+  {
+    // Load the e-learning model to get all categories
     $model = $this->loadElearningModel();
     $elearningKategori = $model['elearningKategori']->getAllKategori();
 
-    $curr = '';
+    // Check which category is currently selected
     $selectedKategoriId = isset($_SESSION['selectedKategoriId']) ? $_SESSION['selectedKategoriId'] : 0;
 
     // Output the "All" button
@@ -25,52 +31,63 @@ class Elearning extends Controller {
 
     // Output buttons for each category
     foreach ($elearningKategori as $kategori) {
-      $curr = ($selectedKategoriId == $kategori['elearningKategoriId']) ? 'active' : '';
-      echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] .')" class="ms-2 mt-2 d-inline-block">';
-      echo '<button class="px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button>';
-      echo '</a>';
-    } 
-
+        $curr = ($selectedKategoriId == $kategori['elearningKategoriId']) ? 'active' : '';
+        echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] . ')" class="ms-2 mt-2 d-inline-block">';
+        echo '<button class="px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button>';
+        echo '</a>';
+    }
   }
 
-  public function loadCourse() {
+  // Load the elearning Course
+  public function loadCourse()
+  {
     $model = $this->loadElearningModel();
-    $organizationModel = $this->model('user/Organization_model', 'Organization_model');
-    $companyModel = $this->model('user/Company_model', 'Company_model');
-    $jobModel = $this->model('user/Job_model', 'Job_model');
 
-    function sortByUploadDateDesc($a, $b) {
+    // Define a sorting function to sort courses by upload date in descending order
+    function sortByUploadDateDesc($a, $b)
+    {
       return strtotime($b["uploadDate"]) - strtotime($a["uploadDate"]);
     }
 
+    // Get the user's NIK from the session
     $userNik = $_SESSION['user']['empnik'];
 
-    $organizationName = explode('-', $_SESSION['user']['orgname'])[1];
-    $organizationId = $organizationModel->getSpesificOrganization(trim($organizationName));
+    // Get the selected category ID from the session
+    $kategoriId = $_SESSION['selectedKategoriId'] ?? 0;
 
-    $companyName = explode('-', $_SESSION['user']['orgname'])[0];
-    $companyId = $companyModel->getSpesificCompany($companyName);
-
-    $jobName = $_SESSION['user']['Jobtitle'];
-    $jobId = $jobModel->getSpesificJob($jobName);
-    
-    if (isset($_SESSION['selectedKategoriId'])) {
-        $kategoriId = $_SESSION['selectedKategoriId'];
-        if ($kategoriId != 0) {
-            if ($kategoriId == 5) {
-                $elearningCourse = $model['elearningCourse']->getSopCourse($userNik);
-            } else {
-                $elearningCourse = $model['elearningCourse']->getCourseBy($kategoriId, $organizationId, $userNik);
-                usort($elearningCourse, "sortByUploadDateDesc");
-            }
-        } else {
-            $elearningCourse = $model['elearningCourse']->getAllCourse($organizationId, $userNik, $companyId, $jobId);
-            usort($elearningCourse, "sortByUploadDateDesc");
-        }
+    // Get the courses based on the selected category ID, or get all courses if no category is selected
+    if ($kategoriId == 5) {
+      // If the selected category is 5, get SOP courses for the user
+      $elearningCourse = $model['elearningCourse']->getSopCourse($userNik);
     } else {
-        $elearningCourse = $model['elearningCourse']->getAllCourse($organizationId, $userNik, $companyId, $jobId);
-        usort($elearningCourse, "sortByUploadDateDesc");
+      // Otherwise, get the courses based on the selected category ID, or get all courses if no category is selected
+      $elearningCourse = $kategoriId != 0 ? $model['elearningCourse']->getCourseBy($kategoriId) : $model['elearningCourse']->getAllCourse();
+
+      // Sort the courses by upload date in descending order
+      usort($elearningCourse, "sortByUploadDateDesc");
+
+      // Filter the courses to exclude those that the user has already completed
+      $elearningCourse = $this->filterCourse($elearningCourse);
     }
+
+    // Get the search term from the request parameter
+    $search = $_REQUEST['search'] ?? '';
+
+    // Define the search fields
+    $searchFields = ['judul'];
+
+    // Filter the courses that match the search term
+    if ($search !== '') {
+      $elearningCourse = array_filter($elearningCourse, function ($item) use ($searchFields, $search) {
+        foreach ($searchFields as $field) {
+          if (stripos($item[$field], $search) !== false) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+
 
     // Get the search term from the request parameter
     $search = $_REQUEST['search'] ?? '';
@@ -80,14 +97,14 @@ class Elearning extends Controller {
 
     // Filter the items that match the search term
     if ($search !== '') {
-        $elearningCourse = array_filter($elearningCourse, function($item) use ($searchFields, $search) {
-            foreach ($searchFields as $field) {
-                if (stripos($item[$field], $search) !== false) {
-                    return true;
-                }
-            }
-            return false;
-        });
+      $elearningCourse = array_filter($elearningCourse, function ($item) use ($searchFields, $search) {
+        foreach ($searchFields as $field) {
+          if (stripos($item[$field], $search) !== false) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
 
     // Define the number of items per page
@@ -106,7 +123,7 @@ class Elearning extends Controller {
 
     // Slice the array based on the current page
     $paginateCourse = array_slice($elearningCourse, $startIndex, $sliceLength);
-    
+
     // Floating Button
     echo '<button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
       <img src="assets/ic-arrow-up.png" alt="" width="24" />
@@ -117,13 +134,13 @@ class Elearning extends Controller {
     foreach ($paginateCourse as $course) {
       // Get the total lesson count for the course
       $lessonCount = $model['elearningCourse']->countLesson($course['elearningCourseId']);
-      
+
       // Get the total test count for the course
       $testCount = $model['elearningCourse']->countTest($course['elearningCourseId']);
-      
+
       // Set the thumbnail to the course thumbnail or default to noImage.jpeg
       isset($course['thumbnail']) != '' ? $thumbnail = $course['thumbnail'] : $thumbnail = BASEURL . 'assets/noImage.jpeg';
-      
+
       // Set the module ID to the course module ID or leave blank
       isset($course['elearningModuleId']) != '' ? $moduleId = $course['elearningModuleId'] : $moduleId = '';
 
@@ -131,7 +148,7 @@ class Elearning extends Controller {
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
                 <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '"><img src="' . $thumbnail .
-                    '" class="card-img-top py-2 px-2" alt="..." /></a>
+        '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
                   <h5 class="card-title-learning">
                     <a
@@ -159,20 +176,71 @@ class Elearning extends Controller {
                 </div>
               </div>
             </div>';
-    } 
+    }
 
     // Display the pagination links
-    echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page-1 . ')">&laquo;</a>';
-    for ($i=1 ; $i<=$totalPages ; $i++) {
+    echo '<div class="pagination-page d-flex justify-content-center"><a onclick="paginateCourse(' . $page - 1 . ')">&laquo;</a>';
+    for ($i = 1; $i <= $totalPages; $i++) {
       // Highlight the active page
       $i == $page ? $active = 'active' : $active = "";
       echo '<a class="' . $active . '" onclick="paginateCourse(' . $i . ')">' . $i . '</a>';
-    } 
-    echo '<a onclick="paginateCourse(' . $page+1 . ')">&raquo;</a></div>';
+    }
+    echo '<a onclick="paginateCourse(' . $page + 1 . ')">&raquo;</a></div>';
   }
 
-  public function elearningModule() {
-    // Load e-learning model
+  function filterCourse($courses)
+  {
+    // Get the user's company, organization, and location IDs
+    $companyId = $this->model('user/Company_model', 'Company_model')->getSpesificCompany(explode('-', $_SESSION['user']['orgname'])[0]);
+    $organizationId = $this->model('user/Organization_model', 'Organization_model')->getSpesificOrganization(trim(explode('-', $_SESSION['user']['orgname'])[1]));
+    $locationId = $this->model('user/Location_model', 'Location_model')->getSpesificLocation(trim(explode('-', $_SESSION['user']['LocationName'])[1]));
+
+    // Define a filter function to use with array_filter
+    $filterFunction = function ($course) use ($companyId, $organizationId, $locationId) {
+      // Check if the course has a company ID
+      if ($course['companyId'] !== null) {
+        // Check if any of the IDs match
+        $companyIdMatches = $companyId === $course['companyId'];
+        $organizationIdMatches = $organizationId === $course['organizationId'];
+        $locationIdMatches = $locationId === $course['locationId'];
+
+        // Check if the course has both an organization ID and a location ID
+        if ($course['organizationId'] !== null && $course['locationId'] !== null) {
+          // Return true if all IDs match, or if the course has public access
+          return $course['access_type'] === 0 || ($companyIdMatches && $organizationIdMatches && $locationIdMatches);
+        }
+
+        // Check if the course has an organization ID
+        if ($course['organizationId'] !== null) {
+          // Return true if the company ID and organization ID match, or if the course has public access
+          return $course['access_type'] === 0 || ($companyIdMatches && $organizationIdMatches);
+        }
+
+        // Check if the course has a location ID
+        if ($course['locationId'] !== null) {
+          // Return true if the company ID and location ID match, or if the course has public access
+          return $course['access_type'] === 0 || ($companyIdMatches && $locationIdMatches);
+        }
+
+        // Return true if only the company ID matches, or if the course has public access
+        return $course['access_type'] === 0 || $companyIdMatches;
+      }
+
+      // Return true if the course has public access
+      return $course['access_type'] === 0;
+    };
+
+    // Filter the courses array using the filter function
+    $filteredCourse = array_filter($courses, $filterFunction);
+
+    return $filteredCourse;
+
+  }
+
+  // This function loads all e-learning course modules and outputs corresponding lesson and test
+  public function elearningModule()
+  {
+    // Load e-learning model and get user's NIk
     $model = $this->loadElearningModel();
     $userNik = $_SESSION['user']['empnik'];
 
@@ -181,40 +249,49 @@ class Elearning extends Controller {
     $moduleId = $this->decrypt($_GET['moduleId'] ?? null);
 
     // Get e-learning module and course detail based on the decrypted IDs
-    if ($moduleId != '') {
-    $data['elearningModule'] = $model['elearningModule']->getSpesificModule($moduleId);
-    } else {
-    $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
-    }
     $data['elearningCourse'] = $model['elearningCourse']->getCourseDetail($courseId);
+    $data['elearningModule'] = ($moduleId != '') ? $model['elearningModule']->getSpesificModule($moduleId) : $model['elearningModule']->getModuleBy($courseId);
 
-    // Initialize arrays to store e-learning lesson, test, and user's test record
     $data['elearningLesson'] = [];
     $data['elearningTest'] = [];
     $data['testRecord'] = [];
 
-    // Loop through each module and get its lessons, tests, and user's test record
+    // Loop through each module to get its lessons, tests, and user's test record
     foreach ($data['elearningModule'] as $module) {
-    $moduleId = $module['elearningModuleId'];
+        // Get lessons and tests for the module and store them in arrays
+        $data['elearningLesson'][] = $model['elearningLesson']->getLessonBy($module['elearningModuleId']);
+        $data['elearningTest'][] = $model['elearningTest']->getTestBy($module['elearningModuleId']);
 
-    // Get lessons and tests for the module and store them in arrays
-    $lessons = $model['elearningLesson']->getLessonBy($moduleId);
-    array_push($data['elearningLesson'], $lessons);
-    $test = $model['elearningTest']->getTestBy($moduleId);
-    array_push($data['elearningTest'], $test);
-
-    // Get user's test record for the module and store it in an array
-    $testRecord = $model['userTestRecord']->getTestRecord($userNik, $moduleId);
-    $data['testRecord'][] = $testRecord;
+        // Get user's test record for the module and store it in an array
+        $data['testRecord'][] = $model['userTestRecord']->getTestRecord($userNik, $module['elearningModuleId']);
     }
 
+    $data['maxedAttempt'] = function($testId){
+      $model = $this->loadElearningModel();
 
+      // get user information
+      $userNik = $_SESSION['user']['empnik'];
+
+      $userTestRecord = $model['userTestRecord']->getUserTestRecord($testId, $userNik);
+
+      // if user test record already exists, check if user has exceeded max attempt
+      $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecord['userTestRecordId']);
+      if ($userTestRecord['attempt'] + 1 > $maxAttempt['maxAttempt']) {
+        return true;
+      }
+
+      return false;
+    };
+
+    // Load the necessary views
     $this->view('layouts/navbar');
     $this->view('elearning/elearningModule', $data);
     $this->view('layouts/page_footer');
+
   }
 
-  public function elearningLesson() {
+  public function elearningLesson()
+  {
     $model = $this->loadElearningModel();
 
     $lessonId = $this->decrypt($_GET['elearningLessonId']);
@@ -226,12 +303,11 @@ class Elearning extends Controller {
     $this->view('layouts/page_footer');
   }
 
-  public function updateUserLessonAttempt($lessonId) {
+  public function updateUserLessonAttempt($lessonId)
+  {
     $model = $this->loadElearningModel();
     $userNik = $_SESSION['user']['empnik'];
 
-
-    
     $userRecord = $model['userLessonRecord']->getUserLessonRecord($lessonId, $userNik);
 
     if (!$userRecord) {
@@ -240,43 +316,52 @@ class Elearning extends Controller {
       $attempt = $userRecord['attempt'] + 1;
       $model['userLessonRecord']->updateUserAttempt($lessonId, $userNik, $attempt);
     }
-
   }
 
-  public function elearningTest() {
+
+  // This function loads the question for the test
+  public function elearningTest()
+  {
+    // load e-learning model
     $model = $this->loadElearningModel();
 
+    // get user information
     $userNik = $_SESSION['user']['empnik'];
-    
+
+    // decrypt the e-learning test id from the URL
     $elearningTestId = $this->decrypt($_GET['elearningTestId']);
 
+    // get the e-learning test information
     $test = $model['elearningTest']->getSingleTest($elearningTestId);
 
+    // get user test record
     $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
+
+    // if user test record doesn't exist, create new user record and set max attempt
     if (!$userTestRecord) {
       $model['userTestRecord']->createUserRecord($elearningTestId, $userNik);
       $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
       $model['userTestMaxAttempt']->createTestMaxAttempt($userTestRecord['userTestRecordId']);
-    } else {
-      $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecord['userTestRecordId']);
-      if ($userTestRecord['attempt'] + 1 > $maxAttempt['maxAttempt']) {
-        header("Location: " . BASEURL . "elearning");
-        exit;
-      }
     }
 
+    // get questions for the e-learning test
     $questions = $model['question']->getQuestionBy($elearningTestId);
+
+    // if question number is specified in the test and there are more questions than the specified number, randomize questions
     if ($test['questionNumber'] != 0 && count($questions) > $test['questionNumber']) {
-      $questions = array_rand($questions,$test['questionNumber']);
+      $questions = array_rand($questions, $test['questionNumber']);
     }
+
+    // shuffle questions and get choices for each question
     shuffle($questions);
     $choices = [];
     foreach ($questions as $question) {
       $choice = $model['choice']->getChoiceBy($question['questionId']);
-      shuffle($choice); 
+      shuffle($choice);
       array_push($choices, $choice);
     }
 
+    // prepare data to be passed to the view
     $data = [
       'elearningTest' => $test,
       'question' => $questions,
@@ -284,28 +369,31 @@ class Elearning extends Controller {
       'numberOfQuestion' => count($questions),
     ];
 
+    // load the e-learning test view with the prepared data
     $this->view('elearning/elearningTest', $data);
+
   }
 
-  public function elearningTestSubmit() {
+  public function elearningTestSubmit()
+  {
     $model = $this->loadElearningModel();
 
     $userNik = $_SESSION['user']['empnik'];
-    
+
     $elearningTestId = $_GET['elearningTestId'];
 
     $elearningTest = $model['elearningTest']->getSingleTest($elearningTestId);
-    
+
     $questions = $model['question']->getQuestionBy($elearningTestId);
     $selectedChoices = $_POST['selectedChoice'] ?? [];
-    
+
     $results = [];
     $score = 0;
     // print_r(isset($selectedChoices[24]));
     foreach ($questions as $question) {
       $answer = $model['answer']->getQuestionAnswer($question['questionId']);
       $selectedChoice = $selectedChoices[$question['questionId']] ?? "";
-      
+
       if (isset($selectedChoices[$question['questionId']])) {
         if ($selectedChoice == $answer['answerId']) {
           $results[] = 'Correct';
@@ -315,16 +403,16 @@ class Elearning extends Controller {
         }
       } else {
         $results[] = 'Blank';
-      } 
+      }
     }
-    
+
     $status = $score >= $elearningTest['passingScore'] ? "Lulus" : 'Gagal';
     $userTestRecord = $model['userTestRecord']->getUserTestRecord($elearningTestId, $userNik);
     $attempt = $userTestRecord['attempt'] + 1;
-    
+
     $model['userTestRecordDetail']->createTestRecordDetail($userTestRecord['userTestRecordId'], $attempt, $status, $score);
     $model['userTestRecord']->updateUserAttempt($elearningTestId, $userNik, $attempt);
-    
+
     $data = [
       'elearningTest' => $elearningTest,
       'questions' => $questions,
@@ -332,8 +420,7 @@ class Elearning extends Controller {
       'score' => $score,
       'lulus' => $status === 'Lulus'
     ];
-    
+
     $this->view('elearning/elearningTestResult', $data);
   }
-
 }

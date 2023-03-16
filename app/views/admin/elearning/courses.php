@@ -175,7 +175,7 @@
 												multiple="multiple">
 												<?php 
 													foreach($data['user'] as $user) {
-														echo '<option value="' . $user['userId'] . '">' . $user['nama'] . '</option>';
+														echo '<option value="' . $user['userNik'] . '">' . $user['nama'] . '</option>';
 													}
 												?>
 											</select>

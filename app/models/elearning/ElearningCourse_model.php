@@ -21,54 +21,42 @@ class ElearningCourse_model {
     return $this->db->single();
   }
   
-  public function getAllCourse($orgId, $nik, $companyId, $jobId) {
-    $this->db->query('SELECT *
-                      FROM ' . $this->table . '
-                      WHERE access_type = 0 and elearningCourseId != 19
-                      UNION
-                      SELECT ' . $this->table . '.*
-                      FROM ' . $this->table . ' 
-                      JOIN companyCourseAkses ON ' . $this->table . '.elearningCourseId = companyCourseAkses.elearningCourseId
-                      WHERE companyCourseAkses.companyId = :companyId
-                      AND ' . $this->table . '.access_type = 2
-                      UNION
-                      SELECT ' . $this->table . '.*
-                      FROM ' . $this->table . ' 
-                      JOIN organizationCourseAkses ON ' . $this->table . '.elearningCourseId = organizationCourseAkses.elearningCourseId
-                      WHERE organizationCourseAkses.organizationId = :orgId
-                      AND ' . $this->table . '.access_type = 2
-                      UNION
-                      SELECT ' . $this->table . '.*
-                      FROM ' . $this->table . ' 
-                      JOIN jobCourseAkses ON ' . $this->table . '.elearningCourseId = jobCourseAkses.elearningCourseId
-                      WHERE jobCourseAkses.jobId = :jobId
-                      AND ' . $this->table . '.access_type = 2
-                      UNION
-                      SELECT ' . $this->table . '.*
-                      FROM ' . $this->table . ' 
-                      JOIN userCourseAkses ON ' . $this->table . '.elearningCourseId = userCourseAkses.elearningCourseId
-                      WHERE userCourseAkses.userNik = :nik
-                      AND ' . $this->table . '.access_type = 2');
+  public function getAllCourse() {
+    $query = 'SELECT ' . $this->table . '.*, companyCourseAkses.companyId, organizationCourseAkses.organizationId, locationCourseAkses.locationId
+              FROM ' . $this->table . '
+              LEFT JOIN companyCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = companyCourseAkses.' . $this->table . 'Id
+              LEFT JOIN organizationCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = organizationCourseAkses.' . $this->table . 'Id
+              LEFT JOIN locationCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = locationCourseAkses.' . $this->table . 'Id
+              LEFT JOIN jobCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = jobCourseAkses.' . $this->table . 'Id
+              WHERE ' . $this->table . '.access_type = 0
+              AND ' . $this->table . '.' . $this->table . 'Id != 19 
+              AND ' . $this->table . '.state=1
+              OR ' . $this->table . '.access_type = 2 
+              AND ' . $this->table . '.' . $this->table . 'Id != 19 
+              AND ' . $this->table . '.state=1';
 
-    $this->db->bind('orgId', $orgId);
-    $this->db->bind('nik', $nik);
-    $this->db->bind('companyId', $companyId);
-    $this->db->bind('jobId', $jobId);
+    $this->db->query($query);
     return $this->db->resultSet();
   }
 
-  public function getCourseBy($kategoriId, $orgId, $nik) {
-    $this->db->query("SELECT elearningCourse.elearningCourseId, elearningCourse.elearningKategoriId, elearningCourse.judul, elearningCourse.thumbnail, elearningCourse.uploadDate
-                      FROM " . $this->table . "
-                      JOIN elearningKategori ON " . $this->table . ".elearningKategoriId = elearningKategori.elearningKategoriId
-                      LEFT JOIN organizationCourseAkses ON " . $this->table . ".elearningCourseId = organizationCourseAkses.elearningCourseId
-                      LEFT JOIN userCourseAkses ON " . $this->table . ".elearningCourseId = userCourseAkses.elearningCourseId
-                      WHERE " . $this->table . ".elearningKategoriId = :kategoriId
-                      AND (" . $this->table . ".Access_Type = 0 OR (" . $this->table . ".Access_Type = 2 AND organizationCourseAkses.organizationId = :orgId) OR (" . $this->table . ".Access_Type = 2 AND userCourseAkses.userNik=:nik) )");
+  public function getCourseBy($kategoriId) {
+    $this->db->query('SELECT ' . $this->table . '.*, companyCourseAkses.companyId, organizationCourseAkses.organizationId, locationCourseAkses.locationId
+                      FROM ' . $this->table . '
+                      RIGHT JOIN elearningKategori on elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
+                      LEFT JOIN companyCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = companyCourseAkses.' . $this->table . 'Id
+                      LEFT JOIN organizationCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = organizationCourseAkses.' . $this->table . 'Id
+                      LEFT JOIN locationCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = locationCourseAkses.' . $this->table . 'Id
+                      LEFT JOIN jobCourseAkses ON ' . $this->table . '.' . $this->table . 'Id = jobCourseAkses.' . $this->table . 'Id
+                      WHERE ' . $this->table . '.access_type = 0
+                      AND ' . $this->table . '.' . $this->table . 'Id != 19 
+                      AND ' . $this->table . '.state=1
+                      AND elearningKategori.elearningKategoriId=:kategoriId
+                      OR ' . $this->table . '.access_type = 2 
+                      AND ' . $this->table . '.' . $this->table . 'Id != 19 
+                      AND ' . $this->table . '.state=1
+                      AND elearningKategori.elearningKategoriId=:kategoriId;');
 
     $this->db->bind('kategoriId', $kategoriId);
-    $this->db->bind('orgId', $orgId);
-    $this->db->bind('nik', $nik);
     return $this->db->resultSet();
   }
 
@@ -123,7 +111,8 @@ class ElearningCourse_model {
                           ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
                       WHERE access_type=:accessType
                       GROUP BY 
-                        ' . $this->table . '.elearningCourseId');
+                        ' . $this->table . '.elearningCourseId
+                      ORDER BY elearningCourse.uploadDate DESC');
                         
     $this->db->bind('accessType', $accessType);
     return $this->db->resultSet();

@@ -15,7 +15,7 @@ class ElearningModule_model {
   }
 
   public function createModule($id, $courseId, $judul) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(:id, :courseId, :judul, default)');
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(:id, :courseId, :judul, default, default)');
 
     $this->db->bind('id', $id);
     $this->db->bind('courseId', $courseId);

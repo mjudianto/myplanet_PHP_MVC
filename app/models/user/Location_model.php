@@ -15,4 +15,16 @@ class Location_model {
     return $this->db->resultSet();
   }
 
+  public function getSpesificLocation($locationName) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE locationName=:locationName');
+    $this->db->bind('locationName', $locationName);
+
+    if (is_bool($this->db->single())) {
+      return null;
+    }
+    return $this->db->single()['locationId'];
+  }
+
+  
+
 }

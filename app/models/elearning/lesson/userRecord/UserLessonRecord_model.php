@@ -48,7 +48,7 @@ class UserLessonRecord_model {
     return $this->db->resultSet();
   }
 
-  public function userLessonRecord($userNik, $orgId, $companyId) {
+  public function userLessonRecord($userNik, $orgId, $companyId, $locId) {
     $query = 'SELECT DISTINCT
                 elearningKategori.nama AS "nama kategori", 
                 elearningCourse.judul AS "judul course", 
@@ -83,6 +83,12 @@ class UserLessonRecord_model {
                   OR
                   elearningCourse.elearningCourseId IN 
                     (SELECT elearningCourseId
+                    FROM locationCourseAkses
+                    WHERE locationId = :locId
+                    )
+                  OR
+                  elearningCourse.elearningCourseId IN 
+                    (SELECT elearningCourseId
                     FROM userCourseAkses
                     WHERE userNik = :userNik
                     )
@@ -97,7 +103,7 @@ class UserLessonRecord_model {
     $this->db->bind('userNik', $userNik);
     $this->db->bind('orgId', $orgId);
     $this->db->bind('companyId', $companyId);
-    // $this->db->bind('locId', $locId);
+    $this->db->bind('locId', $locId);
 
     return $this->db->resultSet();
   }

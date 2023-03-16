@@ -32,8 +32,8 @@ class ElearningCourse_model {
     $this->db->execute();
   }
 
-  public function createSopAkses($nik, $folderId) {
-    $this->db->query('SELECT * from user where nik=' . $nik);
+  public function createSopAkses($userNik, $folderId) {
+    $this->db->query('SELECT * from user where userNik=' . $userNik);
     $user = $this->db->single();
     // return $user;
 
@@ -50,10 +50,10 @@ class ElearningCourse_model {
         // return $module;
 
         if (!is_bool($module)) {
-          $userId = $user['userId'];
+          $userNik = $user['userNik'];
           $moduleId = $module['elearningModuleId'];
-          $this->db->query('INSERT INTO userModuleAkses VALUES(null, :userId, :moduleId)');
-          $this->db->bind('userId', $userId);
+          $this->db->query('INSERT INTO userModuleAkses VALUES(null, :userNik, :moduleId)');
+          $this->db->bind('userNik', $userNik);
           $this->db->bind('moduleId', $moduleId);
           $this->db->execute();
         }
@@ -66,6 +66,8 @@ class ElearningCourse_model {
   }
 
 }
+
+$start_time = microtime(true);
 
 $file = 'sopikAkses.csv';
 
@@ -100,7 +102,12 @@ while ($row = fgetcsv($fp)) {
   $course->createSopAkses($row[2], $row[5]);
   // print_r($sop);
 }
-echo ' /n success';
+
+echo 'success !! ';
+$end_time = microtime(true);
+
+$execution_time = $end_time - $start_time;
+echo "Program executed in " . number_format($execution_time, 2) . " seconds.";
 
 fclose($fp);
 

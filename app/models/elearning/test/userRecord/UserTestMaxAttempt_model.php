@@ -22,10 +22,9 @@ class UserTestMaxAttempt_model {
     return $this->db->single();
   }
 
-  public function updateMaxAttempt($column, $column2, $value, $value2, $attempt) {
-    $this->db->query('UPDATE ' . $this->table . ' SET attempt=:attempt WHERE ' . $column . '=:value AND ' . $column2 . '=:value2');
-    $this->db->bind('value', $value);
-    $this->db->bind('value2', $value2);
+  public function updateMaxAttempt($userTestRecordId, $attempt) {
+    $this->db->query('UPDATE ' . $this->table . ' SET maxAttempt=:attempt WHERE userTestRecordId=:userTestRecordId');
+    $this->db->bind('userTestRecordId', $userTestRecordId);
     $this->db->bind('attempt', $attempt);
     $this->db->execute();
   }

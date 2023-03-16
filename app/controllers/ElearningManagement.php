@@ -1,10 +1,12 @@
-<?php 
+<?php
 
 use Shuchkin\SimpleXLSX;
 
-class ElearningManagement extends Controller {
+class ElearningManagement extends Controller
+{
 
-  public function courseCategory() {
+  public function courseCategory()
+  {
     $model = $this->loadElearningModel();
 
     $data['kategori'] = $model['elearningKategori']->getKategoriDetail();
@@ -14,7 +16,8 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function addKategori() {
+  public function addKategori()
+  {
     $model = $this->loadElearningModel();
 
     if ($_POST['courseKategori'] != '') {
@@ -23,10 +26,10 @@ class ElearningManagement extends Controller {
 
     header("Location:" . BASEURL . 'elearningmanagement/courseCategory');
     exit;
-
   }
 
-  public function updateKategori() {
+  public function updateKategori()
+  {
     $model = $this->loadElearningModel();
 
     if ($_POST['kategori'] != '') {
@@ -36,10 +39,10 @@ class ElearningManagement extends Controller {
     // var_dump($_POST['kategori']);
     header("Location:" . BASEURL . 'elearningmanagement/courseCategory');
     exit;
-
   }
 
-  public function courses() {
+  public function courses()
+  {
     $model = $this->loadElearningModel();
 
     $userModel = $this->model('user/User_model', 'User_model');
@@ -54,9 +57,9 @@ class ElearningManagement extends Controller {
       $courseAccess = $model['elearningCourse']->getCourseUserPrivateAkses($courseId);
 
       $organizationUser = array_sum(array_map(function ($org) use ($userModel) {
-          return (int)$userModel->countUserInOrganization($org['organizationId']);
+        return (int)$userModel->countUserInOrganization($org['organizationId']);
       }, $organizationCount));
-  
+
       return $organizationUser + (int)$courseAccess;
     }, $courses2);
 
@@ -80,20 +83,33 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function modules() {
+  public function modules()
+  {
     $model = $this->loadElearningModel();
     $courseId = $_GET['courseId'];
+
+    $data['company'] = $this->model('user/Company_model', 'Company_model')->getAllCompany();
+    // $data['companyPermission'] = $model['userCourseAkses']->selectCompanyPermission($courseId);
+
+
+
+    // $data['location'] = $this->model('user/Location_model', 'Location_model')->getAllLocation();
+    // $data['locationPermission'] = $model['userCourseAkses']->selectLocationPermission($courseId);
+
+    // $data['job'] = $this->model('user/Job_model', 'Job_model')->getAllJob();
 
     $data['elearningModule'] = $model['elearningModule']->getModuleBy($courseId);
     $data['elearningCourse'] = $model['elearningCourse']->getCourseDetail($courseId);
 
+    $data['elearningKategori'] = $model['elearningKategori']->getAllKategori();
+
     $moduleIds = array_column($data['elearningModule'], 'elearningModuleId');
 
-    $data['elearningLesson'] = array_map(function($moduleId) use ($model) {
+    $data['elearningLesson'] = array_map(function ($moduleId) use ($model) {
       return $model['elearningLesson']->getLessonBy($moduleId);
     }, $moduleIds);
 
-    $data['elearningTest'] = array_map(function($moduleId) use ($model) {
+    $data['elearningTest'] = array_map(function ($moduleId) use ($model) {
       return $model['elearningTest']->getTestBy($moduleId);
     }, $moduleIds);
 
@@ -102,30 +118,34 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function addModule() {
+  public function addModule()
+  {
     $model = $this->loadElearningModel();
-    
+
     $model['elearningModule']->createNewModule($_POST['courseId'], $_POST['judul']);
 
     header("Location: " . BASEURL . "elearningmanagement/modules?courseId=" . $_POST['courseId']);
     exit;
   }
 
-  public function updateModule() {
+  public function updateModule()
+  {
     $model = $this->loadElearningModel();
 
     $model['elearningModule']->updateModule($_POST['moduleName'], $_POST['moduleId']);
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
   }
 
-  public function deleteModule() {
+  public function deleteModule()
+  {
     $model = $this->loadElearningModel();
 
     $model['elearningModule']->deleteModule($_GET['moduleId']);
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
   }
 
-  public function filterDate() {
+  public function filterDate()
+  {
     $model = $this->loadElearningModel();
 
     $start_date = $_REQUEST['startDate'];
@@ -135,12 +155,12 @@ class ElearningManagement extends Controller {
     $data = $model['userTestRecord']->getAllUserRecord($courseId);
 
 
-    $filtered_data = array_filter($data, function($item) use ($start_date, $end_date) {
+    $filtered_data = array_filter($data, function ($item) use ($start_date, $end_date) {
       if ($item['nik'] != '') {
         $item_date = strtotime($item['time']);
         $start = strtotime($start_date);
         $end = strtotime($end_date);
-        
+
         if ($_REQUEST['startDate'] != '') {
           if ($_REQUEST['endDate'] != '') {
             return ($item_date >= $start) && ($item_date <= $end);
@@ -154,12 +174,11 @@ class ElearningManagement extends Controller {
         }
       }
       return;
-      
     });
 
-    $i=1;
+    $i = 1;
 
-    foreach($filtered_data as $record) {
+    foreach ($filtered_data as $record) {
       if ($record['nik'] != '') {
         echo '<tr>
                 <td>' . $i . '</td>
@@ -171,7 +190,7 @@ class ElearningManagement extends Controller {
                 <td>';
 
         if ($record['status'] == 'Lulus') {
-            echo '<div
+          echo '<div
                     class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
                     Lulus
                   </div>';
@@ -181,18 +200,19 @@ class ElearningManagement extends Controller {
                     Tidak Lulus
                   </div>';
         }
-                  
+
         echo   '</td>
                 <td>' . $record['time'] . '</td>
                 <td>' . $record['locationName'] . '</td>
                 <td>' . $record['organizationName'] . '</td>
               </tr>';
-        $i+=1;
+        $i += 1;
       }
     }
   }
 
-  public function addLesson() {
+  public function addLesson()
+  {
     // var_dump($_FILES['konten-' . $_GET['moduleId']]["error"] != UPLOAD_ERR_NO_FILE);
     if ($_FILES['konten-' . $_GET['moduleId']]["error"] != UPLOAD_ERR_NO_FILE && $_POST['lessonName-' . $_GET['moduleId']] != '') {
       $model = $this->loadElearningModel();
@@ -201,7 +221,7 @@ class ElearningManagement extends Controller {
 
       $fileType = pathinfo($konten['name'], PATHINFO_EXTENSION);
       if (!in_array($fileType, ['mp4', 'webm', 'ogg'])) {
-        if($konten['type'] != 'application/pdf'){
+        if ($konten['type'] != 'application/pdf') {
           // Return error message
           echo "Error: Invalid file format";
           exit;
@@ -218,11 +238,11 @@ class ElearningManagement extends Controller {
           echo "Error: Video file size too large.";
           exit;
         }
-      
+
         // Generate a unique filename for the video
         $fileName =  str_replace("." . pathinfo($konten['name'], PATHINFO_EXTENSION), "", $konten['name']) . '-' . uniqid() . '.mp4';
         $destination = BASEURL . 'elearningAssets/videos/' .  $fileName;
-      
+
         // Move the uploaded file to the uploads folder
         move_uploaded_file($konten['tmp_name'], $destination);
 
@@ -232,15 +252,15 @@ class ElearningManagement extends Controller {
       } else {
         // Generate a unique file name
         $fileName = str_replace("." . pathinfo($konten['name'], PATHINFO_EXTENSION), "", $konten['name']) . '-' . md5(uniqid()) . '.pdf';
-      
+
         // Set upload directory
         $uploadDir = 'elearningAssets/pdf/';
-      
+
         // Check if upload directory exists, if not create it
         if (!file_exists($uploadDir)) {
           mkdir($uploadDir, 0777, true);
         }
-        
+
         $destination = BASEURL . $uploadDir . $fileName;
 
         // Save PDF file to upload directory
@@ -252,11 +272,10 @@ class ElearningManagement extends Controller {
     } else {
       echo "please fill the lesson name and content";
     }
-
-
   }
 
-  public function courseTestRecord() {
+  public function courseTestRecord()
+  {
     $model = $this->loadElearningModel();
 
     $data['course'] = $model['elearningCourse']->getCourseDetail($_GET['courseId']);
@@ -267,13 +286,15 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function addPostTest() {
+  public function addPostTest()
+  {
     $this->view('admin/layouts/sidebar');
     $this->view('admin/elearning/addPostTest');
     $this->view('admin/layouts/footer');
   }
 
-  public function importTest() {
+  public function importTest()
+  {
     $model = $this->loadElearningModel();
 
     $uploaded = false;
@@ -282,12 +303,12 @@ class ElearningManagement extends Controller {
     $timeLimit = (int)$_POST['timeLimit'] * 60 * 1000;
     $endDate = new DateTime($_POST['endDate']);
     $endDate = $endDate->format('Y-m-d');
-    
-    if($_FILES['xlsx_file']["error"] != UPLOAD_ERR_NO_FILE ) { // Check if file has been uploaded
+
+    if ($_FILES['xlsx_file']["error"] != UPLOAD_ERR_NO_FILE) { // Check if file has been uploaded
       $target_dir = "elearningAssets/test/"; // Directory where you want to save the file
       $file_name = uniqid() . '.' . pathinfo($_FILES['xlsx_file']['name'], PATHINFO_EXTENSION); // Generate unique ID and concatenate with file extension
       $target_file = $target_dir . $file_name; // Get the name of the file
-    
+
       // Check if file already exists
       if (file_exists($target_file)) {
         echo "Sorry, file already exists.";
@@ -300,13 +321,13 @@ class ElearningManagement extends Controller {
         }
       }
     }
-    
+
     if ($_GET['testId'] != '') {
       $model['elearningTest']->updateTest($testName, $passingScore, $timeLimit, $endDate, $_GET['testId']);
     }
 
     if ($uploaded) {
-      if ( $xlsx = SimpleXLSX::parse('elearningAssets/test/' . $file_name )) {
+      if ($xlsx = SimpleXLSX::parse('elearningAssets/test/' . $file_name)) {
         if ($_GET['moduleId'] != '') {
           $model['elearningTest']->createTest($_GET['moduleId'], $testName, $passingScore, $timeLimit, $endDate);
           $test =  $model['elearningTest']->getTestByJudul($_GET['moduleId'], $testName);
@@ -314,20 +335,20 @@ class ElearningManagement extends Controller {
           $test =  $model['elearningTest']->getSingleTest($_GET['testId']);
           $model['question']->resetQuestion($test['elearningTestId']);
         }
-       
 
-        foreach( $xlsx->rows() as $row ) {
+
+        foreach ($xlsx->rows() as $row) {
           // Skip the first row
           if ($row === $xlsx->rows()[0]) {
             continue;
           }
-          
+
           $model['question']->createQuestion($test['elearningTestId'], $row[0], $row[6]);
           $question = $model['question']->getSingelQuestion($test['elearningTestId'], $row[0]);
           $model['answer']->createAnswer($question['questionId'], $row[5]);
           $answer = $model['answer']->getQuestionAnswer($question['questionId']);
 
-          for ($i=1 ; $i<=4 ; $i++){
+          for ($i = 1; $i <= 4; $i++) {
             if ($row[$i] != '') {
               if ($row[$i] == $row[5]) {
                 $model['choice']->createChoice($question['questionId'], $row[$i], $answer['answerId']);
@@ -340,13 +361,13 @@ class ElearningManagement extends Controller {
 
         header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
       } else {
-          echo SimpleXLSX::parseError();
+        echo SimpleXLSX::parseError();
       }
     }
-
   }
 
-  public function newTest() {
+  public function newTest()
+  {
     $numberOfQuestion = $_POST['questionCounter'];
     $model = $this->loadElearningModel();
 
@@ -355,7 +376,7 @@ class ElearningManagement extends Controller {
     $timeLimit = 3600000;
     $endDate = "2023-02-22 00:00:00";
 
-    for ($i=1 ; $i<=$numberOfQuestion ; $i++){
+    for ($i = 1; $i <= $numberOfQuestion; $i++) {
       $question = $_POST['question-' . $i];
 
       $answerId = $_POST['answer-' . $i];
@@ -372,7 +393,7 @@ class ElearningManagement extends Controller {
       $model['answer']->createAnswer($question['questionId'], $answer);
       $answer = $model['answer']->getQuestionAnswer($question['questionId']);
 
-      for ($j=1 ; $j<=4 ; $j++){
+      for ($j = 1; $j <= 4; $j++) {
         if ($j == $answerId) {
           $model['choice']->createChoice($question['questionId'], $_POST['choice' . $i . '-' . $j], $answer['answerId']);
         } else {
@@ -382,10 +403,10 @@ class ElearningManagement extends Controller {
     }
 
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_POST['courseId']);
-
   }
 
-  public function editPostTest() {
+  public function editPostTest()
+  {
     $model = $this->loadElearningModel();
 
     $data['elearningTest'] = $model['elearningTest']->getSingleTest($_GET['testId']);
@@ -395,17 +416,116 @@ class ElearningManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function deletePostTest() {
+  public function deletePostTest()
+  {
     $model = $this->loadElearningModel();
     $model['elearningTest']->deleteTest($_GET['testId']);
 
     header("Location:" . BASEURL . 'elearningmanagement/modules?courseId=' . $_GET['courseId']);
+  }
+
+  public function editCourse()
+  {
+    $elearningModel = $this->loadElearningModel();
+    $userModel = $elearningModel['userCourseAkses'];
+
+    $courseId = $_GET['courseId'];
+    $courseName = $_POST['editCourseName'];
+    $courseKategoriId = $_POST['editCourseKategori'];
+    $courseAccessType = $_POST['editCourseAccessType'];
+    $courseThumbnail = ($_FILES['editCourseThumbnail']['error'] === UPLOAD_ERR_OK) ? $_FILES['editCourseThumbnail'] : $_POST['defaultCourseThumbnail'];
+    // var_dump($courseThumbnail);
+
+    $selectedCompany = $_POST['selectedCompany'] ?? [];
+    foreach ($selectedCompany as $company) {
+      $userModel->createCompanyPermission($courseId, $company);
+    }
+
+    $selectedUser = $_POST['selectedUser'] ?? [];
+    foreach ($selectedUser as $user) {
+      $userModel->createUserPermission($courseId, $user);
+    }
+
+    $selectedOrganization = $_POST['selectedOrganization'] ?? [];
+    foreach ($selectedOrganization as $organization) {
+      $userModel->createOrganizationPermission($courseId, (int)$organization);
+    }
+
+    // var_dump($selectedOrganization);
+
+    $selectedLocation = $_POST['selectedLocation'] ?? [];
+    foreach ($selectedLocation as $location) {
+      $userModel->createLocationPermission($courseId, $location);
+    }
+
+    $selectedJob = $_POST['selectedJob'] ?? [];
+  }
+
+  public function loadUserOption()
+  {
+    $model = $this->loadElearningModel();
+    $courseId = $_REQUEST['courseId'];
+    $selectedCompanies = json_decode(urldecode($_REQUEST['selectedCompanies']), true);
+
+    $allUsers = $this->model('user/User_model', 'User_model')->getAllUsers();
+    $userPermission = $model['userCourseAkses']->selectUserPermission($courseId);
+    $filteredUser = array_filter($allUsers, function ($user) use ($userPermission, $selectedCompanies) {
+      if (in_array($user['userNik'], array_column($userPermission, 'userNik'))) {
+        return false;
+      }
+
+      return in_array($user['companyId'], $selectedCompanies);
+    });
+
+    foreach($filteredUser as $user) {
+      echo '<option value="' . $user['userNik'] . '">' . $user['nama'] . '</option>';
+    }
 
   }
 
-  public function newCourseAkses() {
-    print_r($_POST['selectedUser']);
+  public function loadOrganizationOption()
+  {
+    $model = $this->loadElearningModel();
+    $courseId = $_REQUEST['courseId'];
+    $selectedCompanies = json_decode(urldecode($_REQUEST['selectedCompanies']), true);
+
+    $allOrganizations = $this->model('user/Organization_model', 'Organization_model')->getAllOrganization();
+    $organizationPermission = $model['userCourseAkses']->selectOrganizationPermission($courseId);
+
+    $filteredOrganization = array_filter($allOrganizations, function ($organization) use ($organizationPermission, $selectedCompanies) {
+      if (in_array($organization['organizationId'], array_column($organizationPermission, 'organizationId'))) {
+        return false;
+      }
+
+      return in_array($organization['companyId'], $selectedCompanies);
+    });
+
+    foreach($filteredOrganization as $org) {
+      echo '<option value="' . $org['organizationId'] . '">' . $org['organizationName'] . '</option>';
+    }
+
   }
   
+  public function loadLocationOption()
+  {
+    $model = $this->loadElearningModel();
+    $courseId = $_REQUEST['courseId'];
+    $selectedCompanies = json_decode(urldecode($_REQUEST['selectedCompanies']), true);
+
+    $alllocations = $this->model('user/Location_model', 'Location_model')->getAlllocation();
+    $locationPermission = $model['userCourseAkses']->selectlocationPermission($courseId);
+
+    $filteredlocation = array_filter($alllocations, function ($location) use ($locationPermission, $selectedCompanies) {
+      if (in_array($location['locationId'], array_column($locationPermission, 'locationId'))) {
+        return false;
+      }
+
+      return in_array($location['companyId'], $selectedCompanies);
+    });
+
+    foreach($filteredlocation as $org) {
+      echo '<option value="' . $org['locationId'] . '">' . $org['locationName'] . '</option>';
+    }
+
+  }
 }
-  

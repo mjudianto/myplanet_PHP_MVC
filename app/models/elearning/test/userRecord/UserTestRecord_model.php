@@ -74,6 +74,7 @@ class UserTestRecord_model {
 
   public function userTestRecordDetail($userNik, $courseId) {
     $query = 'SELECT 
+                userTestRecord.userTestRecordId,
                 elearningTest.judul AS "judul test", 
                 COALESCE(userTestRecord.attempt, 0) AS attempt, 
                 MAX(userTestRecordDetail.finished) AS finished,
@@ -96,6 +97,7 @@ class UserTestRecord_model {
                 ON userTestRecordDetail.userTestRecordId = userTestRecord.userTestRecordId
               GROUP BY 
                 elearningTest.judul, 
+                userTestRecord.userTestRecordId, 
                 userTestRecord.attempt';
 
     $this->db->query($query);

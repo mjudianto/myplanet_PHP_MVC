@@ -55,85 +55,85 @@ class Podtret_model {
     
   }
 
-  public function createPodtretRecord($podtretId, $nik, $lastVisit) {
-    $this->db->query('select * from user where nik=:nik');
-    $this->db->bind('nik', $nik);
+  public function createPodtretRecord($podtretId, $userNik, $lastVisit) {
+    $this->db->query('select * from user where userNik=:userNik');
+    $this->db->bind('userNik', $userNik);
     $data2 = $this->db->single() ?? null;
 
     if ($data2 != null){
-      $this->db->query('SELECT * FROM userPodtretRecord WHERE podtretId=:podtretId AND userId=:userId');
+      $this->db->query('SELECT * FROM userPodtretRecord WHERE podtretId=:podtretId AND userNik=:userNik');
       $this->db->bind('podtretId', $podtretId);
-      $this->db->bind('userId', $data2['userId']);
+      $this->db->bind('userNik', $data2['userNik']);
       $data = $this->db->single() ?? null;
 
       if($data != null){
-        $this->db->query('UPDATE userPodtretRecord SET views=:views, lastVisit=:lastVisit WHERE podtretId=:podtretId AND userId=:userId');
+        $this->db->query('UPDATE userPodtretRecord SET views=:views, lastVisit=:lastVisit WHERE podtretId=:podtretId AND userNik=:userNik');
         $this->db->bind('podtretId', $podtretId);
-        $this->db->bind('userId', $data2['userId']);
+        $this->db->bind('userNik', $data2['userNik']);
         $this->db->bind('views', $data['views']+1);
         $this->db->bind('lastVisit', $lastVisit);
         $this->db->execute();
       } else {
-        $this->db->query('INSERT INTO userPodtretRecord VALUES(null, :podtretId, :userId, 1, :lastVisit)');
+        $this->db->query('INSERT INTO userPodtretRecord VALUES(null, :podtretId, :userNik, 1, :lastVisit)');
         $this->db->bind('podtretId', $podtretId);
-        $this->db->bind('userId', $data2['userId']);
+        $this->db->bind('userNik', $data2['userNik']);
         $this->db->bind('lastVisit', $lastVisit);
         $this->db->execute();
       }
     }
   }
 
-  public function createPodtretLike($podtretId, $nik, $likeState) {
+  public function createPodtretLike($podtretId, $userNik, $likeState) {
     $this->db->query('SELECT * FROM podtret WHERE podtretId=:podtretId');
     $this->db->bind('podtretId', $podtretId);
     $data = $this->db->single() ?? null;
 
-    $this->db->query('select * from user where nik=:nik');
-    $this->db->bind('nik', $nik);
+    $this->db->query('select * from user where userNik=:userNik');
+    $this->db->bind('userNik', $userNik);
     $data2 = $this->db->single() ?? null;
 
     if ($data != null && $data2 != null) {
-      $this->db->query('INSERT INTO podtretLike VALUES(null, :podtretId, (select userId from user where nik=:nik), :likeState)');
+      $this->db->query('INSERT INTO podtretLike VALUES(null, :podtretId, (select userNik from user where userNik=:userNik), :likeState)');
       $this->db->bind('podtretId', $podtretId);
-      $this->db->bind('nik', $nik);
+      $this->db->bind('userNik', $userNik);
       $this->db->bind('likeState', $likeState);
       $this->db->execute();
     }
   }
 
-  public function createPodtretComment($id, $podtretId, $nik, $comment, $uploadDate) {
+  public function createPodtretComment($id, $podtretId, $userNik, $comment, $uploadDate) {
     $this->db->query('SELECT * FROM podtret WHERE podtretId=:podtretId');
     $this->db->bind('podtretId', $podtretId);
     $data = $this->db->single() ?? null;
 
-    $this->db->query('select * from user where nik=:nik');
-    $this->db->bind('nik', $nik);
+    $this->db->query('select * from user where userNik=:userNik');
+    $this->db->bind('userNik', $userNik);
     $data2 = $this->db->single() ?? null;
 
     if ($data != null && $data2 != null) {
-      $this->db->query('INSERT INTO podtretComment VALUES(:id, :podtretId, (select userId from user where nik=:nik), :comment, :uploadDate)');
+      $this->db->query('INSERT INTO podtretComment VALUES(:id, :podtretId, (select userNik from user where userNik=:userNik), :comment, :uploadDate)');
       $this->db->bind('id', $id);
       $this->db->bind('podtretId', $podtretId);
-      $this->db->bind('nik', $nik);
+      $this->db->bind('userNik', $userNik);
       $this->db->bind('comment', $comment);
       $this->db->bind('uploadDate', $uploadDate);
       $this->db->execute();
     }
   }
 
-  public function createCommentReply($commentId, $nik, $comment, $uploadDate) {
+  public function createCommentReply($commentId, $userNik, $comment, $uploadDate) {
     $this->db->query('SELECT * FROM podtretComment WHERE podtretCommentId=:commentId');
     $this->db->bind('commentId', $commentId);
     $data = $this->db->single() ?? null;
 
-    $this->db->query('select * from user where nik=:nik');
-    $this->db->bind('nik', $nik);
+    $this->db->query('select * from user where userNik=:userNik');
+    $this->db->bind('userNik', $userNik);
     $data2 = $this->db->single() ?? null;
 
     if ($data != null && $data2 != null) {
-      $this->db->query('INSERT INTO commentReply VALUES(null, :commentId, (select userId from user where nik=:nik), :comment, :uploadDate)');
+      $this->db->query('INSERT INTO commentReply VALUES(null, :commentId, (select userNik from user where userNik=:userNik), :comment, :uploadDate)');
       $this->db->bind('commentId', $commentId);
-      $this->db->bind('nik', $nik);
+      $this->db->bind('userNik', $userNik);
       $this->db->bind('comment', $comment);
       $this->db->bind('uploadDate', $uploadDate);
       $this->db->execute();
@@ -142,7 +142,7 @@ class Podtret_model {
 
 }
 
-$file = 'podtretView.csv';
+$file = 'cleanPodtretComment.csv';
 
 // Open the file for reading
 $fp = fopen($file, 'r', 'UTF-8');
@@ -161,7 +161,7 @@ while ($row = fgetcsv($fp)) {
   // $row[9] = "delete";
   // fputcsv($outputFile, $row);
 
-  // $podtret->checkKategori($row[4]) ? "" : $podtret->createPodtretKategori($row[4]);
+  // $podtret->checkKategori($row[5]) ? "" : $podtret->createPodtretKategori($row[5]);
 
   // $thumbnail = "https://myplanet.enseval.com/podcast/poster/" . $row[2];
   // $video = "https://myplanet.enseval.com/podcast/video/" . $row[3];
@@ -171,13 +171,13 @@ while ($row = fgetcsv($fp)) {
 
   // $podtret->updatePodtretViews($row[0], $row[1]);
 
-  $row[1] != "" ? $podtret->createPodtretRecord($row[1], $row[2], $row[4]) : "";
+  // $row[1] != "" ? $podtret->createPodtretRecord($row[1], $row[2], $row[4]) : "";
 
   // $podtret->createPodtretLike($row[0], $row[1], $row[2]);
 
-  // if ($row[0] == $row[2]) {
-  //   $podtret->createPodtretComment($row[0], $row[1], $row[3], $row[4], $row[5]);
-  // }
+  if ($row[0] == $row[2]) {
+    $podtret->createPodtretComment($row[0], $row[1], $row[3], $row[4], $row[5]);
+  }
 
   // if ($row[0] != $row[2]) {
   //   $podtret->createCommentReply($row[2], $row[3], $row[4], $row[5]);

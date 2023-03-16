@@ -177,7 +177,7 @@
               echo '<!-- Modal View Detail Course -->
                     <div class="modal fade" id="courseDetail-' . $lesson['courseId'] . '" tabindex="-1" aria-labelledby="modalViewDetailLabel"
                       aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-scrollable" style="max-width: 735px;">
+                      <div class="modal-dialog modal-xl modal-dialog-scrollable">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="modalViewDetailLabel">' . $lesson['judul course'] . '</h5>
@@ -190,10 +190,11 @@
                                 <thead class="table-light">
                                   <tr>
                                     <th>Lesson</th>
-                                    <th>Total Attempt</th>
-                                    <th>Score</th>
-                                    <th>Status</th>
-                                    <th>Time</th>
+                                    <th class="text-center">Total Attempt</th>
+                                    <th class="text-center">Score</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Time</th>
+                                    <th class="text-center">Action</th>
                                   </tr>
                                 </thead>
                                 <tbody id="lessonRecordContainer-' . $lesson['courseId'] . '">';
@@ -275,7 +276,10 @@
 						</div>
 					</div>
 				</div>
-
+				
+				<div id="testActionContainer">
+					
+				</div>
 
 			</div>
 		</div>
@@ -293,11 +297,23 @@
 
     function loadUserCourseRecordDetail(courseId) {
 				var userId = <?= $_GET['userId'] ?>;
+				var organizationId = <?= $_GET['organizationId'] ?>;
         $.ajax({
-          url: "<?= BASEURL ?>usermanagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId,
+          url: "<?= BASEURL ?>usermanagement/loadUserCourseRecordDetail?userId=" + userId + "&courseId=" + courseId + '&organizationId=' + organizationId,
           success: function(html) {
+						loadCourseAction(courseId);
 						$('#lessonRecordContainer-' + courseId).html(html);
           }
         });
       }
+
+		function loadCourseAction(courseId) {
+			var userId = <?= $_GET['userId'] ?>;
+      $.ajax({
+        url: "<?= BASEURL ?>usermanagement/loadTestAction?userId=" + userId + "&courseId=" + courseId,
+        success: function(html) {
+					$('#testActionContainer').html(html);
+        }
+      });
+    }
   </script>

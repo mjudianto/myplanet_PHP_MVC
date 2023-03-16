@@ -25,7 +25,7 @@ class ElearningKategori_model {
   }
 
   public function addKategori($kategori) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :kategori, default)');
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :kategori, default, default)');
     $this->db->bind('kategori', $kategori);
     $this->db->execute();
   }

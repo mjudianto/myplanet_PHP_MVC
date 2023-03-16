@@ -127,7 +127,7 @@ class User_model{
     return $this->db->single();
   }
 
-  public function countUserIncompany($organizationId) {
+  public function countUserInOrganization($organizationId) {
     $this->db->query('select count(*) as "totalUser" from user where organizationId=:organizationId');
 
     $this->db->bind('organizationId', $organizationId);

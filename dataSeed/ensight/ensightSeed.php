@@ -34,28 +34,28 @@ class Ensight_model {
     $this->db->execute();
   }
 
-  public function createEnsightRecord($ensightId, $nik, $lastVisit) {
-    $this->db->query('select * from user where nik=:nik');
-    $this->db->bind('nik', $nik);
+  public function createEnsightRecord($ensightId, $userNik, $lastVisit) {
+    $this->db->query('select * from user where userNik=:userNik');
+    $this->db->bind('userNik', $userNik);
     $data2 = $this->db->single() ?? null;
 
     if ($data2 != null){
-      $this->db->query('SELECT * FROM userEnsightRecord WHERE ensightId=:ensightId AND userId=:userId');
+      $this->db->query('SELECT * FROM userEnsightRecord WHERE ensightId=:ensightId AND userNik=:userNik');
       $this->db->bind('ensightId', $ensightId);
-      $this->db->bind('userId', $data2['userId']);
+      $this->db->bind('userNik', $data2['userNik']);
       $data = $this->db->single() ?? null;
 
       if($data != null){
-        $this->db->query('UPDATE userEnsightRecord SET views=:views, lastVisit=:lastVisit WHERE ensightId=:ensightId AND userId=:userId');
+        $this->db->query('UPDATE userEnsightRecord SET views=:views, lastVisit=:lastVisit WHERE ensightId=:ensightId AND userNik=:userNik');
         $this->db->bind('ensightId', $ensightId);
-        $this->db->bind('userId', $data2['userId']);
+        $this->db->bind('userNik', $data2['userNik']);
         $this->db->bind('views', $data['views']+1);
         $this->db->bind('lastVisit', $lastVisit);
         $this->db->execute();
       } else {
-        $this->db->query('INSERT INTO userEnsightRecord VALUES(null, :ensightId, :userId, 1, :lastVisit)');
+        $this->db->query('INSERT INTO userEnsightRecord VALUES(null, :ensightId, :userNik, 1, :lastVisit)');
         $this->db->bind('ensightId', $ensightId);
-        $this->db->bind('userId', $data2['userId']);
+        $this->db->bind('userNik', $data2['userNik']);
         $this->db->bind('lastVisit', $lastVisit);
         $this->db->execute();
       }
