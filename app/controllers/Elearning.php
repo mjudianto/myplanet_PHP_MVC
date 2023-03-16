@@ -273,10 +273,23 @@ class Elearning extends Controller
       $userNik = $_SESSION['user']['empnik'];
 
       $userTestRecord = $model['userTestRecord']->getUserTestRecord($testId, $userNik);
+      if (is_bool($userTestRecord)) {
+        $userTestRecordId = null;
+        $userTestRecordAttempt = 0;
+      } else {
+        $userTestRecordId = $userTestRecord['userTestRecordId'];
+        $userTestRecordAttempt = $userTestRecord['attempt'];
+      }
 
       // if user test record already exists, check if user has exceeded max attempt
-      $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecord['userTestRecordId']);
-      if ($userTestRecord['attempt'] + 1 > $maxAttempt['maxAttempt']) {
+      $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($userTestRecordId);
+      if (is_bool($maxAttempt)) {
+        $maxAttempt = 3;
+      } else {
+        $maxAttempt = $maxAttempt['maxAttempt'];
+      }
+      
+      if ($userTestRecordAttempt + 1 > $maxAttempt) {
         return true;
       }
 
