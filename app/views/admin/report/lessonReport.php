@@ -59,7 +59,6 @@
 
 								<thead class="table-light">
 									<tr>
-										<th>No</th>
 										<th>NIK</th>
 										<th>Nama</th>
 										<th>Lesson</th>
@@ -70,28 +69,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php 	
-									$i=1;
-										foreach($data['lessonRecord'] as $lesson) {
-											echo '<tr>
-															<td>' . $i . '</td>
-															<td>' . $lesson['userNik'] . '</td>
-															<td>' . $lesson['nama'] . '</td>
-															<td>' . $lesson['judul'] . '</td>
-															<td>' . $lesson['attempt'] . '</td>
-															<td>' . $lesson['finished'] . '</td>
-															<td>' . $lesson['organizationName'] . '</td>
-															<td>' . $lesson['locationName'] . '</td>
-					
-														</tr>';
-											$i+=1;
-										}
-									?>
 									
 								</tbody>
 								<tfoot class="table-light">
 									<tr>
-										<th>No</th>
 										<th>userNik</th>
 										<th>Nama</th>
 										<th>Post Test</th>

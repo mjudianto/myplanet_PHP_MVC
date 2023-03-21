@@ -1,10 +1,11 @@
 <!-- <?= $data['podtret']['video'] ?> -->
+
 <body class="video-play-podtret">
 
   <div class="container mt-5">
     <div class="container video-play">
       <a href="<?= BASEURL ?>podtrets"><button class="btn-finish-podtret mb-3">Finish</button></a>
-      <?php 
+      <?php
       if ($_GET['type'] == 'video') {
         echo '<video controls autoplay>
                 <source src="' . $data['podtret']['video'] . '">
@@ -15,7 +16,7 @@
               </audio>';
       }
       ?>
-      
+
       <a href="<?= BASEURL ?>podtrets/podtretKonten?type=video&podtretId=<?= encrypt($data['podtret']['podtretId']) ?>&views=<?= $data['podtret']['views'] ?>"><img src="<?= BASEURL ?>assets/Button Nonton MP4.png" alt="" class="btn-opsi-play"></a>
       <a href="<?= BASEURL ?>podtrets/podtretKonten?type=audio&podtretId=<?= encrypt($data['podtret']['podtretId']) ?>&views=<?= $data['podtret']['views'] ?>"><img src="<?= BASEURL ?>assets/Button Nonton MP3.png" alt="" class="btn-opsi-play me-2"></a>
       <h3 class="mt-3"><?php echo $data['podtret']['judul'] ?></h3>
@@ -23,31 +24,30 @@
       <p><?= $data['podtret']['views'] ?> views</p>
       <div class="d-flex">
         <button class="btn-like" onclick="updateLike()">
-          <div class="d-flex">
-            <a class="like-button null">
+          <div class="d-flex" id="podtretLike">
+            <a class="like-button null <?= $data['userLike']['likeState'] == 1 ? "active" : "" ?>">
               <svg width="30" height="30" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M320 1344q0-26-19-45t-45-19q-27 0-45.5 19t-18.5 45q0 27 18.5 45.5t45.5 18.5q26 0 45-18.5t19-45.5zm160-512v640q0 26-19 45t-45 19h-288q-26 0-45-19t-19-45v-640q0-26 19-45t45-19h288q26 0 45 19t19 45zm1184 0q0 86-55 149 15 44 15 76 3 76-43 137 17 56 0 117-15 57-54 94 9 112-49 181-64 76-197 78h-129q-66 0-144-15.5t-121.5-29-120.5-39.5q-123-43-158-44-26-1-45-19.5t-19-44.5v-641q0-25 18-43.5t43-20.5q24-2 76-59t101-121q68-87 101-120 18-18 31-48t17.5-48.5 13.5-60.5q7-39 12.5-61t19.5-52 34-50q19-19 45-19 46 0 82.5 10.5t60 26 40 40.5 24 45 12 50 5 45 .5 39q0 38-9.5 76t-19 60-27.5 56q-3 6-10 18t-11 22-8 24h277q78 0 135 57t57 135z">
+                <path d="M320 1344q0-26-19-45t-45-19q-27 0-45.5 19t-18.5 45q0 27 18.5 45.5t45.5 18.5q26 0 45-18.5t19-45.5zm160-512v640q0 26-19 45t-45 19h-288q-26 0-45-19t-19-45v-640q0-26 19-45t45-19h288q26 0 45 19t19 45zm1184 0q0 86-55 149 15 44 15 76 3 76-43 137 17 56 0 117-15 57-54 94 9 112-49 181-64 76-197 78h-129q-66 0-144-15.5t-121.5-29-120.5-39.5q-123-43-158-44-26-1-45-19.5t-19-44.5v-641q0-25 18-43.5t43-20.5q24-2 76-59t101-121q68-87 101-120 18-18 31-48t17.5-48.5 13.5-60.5q7-39 12.5-61t19.5-52 34-50q19-19 45-19 46 0 82.5 10.5t60 26 40 40.5 24 45 12 50 5 45 .5 39q0 38-9.5 76t-19 60-27.5 56q-3 6-10 18t-11 22-8 24h277q78 0 135 57t57 135z">
                 </path>
               </svg>
-              <span  class="ms-2" id="angkanya" style="position: absolute;margin-top:3px;color: white;">
-                <span style="font-size: 20px;" id="podtretLike">Like : <?= $data['likes']['likes'] ?></span></span>
+              <span class="ms-2" id="angkanya" style="position: absolute;margin-top:3px;color: white;">
+                <span style="font-size: 20px;">Like : <?= $data['likes']['likes'] ?></span></span>
             </a>
           </div>
         </button>
         <form action="">
-          <input type="hidden" id="podtretId" value="<?=  $data['podtret']['podtretId'] ?>">
+          <input type="hidden" id="podtretId" value="<?= $data['podtret']['podtretId'] ?>">
         </form>
         <p id="dummy"></p>
-        
+
       </div>
 
       <div class="form-floating">
-        <textarea class="form-control mt-3" placeholder="Leave a comment here" id="comment"></textarea>
-        <label for="floatingTextarea">Comments</label>
+        <input class="form-control mt-3" placeholder="Leave a comment here and press Enter to Post" id="comment"></input>
+        <label for="floatingTextarea">Leave a comment here and press Enter to Post</label>
       </div>
       <div class="d-flex justify-content-end mt-2">
-        <button type="submit" class="btn btn-comment mb-3" onclick="addComment()">Comment</button>
+        <button type="submit" class="btn btn-comment mb-3" onclick="addComment()">Post</button>
       </div>
 
       <div class="container wrap-section-comment pt-5 pb-5 ps-5 pe-0">
@@ -59,11 +59,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
-      $( document ).ready(function() {
+      $(document).ready(function() {
         loadComment();
       });
     </script>
-    
+
     <script>
       function updateLike() {
         var id = $('#podtretId').val();
@@ -88,7 +88,7 @@
       }
 
       function addReply(commentId) {
-        var comment = $('#reply-'+commentId).val();
+        var comment = $('#reply-' + commentId).val();
         $.ajax({
           url: "<?php echo BASEURL ?>podtrets/addReply?commentId=" + commentId + "&comment=" + comment,
           success: function(html) {
@@ -107,8 +107,26 @@
         });
       }
 
-      setInterval(function(){
+      setInterval(function() {
         loadComment();
       }, 10000);
     </script>
+
+    <script>
+      // Get the input field
+      var input = document.getElementById("comment");
+
+      // Execute a function when the user presses a key on the keyboard
+      input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+          // Cancel the default action, if needed
+          event.preventDefault();
+          // Trigger the button element with a click
+          addComment();
+        }
+      });
+    </script>
+
+    
 </body>

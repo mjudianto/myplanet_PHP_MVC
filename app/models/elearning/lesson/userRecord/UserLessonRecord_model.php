@@ -141,11 +141,40 @@ class UserLessonRecord_model {
                 userLessonRecord.attempt,
                 userLessonRecord.finished
               from elearningLesson
-                left join elearningModule on elearningLesson.elearningModuleId = elearningModule.elearningModuleId AND elearningModule.elearningCourseId != 19
+                left join elearningModule on elearningLesson.elearningModuleId = elearningModule.elearningModuleId
                 right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
                 left join user on userLessonRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join organization on user.organizationId = organization.organizationId
+              where elearningModule.elearningCourseId != 19
+              group by 
+                userLessonRecord.userNik,
+                userLessonRecord.attempt,
+				        userLessonRecord.finished,
+                elearningLesson.judul,
+                user.userNik';
+
+    $this->db->query($query);
+
+    return $this->db->resultSet();
+  }
+
+  public function getSopikLessonRecord() {
+    $query = 'select elearningLesson.judul, 
+                userLessonRecord.userNik, 
+                user.userNik,
+                user.nama,
+                organization.organizationName,
+                location.locationName,
+                userLessonRecord.attempt,
+                userLessonRecord.finished
+              from elearningLesson
+                left join elearningModule on elearningLesson.elearningModuleId = elearningModule.elearningModuleId
+                right join userLessonRecord on elearningLesson.elearningLessonId = userLessonRecord.elearningLessonId
+                left join user on userLessonRecord.userNik = user.userNik
+                left join location on user.locationId = location.locationId
+                left join organization on user.organizationId = organization.organizationId
+              where elearningModule.elearningCourseId = 19
               group by 
                 userLessonRecord.userNik,
                 userLessonRecord.attempt,

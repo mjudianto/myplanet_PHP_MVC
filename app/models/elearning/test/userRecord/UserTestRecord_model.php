@@ -120,12 +120,13 @@ class UserTestRecord_model {
                 location.locationName
               from elearningTest
                 left join elearningModule on elearningTest.elearningModuleId = elearningModule.elearningModuleId
-                right join elearningCourse on elearningModule.elearningCourseId = elearningCourse.elearningCourseId and elearningCourse.elearningCourseId=:courseId
+                right join elearningCourse on elearningModule.elearningCourseId = elearningCourse.elearningCourseId
                 left join userTestRecord on elearningTest.elearningTestId = userTestRecord.elearningTestId
                 left join userTestRecordDetail on userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
                 left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join organization on user.organizationId = organization.organizationId
+              where elearningCourse.elearningCourseId=:courseId
               group by 
                 userTestRecord.userNik,
                 elearningTest.judul,
@@ -155,6 +156,7 @@ class UserTestRecord_model {
                 left join user on userTestRecord.userNik = user.userNik
                 left join location on user.locationId = location.locationId
                 left join organization on user.organizationId = organization.organizationId
+              where elearningModule.elearningCourseId != 19
               group by 
                 userTestRecord.userNik,
                 elearningTest.judul,

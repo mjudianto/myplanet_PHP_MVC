@@ -107,6 +107,49 @@ class Controller {
 
   public function saveAudio($audio, $destinationDir) {
     return $this->saveFile($audio, ['mp3'], 500000000, $destinationDir, 'mp3');
-}
+  }
+
+  public function serverSideDatatables($data) {
+    // Get total data length
+    $dataLength = count($data);
+    
+    // Search the data
+    $search = $_POST['search']['value'] ?? '';
+    if (!empty($search)) {
+      $terms = explode(' ', $search);
+      $data = array_filter($data, function($row) use ($terms) {
+        foreach ($terms as $term) {
+          $found = false;
+          foreach ($row as $value) {
+            if (is_string($value) && strpos(strtolower($value), strtolower($term)) !== false) {
+              $found = true;
+              break;
+            }
+          }
+          if (!$found) {
+            return false;
+          }
+        }
+        return true;
+      });
+    }
+
+    $filteredDataLength = count($data);
+
+    // Paginate the data
+    $start = $_POST['start'] ?? 0;
+    $length = $_POST['length'] ?? 10;
+    $data = array_slice($data, $start, $length);
+
+    // Prepare the response for DataTables
+    $response = array(
+      "draw" => intval($_POST['draw'] ?? 0),
+      "recordsTotal" => $dataLength,
+      "recordsFiltered" => $filteredDataLength, // Change this to the unfiltered data length
+      "data" => $data
+    );
+
+    echo json_encode($response);
+  }
   
 }

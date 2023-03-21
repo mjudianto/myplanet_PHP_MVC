@@ -3,17 +3,20 @@
 include_once '../app/core/Database.php';
 include_once '../app/core/Ldap.php';
 
-class User_model{
+class User_model
+{
   private $table = 'user';
   private $db;
   private $ldap;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->db = new Database;
     $this->ldap = new Ldap;
   }
-  
-  public function getAllUsers() {
+
+  public function getAllUsers()
+  {
     $sql = 'SELECT * FROM ' . $this->table . ' 
     left join organization on organization.organizationId=user.organizationId
     left join location on location.locationId=user.locationId
@@ -24,14 +27,16 @@ class User_model{
     return $user;
   }
 
-  public function getHrisUser($userNik) {
+  public function getHrisUser($userNik)
+  {
     $user = file_get_contents('https://guard.enseval.com/for_api/read.php?nik=' . $userNik);
 
     $user = json_decode($user, true);
     return $user;
   }
 
-  public function getPlanetUser($userNik) {
+  public function getPlanetUser($userNik)
+  {
     $sql = 'SELECT * FROM ' . $this->table . '
     left join organization on organization.organizationId=user.organizationId
     left join location on location.locationId=user.locationId
@@ -48,15 +53,17 @@ class User_model{
     }
   }
 
-  public function userAuth($userNik, $password){
+  public function userAuth($userNik, $password)
+  {
     $user = $this->getPlanetUser($userNik);
     if ($user != null) {
       if ($user['password'] == sha1($password)) {
         $user = $this->getHrisUser(trim($userNik));
-        if ($user['empnik'] != "") { return $user; }
-        else { 
-          $user = $this->getPlanetUser($userNik); 
-          return $user; 
+        if ($user['empnik'] != "") {
+          return $user;
+        } else {
+          $user = $this->getPlanetUser($userNik);
+          return $user;
         }
       } else {
         return null;
@@ -68,12 +75,12 @@ class User_model{
       $user = $this->getPlanetUser($ldapUser['userNik']);
 
       if ($user === null) {
-        $this->createPlanetUser($ldapUser['userNik']);
+        $this->createPlanetUser($ldapUser['userNik'], $ldapUser['nama']);
       }
 
       $user = $this->getHrisUser(trim($ldapUser['userNik']));
       return $user;
-    } else {      
+    } else {
       $user = $this->getHrisUser($userNik);
 
       if ($user['empnik'] == "") {
@@ -86,18 +93,21 @@ class User_model{
     return null;
   }
 
-  public function createPlanetUser($userNik) {
-    $sql = 'INSERT INTO ' . $this->table . ' VALUES(:userNik, :password, null, default, default, default)';
+  public function createPlanetUser($userNik, $nama)
+  {
+    $sql = 'INSERT INTO ' . $this->table . ' VALUES(:userNik, :nama, :password, null, default, default, default, default, default)';
 
     $this->db->query($sql);
 
     $this->db->bind('userNik', $userNik);
+    $this->db->bind('nama', $nama);
     $this->db->bind('password', sha1($userNik));
 
     $this->db->execute();
   }
 
-  public function updateUserPassword($password){
+  public function updateUserPassword($password)
+  {
     $query = "UPDATE " . $this->table . " SET password=:password where userNik=:userNik";
     $this->db->query($query);
 
@@ -111,30 +121,34 @@ class User_model{
     $this->db->execute();
   }
 
-  public function updateLastVisit($user) {
+  public function updateLastVisit($user)
+  {
     $query = "UPDATE " . $this->table . " SET lastVisit=CURRENT_TIMESTAMP() where userNik=:userNik";
     $this->db->query($query);
-    
+
     $userNik = $user['empnik'] ?? $user['nik'];
 
     $this->db->bind('userNik', $user['empnik']);
     $this->db->execute();
   }
 
-  public function countAllUser() {
+  public function countAllUser()
+  {
     $this->db->query('select count(*) as "totalUser" from user');
 
     return $this->db->single();
   }
 
-  public function countUserInOrganization($organizationId) {
+  public function countUserInOrganization($organizationId)
+  {
     $this->db->query('select count(*) as "totalUser" from user where organizationId=:organizationId');
 
     $this->db->bind('organizationId', $organizationId);
     return $this->db->single();
   }
 
-  public function setResetPasswordToken($token, $userNik, $email, $time) {
+  public function setResetPasswordToken($token, $userNik, $email, $time)
+  {
     $this->db->query('insert into passwordResetToken values(:token, :userNik, :email, :time)');
 
     $this->db->bind('token', $token);
@@ -144,18 +158,17 @@ class User_model{
     $this->db->execute();
   }
 
-  public function getTokenDetail($token) {
+  public function getTokenDetail($token)
+  {
     $this->db->query('select * from passwordResetToken where token=:token');
     $this->db->bind('token', $token);
     return $this->db->single();
   }
 
-  public function deleteResetPasswordToken($token) {
+  public function deleteResetPasswordToken($token)
+  {
     $this->db->query('delete from passwordResetToken where token=:token');
     $this->db->bind('token', $token);
     $this->db->execute();
   }
-
-  
-
 }

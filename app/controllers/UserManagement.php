@@ -21,13 +21,13 @@ class UserManagement extends Controller
 
   public function addUser()
   {
-    $data['nik'] = $_POST['nik'];
-    $data['nama'] = $_POST['name'];
+    $nik = $_POST['nik'];
+    $nama = $_POST['name'];
     $data['email'] = $_POST['email'] ?? null;
     $data['locationId'] = $_POST['location'];
     $data['department'] = $_POST['organization'];
 
-    $this->model('user/User_model', 'User_model')->addUser($data);
+    $this->model('user/User_model', 'User_model')->createPlanetUser($nik, $nama);
     header('location:' . BASEURL . 'usermanagement');
     exit;
   }
@@ -122,7 +122,7 @@ class UserManagement extends Controller
 
     foreach ($userTestDetail as $test) {
       $maxAttempt = $model['userTestMaxAttempt']->getTestMaxAttempt($test['userTestRecordId']) ?? null;
-          echo '<!-- Modal BOX Action Course -->
+      echo '<!-- Modal BOX Action Course -->
                 <div class="modal fade" id="modalActionCourse-' . $test['userTestRecordId'] . '" tabindex="-1" aria-labelledby="modalActionCourseLabel"
                   aria-hidden="true">
                   <div class="modal-dialog">
@@ -133,14 +133,13 @@ class UserManagement extends Controller
                           aria-label="Close"></button>
                       </div>
                       <div class="modal-body" style="text-align:center;">';
-                      if ($test['score'] == '') {
-                        echo '<p>Course ' . $test['judul test'] . ' have not been attempted. <br>
+      if ($test['score'] == '') {
+        echo '<p>Course ' . $test['judul test'] . ' have not been attempted. <br>
                                 No action needed.
                               </p>
                               </div>';
-                      }
-                      else if ($maxAttempt != null &&  $maxAttempt['maxAttempt'] <= $test['attempt']) {
-                        echo '<p>Course ' . $test['judul test'] . ' have reach it"s max attempt. <br>
+      } else if ($maxAttempt != null &&  $maxAttempt['maxAttempt'] <= $test['attempt']) {
+        echo '<p>Course ' . $test['judul test'] . ' have reach it"s max attempt. <br>
                                 Open the course Akses?
                               </p>
                               </div>
@@ -149,17 +148,15 @@ class UserManagement extends Controller
                                   data-bs-toggle="modal">No</button>
                                 <a type="button" href="' . BASEURL . 'usermanagement/IncreaseMaxAttempt?testRecordId=' . $test['userTestRecordId'] . '&userId=' . $userId . '&organizationId=' . $organizationId . '" class="btn btn-primary">Yes</a>
                               </div>';
-                      } 
-                      else {
-                        echo '<p>Course ' . $test['judul test'] . ' have been passed. <br>
+      } else {
+        echo '<p>Course ' . $test['judul test'] . ' have been passed. <br>
                                 No action needed.
                               </p>
                               </div>';
-                      }
-          echo       '</div>
+      }
+      echo       '</div>
                   </div>
                 </div>';
-
     }
   }
 
@@ -172,7 +169,8 @@ class UserManagement extends Controller
     header("location:" . $_POST['url']);
   }
 
-  public function IncreaseMaxAttempt() {
+  public function IncreaseMaxAttempt()
+  {
     $model = $this->loadElearningModel();
 
     $testRecordId = $_GET['testRecordId'];
@@ -181,7 +179,7 @@ class UserManagement extends Controller
 
     $attempt = $model['userTestMaxAttempt']->getTestMaxAttempt($testRecordId)['maxAttempt'];
 
-    $model['userTestMaxAttempt']->updateMaxAttempt($testRecordId, $attempt+3);
+    $model['userTestMaxAttempt']->updateMaxAttempt($testRecordId, $attempt + 3);
     header("Location:" . BASEURL . 'usermanagement/userDetail?userId=' . $userNik . '&organizationId=' . $organizationId);
     exit;
   }

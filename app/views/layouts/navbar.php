@@ -96,25 +96,28 @@
               Application
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">HRIS Pro Int</a></li>
-              <li><a class="dropdown-item" href="#">LOAN Online</a></li>
+              <li><a class="dropdown-item" href="https://hris.enseval.com/hris/Login.aspx">HRIS Pro Int</a></li>
+              <li><a class="dropdown-item" href="https://hrd.enseval.com:8080/loanepm/">LOAN Online</a></li>
               <li>
-                <a class="dropdown-item" href="#">FPTK Online</a>
+                <a class="dropdown-item" href="https://hrd.enseval.com:8080/fptk_epm/">FPTK Online</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Assesment Online</a>
+                <a class="dropdown-item" href="https://hrd.enseval.com:8080/adminonlinetestv2">Assesment Online</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Administrasi Assesment</a>
+                <a class="dropdown-item" href="https://hrd.enseval.com:8080/adminonlinetestv2">Administrasi Assesment</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">AP & PA Online</a>
+                <a class="dropdown-item" href="https://hrd.enseval.com:8082/ap/">AP & PA Online</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">MPP Online</a>
+                <a class="dropdown-item" href="https://hrd.enseval.com:8080/mpplanning/">MPP Online</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Orens</a>
+                <a class="dropdown-item" href="https://orens.enseval.com/">Orens</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="https://myplanet.enseval.com/pp/PeraturanPerusahaanBaru.pdf">Peraturan Perusahaan</a>
               </li>
             </ul>
           </li>

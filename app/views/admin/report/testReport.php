@@ -48,6 +48,7 @@
 		</div>
 		<hr />
 		<div class="card">
+
 			<div class="card-body">
 				<div class="table-responsive">
 					<div id="printbar" style="float:right"></div>
@@ -56,7 +57,6 @@
 
 						<thead class="table-light">
 							<tr>
-								<th>No</th>
 								<th>nik</th>
 								<th>Nama</th>
 								<th>Post Test</th>
@@ -69,46 +69,10 @@
 							</tr>
 						</thead>
 						<tbody id="recordContainer">
-							<?php
-							$i = 1;
-							foreach ($data['testRecord'] as $record) {
-								if ($record['userNik'] != '') {
-									echo '<tr>
-                                <td>' . $i . '</td>
-                                <td>' . $record['userNik'] . '</td>
-                                <td>' . $record['nama'] . '</td>
-                                <td>' . $record['judul'] . '</td>
-                                <td>' . $record['totalAttempt'] . '</td>
-                                <td>' . $record['score'] . '</td>
-                                <td>';
-
-									if ($record['status'] == 'Lulus') {
-										echo '<div
-                                    class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
-                                    Lulus
-                                  </div>';
-									} else {
-										echo  '<div
-                                    class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">
-                                    Tidak Lulus
-                                  </div>';
-									}
-
-									echo   '</td>
-                                <td>' . $record['time'] . '</td>
-                                <td>' . $record['locationName'] . '</td>
-                                <td>' . $record['organizationName'] . '</td>
-                              </tr>';
-									$i += 1;
-								}
-							}
-							?>
-
-
 						</tbody>
 						<tfoot class="table-light">
 							<tr>
-								<th>No</th>
+								<!-- <th>No</th> -->
 								<th>userNik</th>
 								<th>Nama</th>
 								<th>Post Test</th>

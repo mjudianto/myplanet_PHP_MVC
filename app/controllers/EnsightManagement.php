@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-class EnsightManagement extends Controller {
+class EnsightManagement extends Controller
+{
 
-  public function uploadEnsight() {
+  public function uploadEnsight()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
 
     $data['ensight'] = $ensightModel->getAll();
@@ -12,14 +14,16 @@ class EnsightManagement extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function deleteEnsight() {
+  public function deleteEnsight()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
     $ensightModel->deleteEnsight($_GET['ensightId']);
 
     header("Location:" . BASEURL . 'ensightmanagement/uploadEnsight');
   }
 
-  public function editEnsight() {
+  public function editEnsight()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
     $ensightId = $_GET['ensightId'];
 
@@ -27,8 +31,8 @@ class EnsightManagement extends Controller {
     $publish = $_POST['publish-' . $_GET['ensightId']];
 
     $ensightId = $_GET['ensightId'];
-    $thumbnail = $this->saveThumbnail($_FILES['updateThumbnail-' . $ensightId] ?? null, 'ensightAssets/thumbnail' );
-    $video = $this->saveVideo($_FILES['updateVideo-' . $ensightId] ?? null, 'ensightAssets/videos' );
+    $thumbnail = $this->saveThumbnail($_FILES['updateThumbnail-' . $ensightId] ?? null, 'ensightAssets/thumbnail');
+    $video = $this->saveVideo($_FILES['updateVideo-' . $ensightId] ?? null, 'ensightAssets/videos');
     $defaultVideo = $_POST['defaultVideo-' . $ensightId] ?? null;
     $defaultThumbnail = $_POST['defaultThumbnail-' . $ensightId] ?? null;
 
@@ -37,19 +41,21 @@ class EnsightManagement extends Controller {
     header("Location:" . BASEURL . 'ensightmanagement/uploadEnsight');
   }
 
-  public function newEnsight() {
+  public function newEnsight()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
     $judul = $_POST['newJudul'];
     $publish = $_POST['newPublish'];
     $deskripsi = $_POST['newDeskripsi'] ?? null;
-    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'] ?? null, 'ensightAssets/thumbnail' );
-    $video = $this->saveVideo($_FILES['newVideo'] ?? null, 'ensightAssets/videos' );
+    $thumbnail = $this->saveThumbnail($_FILES['newThumbnail'] ?? null, 'ensightAssets/thumbnail');
+    $video = $this->saveVideo($_FILES['newVideo'] ?? null, 'ensightAssets/videos');
 
     $ensightModel->createEnsight($judul, $thumbnail, $video, $publish, $publish, $deskripsi);
     header("Location:" . BASEURL . 'ensightmanagement/uploadEnsight');
   }
 
-  public function dateFilter() {
+  public function dateFilter()
+  {
     $ensightModel = $this->model('ensight/Ensight_model', 'Ensight_model');
 
     $start_date = $_REQUEST['startDate'];
@@ -58,11 +64,11 @@ class EnsightManagement extends Controller {
     $data = $ensightModel->getAll();
 
 
-    $filtered_data = array_filter($data, function($item) use ($start_date, $end_date) {
+    $filtered_data = array_filter($data, function ($item) use ($start_date, $end_date) {
       $item_date = strtotime($item['uploadDate']);
       $start = strtotime($start_date);
       $end = strtotime($end_date);
-      
+
       if ($_REQUEST['startDate'] != '') {
         if ($_REQUEST['endDate'] != '') {
           return ($item_date >= $start) && ($item_date <= $end);
@@ -77,7 +83,7 @@ class EnsightManagement extends Controller {
       return;
     });
 
-    $i=1;
+    $i = 1;
     foreach ($filtered_data as $ensight) {
       echo '<tr>
               <td>' . $i . '</td>
@@ -89,11 +95,11 @@ class EnsightManagement extends Controller {
               </td>
               <td>' . $ensight['publishDate'] . '</td>
               <td>';
-                if ($ensight['state'] == 1) {
-                  echo '<div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Active</div>';
-                } else {
-                  echo '<div class="badge rounded-pill text-white bg-secondary p-2 text-uppercase px-3">Inactive</div>';
-                }
+      if ($ensight['state'] == 1) {
+        echo '<div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Active</div>';
+      } else {
+        echo '<div class="badge rounded-pill text-white bg-secondary p-2 text-uppercase px-3">Inactive</div>';
+      }
       echo   '</td>
               <td>' . $ensight['uploadDate'] . '</td>
               <td>
@@ -107,14 +113,14 @@ class EnsightManagement extends Controller {
                 </div>
               </td>
             </tr>';
-      $i+=1;	
+      $i += 1;
     }
   }
 
-  public function ensightVisitor() {
+  public function ensightVisitor()
+  {
     $this->view('admin/layouts/sidebar');
     $this->view('admin/ensight/ensightVisitor');
     $this->view('admin/layouts/footer');
   }
-
 }

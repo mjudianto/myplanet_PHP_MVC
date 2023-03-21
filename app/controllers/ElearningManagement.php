@@ -477,10 +477,9 @@ class ElearningManagement extends Controller
       return in_array($user['companyId'], $selectedCompanies);
     });
 
-    foreach($filteredUser as $user) {
+    foreach ($filteredUser as $user) {
       echo '<option value="' . $user['userNik'] . '">' . $user['nama'] . '</option>';
     }
-
   }
 
   public function loadOrganizationOption()
@@ -500,12 +499,11 @@ class ElearningManagement extends Controller
       return in_array($organization['companyId'], $selectedCompanies);
     });
 
-    foreach($filteredOrganization as $org) {
+    foreach ($filteredOrganization as $org) {
       echo '<option value="' . $org['organizationId'] . '">' . $org['organizationName'] . '</option>';
     }
-
   }
-  
+
   public function loadLocationOption()
   {
     $model = $this->loadElearningModel();
@@ -523,9 +521,8 @@ class ElearningManagement extends Controller
       return in_array($location['companyId'], $selectedCompanies);
     });
 
-    foreach($filteredlocation as $org) {
+    foreach ($filteredlocation as $org) {
       echo '<option value="' . $org['locationId'] . '">' . $org['locationName'] . '</option>';
     }
-
   }
 }

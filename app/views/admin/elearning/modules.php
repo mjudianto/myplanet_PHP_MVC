@@ -252,7 +252,7 @@
                   </select>
                 </div>
               </div>
-              <div class="row" id="spesificChoose" <?php if ($data['elearningCourse']['access_type'] == 2) {
+              <div class="row" id="selectSpesific" <?php if ($data['elearningCourse']['access_type'] == 2) {
                                                       echo 'style="display: flex;"';
                                                     } else {
                                                       echo 'style="display: none;"';
@@ -282,7 +282,7 @@
                 <div id="organizationName" class="col-lg-4 col-md-12 col-sm-12">
                   <div class="mb-3">
                     <label class="form-label">Choose Organization</label>
-                    <select name="selectedOrganization[]"  id="selectedOrganization" class="checkbox-spesific" data-placeholder="Choose anything" multiple="multiple">';
+                    <select name="selectedOrganization[]" id="selectedOrganization" class="checkbox-spesific" data-placeholder="Choose anything" multiple="multiple">';
 
 
                     </select>
@@ -343,7 +343,7 @@
       </div>
     </form>
 
-    
+
 
 
 
@@ -357,7 +357,7 @@
 <script>
   function loadAksesOption() {
     var courseId = <?= $_GET['courseId'] ?>;
-    const company = document.getElementById('selectedCompany[]'); 
+    const company = document.getElementById('selectedCompany[]');
     const selectedCompanies = Array.from(company.selectedOptions).map(option => option.value);
     const selectedCompaniesString = encodeURIComponent(JSON.stringify(selectedCompanies));
 

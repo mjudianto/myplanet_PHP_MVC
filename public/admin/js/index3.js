@@ -92,21 +92,6 @@ window.onload = (event) => {
 // 			}
 // 		});
 
-const selectOption = document.getElementById("selectSpesific");
-selectOption.addEventListener("change", function () {
-  const selectedOption = this.value;
-  if (selectedOption === "all") {
-    document.getElementById("orgName").style.display = "none";
-    document.getElementById("userName").style.display = "none";
-  } else if (selectedOption === "byOrganization") {
-    document.getElementById("orgName").style.display = "block";
-    document.getElementById("userName").style.display = "none";
-  } else if (selectedOption === "byName") {
-    document.getElementById("orgName").style.display = "none";
-    document.getElementById("userName").style.display = "block";
-  }
-});
-
 $(function () {
   "use strict";
 

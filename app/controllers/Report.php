@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-class Report extends Controller {
+class Report extends Controller
+{
 
-  public function testReport() {
+  public function testReport()
+  {
     $model = $this->loadElearningModel();
 
     $data['testRecord'] = $model['userTestRecord']->getAllRecord();
@@ -12,7 +14,8 @@ class Report extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function lessonReport() {
+  public function lessonReport()
+  {
     $model = $this->loadElearningModel();
 
     $data['lessonRecord'] = $model['userLessonRecord']->getAllRecord();
@@ -23,7 +26,8 @@ class Report extends Controller {
     $this->view('admin/layouts/footer');
   }
 
-  public function filterDate() {
+  public function filterDate()
+  {
     $model = $this->loadElearningModel();
 
     $start_date = $_REQUEST['startDate'];
@@ -32,12 +36,12 @@ class Report extends Controller {
     $data = $model['userTestRecord']->getAllRecord();
 
 
-    $filtered_data = array_filter($data, function($item) use ($start_date, $end_date) {
+    $filtered_data = array_filter($data, function ($item) use ($start_date, $end_date) {
       if (empty($item)) {
         $item_date = strtotime($item['time']);
         $start = strtotime($start_date);
         $end = strtotime($end_date);
-        
+
         if ($_REQUEST['startDate'] != '') {
           if ($_REQUEST['endDate'] != '') {
             return ($item_date >= $start) && ($item_date <= $end);
@@ -51,12 +55,11 @@ class Report extends Controller {
         }
       }
       return;
-      
     });
 
-    $i=1;
+    $i = 1;
 
-    foreach($filtered_data as $record) {
+    foreach ($filtered_data as $record) {
       if ($record['nik'] != '') {
         echo '<tr>
                 <td>' . $i . '</td>
@@ -68,7 +71,7 @@ class Report extends Controller {
                 <td>';
 
         if ($record['status'] == 'Lulus') {
-            echo '<div
+          echo '<div
                     class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
                     Lulus
                   </div>';
@@ -78,14 +81,44 @@ class Report extends Controller {
                     Tidak Lulus
                   </div>';
         }
-                  
+
         echo   '</td>
                 <td>' . $record['time'] . '</td>
                 <td>' . $record['locationName'] . '</td>
                 <td>' . $record['organizationName'] . '</td>
               </tr>';
-        $i+=1;
+        $i += 1;
       }
     }
   }
+
+  public function dataTableProcessing()
+  {
+    $model = $this->loadElearningModel();
+    $data = $model['userTestRecord']->getAllRecord();
+
+    // Filter out empty userNik
+    $data = array_filter($data, function($d) {
+      return $d['userNik'] != "";
+    });
+
+    $data = array_map(function ($d) {
+      $status = $d['status'] == 'Lulus' ? 'success' : 'danger';
+      $badge = sprintf('<div class="badge rounded-pill text-%s bg-light-%s p-2 text-uppercase px-3">%s</div>', $status, $status, $d['status']);
+      $d['status'] = $badge;
+      return $d;
+    }, $data);
+    
+
+    $this->serverSideDatatables($data);
+  }
+
+  public function lessonReportTableData() {
+    $model = $this->loadElearningModel();
+
+    $data = $model['userLessonRecord']->getAllRecord();
+    
+    $this->serverSideDatatables($data);
+  }
+
 }

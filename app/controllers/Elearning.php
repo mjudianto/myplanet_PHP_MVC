@@ -31,10 +31,10 @@ class Elearning extends Controller
 
     // Output buttons for each category
     foreach ($elearningKategori as $kategori) {
-        $curr = ($selectedKategoriId == $kategori['elearningKategoriId']) ? 'active' : '';
-        echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] . ')" class="ms-2 mt-2 d-inline-block">';
-        echo '<button class="px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button>';
-        echo '</a>';
+      $curr = ($selectedKategoriId == $kategori['elearningKategoriId']) ? 'active' : '';
+      echo '<a onclick="filterKategori(' . $kategori['elearningKategoriId'] . ')" class="ms-2 mt-2 d-inline-block">';
+      echo '<button class="px-3 py-1 ' . $curr . '">' . $kategori['nama'] . '</button>';
+      echo '</a>';
     }
   }
 
@@ -146,7 +146,7 @@ class Elearning extends Controller
 
       // Display the course card
       echo '<div class="col-sm-6 col-md-4 col-lg-3">
-              <div class="card card-learning" data-aos="fade-down" data-aos-duration="950">
+              <div class="card card-learning" data-aos="zoom-in" data-aos-duration="400">
                 <a href="' . BASEURL . 'elearning/elearningModule?elearningCourseId=' . $this->encrypt($course['elearningCourseId']) . '&moduleId=' . $this->encrypt($moduleId) . '"><img src="' . $thumbnail .
         '" class="card-img-top py-2 px-2" alt="..." /></a>
                 <div class="card-body">
@@ -234,7 +234,6 @@ class Elearning extends Controller
     $filteredCourse = array_filter($courses, $filterFunction);
 
     return $filteredCourse;
-
   }
 
   // This function loads all e-learning course modules and outputs corresponding lesson and test
@@ -258,15 +257,15 @@ class Elearning extends Controller
 
     // Loop through each module to get its lessons, tests, and user's test record
     foreach ($data['elearningModule'] as $module) {
-        // Get lessons and tests for the module and store them in arrays
-        $data['elearningLesson'][] = $model['elearningLesson']->getLessonBy($module['elearningModuleId']);
-        $data['elearningTest'][] = $model['elearningTest']->getTestBy($module['elearningModuleId']);
+      // Get lessons and tests for the module and store them in arrays
+      $data['elearningLesson'][] = $model['elearningLesson']->getLessonBy($module['elearningModuleId']);
+      $data['elearningTest'][] = $model['elearningTest']->getTestBy($module['elearningModuleId']);
 
-        // Get user's test record for the module and store it in an array
-        $data['testRecord'][] = $model['userTestRecord']->getTestRecord($userNik, $module['elearningModuleId']);
+      // Get user's test record for the module and store it in an array
+      $data['testRecord'][] = $model['userTestRecord']->getTestRecord($userNik, $module['elearningModuleId']);
     }
 
-    $data['maxedAttempt'] = function($testId){
+    $data['maxedAttempt'] = function ($testId) {
       $model = $this->loadElearningModel();
 
       // get user information
@@ -288,7 +287,7 @@ class Elearning extends Controller
       } else {
         $maxAttempt = $maxAttempt['maxAttempt'];
       }
-      
+
       if ($userTestRecordAttempt + 1 > $maxAttempt) {
         return true;
       }
@@ -300,7 +299,6 @@ class Elearning extends Controller
     $this->view('layouts/navbar');
     $this->view('elearning/elearningModule', $data);
     $this->view('layouts/page_footer');
-
   }
 
   public function elearningLesson()
@@ -384,7 +382,6 @@ class Elearning extends Controller
 
     // load the e-learning test view with the prepared data
     $this->view('elearning/elearningTest', $data);
-
   }
 
   public function elearningTestSubmit()
