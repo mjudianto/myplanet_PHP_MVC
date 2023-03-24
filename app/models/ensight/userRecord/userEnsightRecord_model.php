@@ -21,24 +21,24 @@ class UserEnsightRecord_model {
     return $this->db->resultSet();
   }
   
-  public function getUserRecord($ensightId, $userId) {
-    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ensightId=:ensightId AND userId=:userId');
+  public function getUserRecord($ensightId, $userNik) {
+    $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ensightId=:ensightId AND userNik=:userNik');
     $this->db->bind('ensightId', $ensightId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     return $this->db->single();
   }
 
-  public function createUserRecord($ensightId, $userId) {
-    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :ensightId, :userId, default, default)');
+  public function createUserRecord($ensightId, $userNik) {
+    $this->db->query('INSERT INTO ' . $this->table . ' VALUES(null, :ensightId, :userNik, default, default)');
     $this->db->bind('ensightId', $ensightId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->execute();
   }
 
-  public function updateUserRecordViews($ensightId, $userId, $views) {
-    $this->db->query('UPDATE ' . $this->table . ' SET views=:views WHERE ensightId=:ensightId AND userId=:userId');
+  public function updateUserRecordViews($ensightId, $userNik, $views) {
+    $this->db->query('UPDATE ' . $this->table . ' SET views=:views WHERE ensightId=:ensightId AND userNik=:userNik');
     $this->db->bind('ensightId', $ensightId);
-    $this->db->bind('userId', $userId);
+    $this->db->bind('userNik', $userNik);
     $this->db->bind('views', $views);
     $this->db->execute();
   }

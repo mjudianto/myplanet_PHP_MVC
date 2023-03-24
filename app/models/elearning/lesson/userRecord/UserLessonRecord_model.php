@@ -34,16 +34,16 @@ class UserLessonRecord_model {
 
   public function getCourseRecord($userNik){
     $this->db->query("SELECT userLessonRecord.userNik, userLessonRecord.attempt, elearningLesson.judul as 'judul lesson', elearningCourse.judul as 'judul course',
-    userLessonRecord.finished
-    FROM userLessonRecord 
-    left join elearningLesson 
-    on userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
-    left join elearningModule
-    on elearningLesson.elearningModuleId = elearningModule.elearningModuleId
-    left join elearningCourse
-    on elearningModule.elearningCourseId = elearningCourse.elearningCourseId
-    where userLessonRecord.userNik=:userNik
-    order by userLessonRecord.finished DESC");
+                      userLessonRecord.finished
+                      FROM userLessonRecord 
+                      left join elearningLesson 
+                      on userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
+                      left join elearningModule
+                      on elearningLesson.elearningModuleId = elearningModule.elearningModuleId
+                      left join elearningCourse
+                      on elearningModule.elearningCourseId = elearningCourse.elearningCourseId
+                      where userLessonRecord.userNik=:userNik
+                      order by userLessonRecord.finished DESC");
     $this->db->bind('userNik', $userNik);
     return $this->db->resultSet();
   }
@@ -105,6 +105,46 @@ class UserLessonRecord_model {
     $this->db->bind('companyId', $companyId);
     $this->db->bind('locId', $locId);
 
+    return $this->db->resultSet();
+  }
+
+  public function userSertificate($userNik) {
+    $query = 'SELECT DISTINCT 
+                elearningKategori.nama AS "nama kategori", 
+                elearningCourse.judul AS "judul course", 
+                elearningCourse.elearningCourseId as "courseId", 
+                COUNT(elearningLesson.elearningLessonId) AS total_lessons,
+                COUNT(userLessonRecord.userLessonRecordId) as attempted_lessons
+              FROM 
+                elearningKategori 
+                INNER JOIN elearningCourse 
+                  ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
+                LEFT JOIN elearningModule
+                  ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
+                LEFT JOIN elearningLesson
+                  ON elearningModule.elearningModuleId = elearningLesson.elearningModuleId
+                LEFT JOIN companyCourseAkses ON elearningCourse.elearningCourseId = companyCourseAkses.elearningCourseId
+                LEFT JOIN organizationCourseAkses ON elearningCourse.elearningCourseId = organizationCourseAkses.elearningCourseId
+                LEFT JOIN locationCourseAkses ON elearningCourse.elearningCourseId = locationCourseAkses.elearningCourseId
+                LEFT JOIN jobCourseAkses ON elearningCourse.elearningCourseId = jobCourseAkses.elearningCourseId
+                LEFT JOIN userLessonRecord 
+                  ON userLessonRecord.elearningLessonId = elearningLesson.elearningLessonId
+              WHERE elearningCourse.access_type = 0
+                AND elearningCourse.elearningCourseId != 19 
+                AND elearningCourse.state=1
+                AND userLessonRecord.userNik=:userNik
+                OR elearningCourse.access_type = 2 
+                AND elearningCourse.elearningCourseId != 19 
+                AND elearningCourse.state=1
+                AND userLessonRecord.userNik=:userNik
+              GROUP BY 
+                elearningKategori.elearningKategoriId,
+                elearningCourse.elearningCourseId
+            ORDER BY
+              elearningCourse.elearningCourseId';
+
+    $this->db->query($query);
+    $this->db->bind('userNik', $userNik);
     return $this->db->resultSet();
   }
 

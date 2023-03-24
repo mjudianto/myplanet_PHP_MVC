@@ -22,7 +22,7 @@ class ElearningModule_model
   {
     $this->db->query('SELECT * FROM ' . $this->table . ' WHERE elearningModuleId=:moduleId and state=1');
     $this->db->bind('moduleId', $moduleId);
-    return $this->db->single();
+    return $this->db->resultSet();
   }
 
   public function getModuleBy($courseId)

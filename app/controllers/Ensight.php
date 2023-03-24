@@ -20,15 +20,15 @@ class Ensight extends Controller
     $userEnsightRecordModel = $this->model('ensight/userRecord/UserEnsightRecord_model', 'UserEnsightRecord_model');
 
     $ensightId = $this->decrypt($_GET['ensightId']);
-    $userId = $_SESSION['user']['userId'];
+    $userNik = $_SESSION['user']['empnik'] ?? $_SESSION['user']['userNik'];
     $data['ensight'] = $ensightModel->getSpesificEnsigth($ensightId);
 
-    $userRecord = $userEnsightRecordModel->getUserRecord($ensightId, $userId);
+    $userRecord = $userEnsightRecordModel->getUserRecord($ensightId, $userNik);
     if (is_bool($userRecord)) {
-      $userEnsightRecordModel->createUserRecord($ensightId, $userId);
+      $userEnsightRecordModel->createUserRecord($ensightId, $userNik);
     } else {
-      $userRecord = $userEnsightRecordModel->getUserRecord($ensightId, $userId);
-      $userEnsightRecordModel->updateUserRecordViews($ensightId, $userId, $userRecord['views'] + 1);
+      $userRecord = $userEnsightRecordModel->getUserRecord($ensightId, $userNik);
+      $userEnsightRecordModel->updateUserRecordViews($ensightId, $userNik, $userRecord['views'] + 1);
     }
 
     $ensightModel->updateEnsightViews($ensightId, $data['ensight']['views'] + 1);

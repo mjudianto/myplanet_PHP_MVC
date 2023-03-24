@@ -183,40 +183,46 @@
                     <th scope="col" class="text-center">
                       No Lesson Completed
                     </th>
-                    <th scope="col" class="text-center">Status Sertifikat</th>
                     <th scope="col" class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="table-secondary">
-                    <th scope="row" class="text-center">NEOP GENERAL</th>
-                    <td class="text-center">21</td>
-                    <td class="text-center">14</td>
-                    <td class="text-center">Completed</td>
-                    <td class="text-center">
-                      <button class="btn btn-lihat text-center">Lihat</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row" class="text-center">NEOP WAREHOUSE</th>
-                    <td class="text-center">31</td>
-                    <td class="text-center">14</td>
-                    <td class="text-center">Completed</td>
-                    <td class="text-center">
-                      <button class="btn btn-lihat text-center">Lihat</button>
-                    </td>
-                  </tr>
-                  <tr class="table-secondary">
-                    <th scope="row" class="text-center">
-                      NEOP Transportation
-                    </th>
-                    <td class="text-center">19</td>
-                    <td class="text-center">14</td>
-                    <td class="text-center">Completed</td>
-                    <td class="text-center">
-                      <button class="btn btn-lihat text-center">Lihat</button>
-                    </td>
-                  </tr>
+                    <?php 
+                      $i=0;
+                      if ($data['userLesson']) {
+                        foreach($data['userLesson'] as $lesson){
+                          echo '<tr style="text-align:center;">
+                                  <td>
+                                    <h6 class="mb-0 font-14">' . $lesson['judul course'] . '</h6>
+                                  </td>
+                                  <td>' . (int)$lesson['total_lessons'] + (int)$data['userTest'][$i]['total_tests'] . '</td>
+                                  <td>';
+                          if(isset($data['userTest'][$i])){
+                            if ($lesson['total_lessons'] == $lesson['attempted_lessons']){
+                              if($data['userTest'][$i]['total_tests'] == $data['userTest'][$i]['passed_tests']) {
+                                echo'<div
+                                      class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
+                                      Completed
+                                    </div>';
+                              } else {
+                                echo (int)$lesson['attempted_lessons'] + (int)$data['userTest'][$i]['passed_tests'];
+                              }
+                            } else {
+                              echo (int)$lesson['attempted_lessons'] + (int)$data['userTest'][$i]['passed_tests'];
+                            }
+                          } else {
+                            echo (int)$lesson['attempted_lessons'];
+                          }
+                          echo    '
+                                  <td><a href="' . BASEURL . 'profile/sertifikat" type="button" value="' . $lesson['courseId'] . '" 
+                                      class="btn btn-primary btn-sm radius-30 px-4">View
+                                      Details</a></td>
+                                </tr>';
+                          
+                          $i+=1;
+                        }
+                      }
+                    ?>
                 </tbody>
               </table>
             </div>

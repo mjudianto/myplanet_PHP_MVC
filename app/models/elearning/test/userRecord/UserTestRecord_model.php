@@ -38,7 +38,7 @@ class UserTestRecord_model {
     $query = 'SELECT DISTINCT
                 elearningKategori.nama AS "nama kategori", 
                 elearningCourse.judul AS "judul course", 
-                (SELECT COUNT(*) FROM elearningTest) AS total_tests, 
+                COUNT(elearningTest.elearningTestId) AS total_tests, 
                 SUM(CASE WHEN userTestRecord.elearningTestId IS NOT NULL THEN 1 ELSE 0 END) AS attempted_tests
               FROM 
                 elearningKategori 
@@ -48,7 +48,7 @@ class UserTestRecord_model {
                   ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
                 LEFT JOIN elearningTest
                   ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
-                LEFT JOIN userTestRecord 
+                RIGHT JOIN userTestRecord 
                   ON userTestRecord.elearningTestId = elearningTest.elearningTestId
                   AND userTestRecord.userNik=:userNik
               WHERE
@@ -69,6 +69,50 @@ class UserTestRecord_model {
     $this->db->bind('userNik', $userNik);
     $this->db->bind('orgId', $orgId);
 
+    return $this->db->resultSet();
+  }
+
+  public function userSertificate($userNik) {
+    $query = 'SELECT DISTINCT 
+    elearningKategori.nama AS "nama kategori", 
+    elearningCourse.judul AS "judul course", 
+    elearningCourse.elearningCourseId, 
+    test_count.total_tests,
+    COUNT(CASE WHEN userTestRecordDetail.status = "Lulus" THEN 1 END) AS passed_tests
+    FROM 
+        elearningKategori 
+        INNER JOIN elearningCourse 
+            ON elearningKategori.elearningKategoriId = elearningCourse.elearningKategoriId
+        LEFT JOIN (
+            SELECT 
+                elearningModule.elearningCourseId,
+                COUNT(elearningTest.elearningTestId) AS total_tests
+            FROM 
+                elearningModule
+                LEFT JOIN elearningTest
+                    ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
+            GROUP BY 
+                elearningModule.elearningCourseId
+        ) test_count
+            ON elearningCourse.elearningCourseId = test_count.elearningCourseId
+        LEFT JOIN elearningModule
+            ON elearningCourse.elearningCourseId = elearningModule.elearningCourseId
+        LEFT JOIN elearningTest
+            ON elearningModule.elearningModuleId = elearningTest.elearningModuleId
+        LEFT JOIN userTestRecord 
+            ON userTestRecord.elearningTestId = elearningTest.elearningTestId
+            AND userTestRecord.userNik = :userNik
+        LEFT JOIN userTestRecordDetail 
+            ON userTestRecord.userTestRecordId = userTestRecordDetail.userTestRecordId
+    GROUP BY 
+        elearningKategori.elearningKategoriId,
+        elearningCourse.elearningCourseId,
+        test_count.total_tests
+    ORDER BY
+        elearningCourse.elearningCourseId';
+
+    $this->db->query($query);
+    $this->db->bind('userNik', $userNik);
     return $this->db->resultSet();
   }
 

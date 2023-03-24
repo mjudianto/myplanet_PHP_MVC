@@ -3,9 +3,18 @@
 class Profile extends Controller {
 
   public function index() {
+    $model = $this->loadElearningModel();
+
     isset($_SESSION['user']['empnik']) ? $nik = $_SESSION['user']['empnik'] : $nik = $_SESSION['user']['userNik'];
-    $data['userRecord'] = $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model')->getCourseRecord($nik);
-    $data['userTestRecord'] = $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model')->getCourseRecord($nik);
+    $user = $this->model('user/User_model', 'User_model')->getPlanetUser($nik);
+    
+
+    $data = [
+      'userRecord' => $this->model('elearning/lesson/userRecord/UserLessonRecord_model', 'UserLessonRecord_model')->getCourseRecord($nik),
+      'userTestRecord' => $this->model('elearning/test/userRecord/UserTestRecordDetail_model', 'UserTestRecordDetail_model')->getCourseRecord($nik),
+      'userLesson' => $model['userLessonRecord']->userSertificate($nik),
+      'userTest' => $model['userTestRecord']->userSertificate($nik),
+    ];
 
     $this->view('layouts/navbar');
     $this->view('profile/profile', $data);
@@ -32,6 +41,10 @@ class Profile extends Controller {
     
     header("Location: " . BASEURL . 'login');
     exit;
+  }
+
+  public function sertifikat() {
+    $this->view('profile/sertifikat');
   }
 
 }
